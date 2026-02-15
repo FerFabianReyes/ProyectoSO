@@ -26,18 +26,23 @@ enum errorArchivo {
     NOMBRE_INCORRECTO = 1000,
     NO_HAY_ARCHIVO,
     NO_HAY_TEXTO,
-
-    /*-- Advertencias*/
-    SALTO_LINEA_EXTRA = 1500,
-    ESPACIO_EXTRA
 };
+
+enum errorLexico {
+    /*-- Errores --*/
+    
+}
+
+enum errorSintactico {
+    /*-- Errores --*/
+
+    /*-- Advertencias --*/
+
+}
 
 enum errorToken {
     /*-- Errores --*/
     NO_HAY_TOKENS = 2000,
-
-    /*-- Advertencias*/
-
 };
 
 

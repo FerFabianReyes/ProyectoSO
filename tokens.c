@@ -25,7 +25,7 @@ int tokenizar(Archivo *archivo)
     {
         char *textoCopia = strdup(temp->texto);
         char *palabra, *delim;
-        palabra = strtok_r(textoCopia, " \n\t\r", &delim);
+        palabra = strtok_r(textoCopia, ", \n\t\r", &delim);
         
         while (palabra)
         {   
@@ -33,7 +33,7 @@ int tokenizar(Archivo *archivo)
             nuevoToken->textoToken = strdup(palabra);
             agregarToken(temp, nuevoToken);
             
-            palabra = strto_r(NULL, " \n\t\r", &delim);
+            palabra = strtok_r(NULL, ", \n\t\r", &delim);
         }
         free(textoCopia); 
         temp = temp->sig;
@@ -48,7 +48,6 @@ int imprimirTokens(Archivo *archivo)
     while (temp)
     {
         Token *tempTok = temp->primerToken;
-        if (!tempTok){ return NO_HAY_TOKENS;}
 
         while (tempTok)
         {
