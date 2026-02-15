@@ -45,18 +45,6 @@ int imprimirArchivo(Archivo *archivo)
     return 0;
 }
 
-/* Borrar después si ya no se usa
-void imprimirRenglon(int renglon, Archivo *archivo)
-{
-    if (renglon > archivo->tamanio-1) 
-    { printf("Máximo de renglones: %d\nEl índice empieza en 0\n", archivo->tamanio); }
-    else {
-        Renglon *temp = archivo->inicio;
-        for (int i = 0; i < renglon; i++) { temp = temp->sig; }
-        printf("%s", temp->texto);
-    }
-}*/
-
 void liberarArchivo(Archivo *archivo)
 {
     Renglon *actualRenglon = archivo->inicio;

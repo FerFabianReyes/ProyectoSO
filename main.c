@@ -4,6 +4,7 @@
 #include "prototipos.h"
 #include "archivos.c"
 #include "tokens.c"
+#include "logErrores.c"
 
 
 int main()
@@ -17,6 +18,8 @@ int main()
     tokenizar(archivo);
 
     imprimirTokens(archivo);
+
+    imprimirInstrucciones(archivo);
     
     liberarArchivo(archivo);
 

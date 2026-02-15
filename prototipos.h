@@ -23,26 +23,32 @@ typedef struct {
 /*------------ ERRORES Y ADVERTENCIAS ---------------------------------*/ 
 enum errorArchivo {
     /*-- Errores --*/
-    NOMBRE_INCORRECTO = 1000,
+    NOMBRE_INCORRECTO = 100,
     NO_HAY_ARCHIVO,
-    NO_HAY_TEXTO,
+    NO_HAY_TEXTO
 };
 
 enum errorLexico {
     /*-- Errores --*/
-    
-}
+    INICIA_EN_NUMERO = 300,
+    TIENE_MINUSCULA,
+    CARACTERES_ESPECIALES
+};
 
 enum errorSintactico {
     /*-- Errores --*/
+    PARAMETROS_INSUFICIENTES = 400,
+    PARAMETROS_EXTRA,
+    PARAMETROS_INCORRECTOS,
 
     /*-- Advertencias --*/
-
-}
+    ESPACIOS_EXTRA = 450,
+    SALTOS_LINEA_EXTRA
+};
 
 enum errorToken {
     /*-- Errores --*/
-    NO_HAY_TOKENS = 2000,
+    NO_HAY_TOKENS = 200,
 };
 
 
@@ -51,7 +57,6 @@ Archivo* crearArchivo();
 Renglon* crearRenglon(char *texto);
 void agregarRenglon(Archivo *archivo, char *texto);
 int imprimirArchivo(Archivo *archivo);
-void imprimirRenglon(int renglon, Archivo *archivo);
 void liberarArchivo(Archivo *archivo);
 int leerArchivo(char *nomArchivo, Archivo *archivo);
 
@@ -62,6 +67,10 @@ int agregarToken(Renglon *renglon, Token *token);
 Token* crearToken();
 int limpiarToken(Token *token);
 
+/* --------- LOG ERRORES ----------------------------*/
+void detectarError(int error);
+void imprimirRenglon(int indice, Renglon *renglon);
+void imprimirInstrucciones(Archivo *archivo);
 
 
 #endif
