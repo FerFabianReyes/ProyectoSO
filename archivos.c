@@ -1,4 +1,3 @@
-
 Archivo* crearArchivo()
 {
     Archivo *nuevo = malloc(sizeof(Archivo));
@@ -31,8 +30,10 @@ void agregarRenglon(Archivo *archivo, char *texto)
     archivo->tamanio++;
 }
 
-void imprimirArchivo(Archivo *archivo)
+int imprimirArchivo(Archivo *archivo)
 {
+    if (!archivo){ return NO_HAY_ARCHIVO;}
+    
     if (archivo->inicio) {
         Renglon *temp = archivo->inicio;
         while (temp)
@@ -40,9 +41,11 @@ void imprimirArchivo(Archivo *archivo)
             printf("%s", temp->texto);
             temp = temp->sig;
         }
-    } else { printf("No hay texto"); }
+    } else { return NO_HAY_TEXTO; }
+    return 0;
 }
 
+/* Borrar después si ya no se usa
 void imprimirRenglon(int renglon, Archivo *archivo)
 {
     if (renglon > archivo->tamanio-1) 
@@ -52,28 +55,41 @@ void imprimirRenglon(int renglon, Archivo *archivo)
         for (int i = 0; i < renglon; i++) { temp = temp->sig; }
         printf("%s", temp->texto);
     }
-}
+}*/
 
 void liberarArchivo(Archivo *archivo)
 {
-    Renglon *actual = archivo->inicio;
-    while (actual) {
-        Renglon *temp = actual;
-        actual = actual->sig;
-        free(temp->texto);
-        free(temp);
+    Renglon *actualRenglon = archivo->inicio;
+    
+    while (actualRenglon) {
+        Token *actualToken = actualRenglon->primerToken;
+        while (actualToken) {
+            Token *tempToken = actualToken;
+            actualToken = actualToken->sig;
+            
+            free(tempToken->textoToken);  
+            free(tempToken); 
+        }
+        
+        Renglon *tempRenglon = actualRenglon;
+        actualRenglon = actualRenglon->sig;
+        free(tempRenglon->texto);  
+        free(tempRenglon);
     }
-    free(archivo);
+    
+    free(archivo); 
 }
 
 int leerArchivo(char *nomArchivo, Archivo *archivo)
 {
+    if (!archivo){ return NO_HAY_ARCHIVO;}
+
     char *ren = NULL;
     size_t tamanio = 0;
     ssize_t caracteres;
 
     FILE *arch = fopen(nomArchivo, "r");
-    if (arch == NULL) { printf("No se encontrón el archivo\n"); return 0; }
+    if (arch == NULL) { return NOMBRE_INCORRECTO; }
 
     while ((caracteres = getline(&ren, &tamanio, arch)) != -1)
     {
@@ -82,5 +98,5 @@ int leerArchivo(char *nomArchivo, Archivo *archivo)
 
     fclose(arch);
     free(ren);
-    return 1;
+    return 0;
 }

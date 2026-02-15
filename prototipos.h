@@ -19,15 +19,33 @@ typedef struct {
     int tamanio;
 } Archivo;
 
-/*Se pondrán retornos de entero para detectar errores
-tal vez el inicio de cada número indica el tipo de error
-como en los tintes que dicen el subtono*/
+// todo bien = 0
+/*------------ ERRORES Y ADVERTENCIAS ---------------------------------*/ 
+enum errorArchivo {
+    /*-- Errores --*/
+    NOMBRE_INCORRECTO = 1000,
+    NO_HAY_ARCHIVO,
+    NO_HAY_TEXTO,
+
+    /*-- Advertencias*/
+    SALTO_LINEA_EXTRA = 1500,
+    ESPACIO_EXTRA
+};
+
+enum errorToken {
+    /*-- Errores --*/
+    NO_HAY_TOKENS = 2000,
+
+    /*-- Advertencias*/
+
+};
+
 
 /*---------- ARCHIVOS --------------------------------*/
 Archivo* crearArchivo();
 Renglon* crearRenglon(char *texto);
 void agregarRenglon(Archivo *archivo, char *texto);
-void imprimirArchivo(Archivo *archivo);
+int imprimirArchivo(Archivo *archivo);
 void imprimirRenglon(int renglon, Archivo *archivo);
 void liberarArchivo(Archivo *archivo);
 int leerArchivo(char *nomArchivo, Archivo *archivo);

@@ -19,7 +19,8 @@ int agregarToken(Renglon *renglon, Token *token)
 int tokenizar(Archivo *archivo)
 {
     Renglon *temp = archivo->inicio;
-
+    if (!archivo){ return NO_HAY_ARCHIVO;}
+    
     while (temp)
     {
         char *textoCopia = strdup(temp->texto);
@@ -32,7 +33,7 @@ int tokenizar(Archivo *archivo)
             nuevoToken->textoToken = strdup(palabra);
             agregarToken(temp, nuevoToken);
             
-            palabra = strtok_r(NULL, " \n\t\r", &delim);
+            palabra = strto_r(NULL, " \n\t\r", &delim);
         }
         free(textoCopia); 
         temp = temp->sig;
@@ -42,19 +43,20 @@ int tokenizar(Archivo *archivo)
 
 int imprimirTokens(Archivo *archivo)
 {
+    if (!archivo){ return NO_HAY_ARCHIVO;}
     Renglon *temp = archivo->inicio;
-
     while (temp)
     {
         Token *tempTok = temp->primerToken;
+        if (!tempTok){ return NO_HAY_TOKENS;}
+
         while (tempTok)
         {
-            printf("token:%s", tempTok->textoToken);
+            printf("token: %s", tempTok->textoToken);
             tempTok = tempTok->sig;
         }
         temp = temp->sig;
     }
-    
 }
 
 
