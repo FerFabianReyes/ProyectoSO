@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "estructuras.h"
-#include "estructuras.c"
+#include "prototipos.h"
+#include "archivos.c"
+#include "tokens.c"
+
 
 int main()
 {
@@ -12,7 +14,7 @@ int main()
 
     imprimirArchivo(archivo);
 
-    limpiarRenglones(&archivo);
+    tokenizar(archivo);
 
     imprimirTokens(archivo);
     

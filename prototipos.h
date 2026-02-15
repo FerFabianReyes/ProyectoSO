@@ -1,16 +1,16 @@
-#ifndef estructura
-#define estructura 
+#ifndef prototipos
+#define prototipos 
 
-typedef struct
-{
-    char *instruccion;
-    char *elResto;
-} Tokens;
+typedef struct Token{
+    char *textoToken;
+    struct Token *sig;
+} Token;
 
 typedef struct Renglon{
     char *texto;
     struct Renglon *sig;
-    Tokens *tokens;
+    Token *primerToken;
+    Token *ultimoToken;
 } Renglon;
 
 typedef struct {
@@ -22,6 +22,8 @@ typedef struct {
 /*Se pondrán retornos de entero para detectar errores
 tal vez el inicio de cada número indica el tipo de error
 como en los tintes que dicen el subtono*/
+
+/*---------- ARCHIVOS --------------------------------*/
 Archivo* crearArchivo();
 Renglon* crearRenglon(char *texto);
 void agregarRenglon(Archivo *archivo, char *texto);
@@ -29,7 +31,14 @@ void imprimirArchivo(Archivo *archivo);
 void imprimirRenglon(int renglon, Archivo *archivo);
 void liberarArchivo(Archivo *archivo);
 int leerArchivo(char *nomArchivo, Archivo *archivo);
-int limpiarRenglones(Archivo **archivo);
-void imprimirTokens(Archivo *archivo);
+
+/*---------- TOKENS --------------------------------*/
+int tokenizar(Archivo *archivo);
+int imprimirTokens(Archivo *archivo);
+int agregarToken(Renglon *renglon, Token *token);
+Token* crearToken();
+int limpiarToken(Token *token);
+
+
 
 #endif

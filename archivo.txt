@@ -1,0 +1,4 @@
+MOV EAX EBX
+ADD EAX 2
+END      
+ 

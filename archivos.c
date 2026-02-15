@@ -3,7 +3,7 @@ Archivo* crearArchivo()
 {
     Archivo *nuevo = malloc(sizeof(Archivo));
     nuevo->final = NULL;
-    nuevo->inicio = nuevo->final;
+    nuevo->inicio = NULL;
     nuevo->tamanio = 0;
     return nuevo;
 }
@@ -13,7 +13,9 @@ Renglon* crearRenglon(char *texto)
     Renglon *nuevo = malloc(sizeof(Renglon));
     nuevo->texto = strdup(texto);
     nuevo->sig = NULL;
-    nuevo->tokens = NULL;
+    nuevo->primerToken = NULL;
+    nuevo->ultimoToken = NULL;
+
     return nuevo;
 }
 
@@ -81,36 +83,4 @@ int leerArchivo(char *nomArchivo, Archivo *archivo)
     fclose(arch);
     free(ren);
     return 1;
-}
-
-int limpiarRenglones(Archivo **archivo)
-{
-    Archivo *arch = *archivo;
-    Renglon *ren = arch->inicio;
-    int espacio = 0;
-    do
-    {
-        int i = 0;       
-        if (espacio) {
-            if (ren->texto[i] == ' '){ espacio = 1; break; }
-            ren->tokens->elResto[i] = ren->texto[i];
-            } else {
-                ren->tokens->instruccion[i] = ren->texto[i];
-            }
-        i++;
-
-        if (ren->texto[i] == '\n') { ren = ren->sig; }
-                
-    } while (arch->final != ren);
-}
-
-void imprimirTokens(Archivo *archivo){
-    Renglon *temp = archivo->inicio;
-    printf("%s ", temp->texto);
-    while (temp)
-        {
-            printf("Instruccion: %s  El esto: %s", temp->tokens->instruccion, temp->tokens->elResto);
-            temp = temp->sig;
-        }
-
 }
