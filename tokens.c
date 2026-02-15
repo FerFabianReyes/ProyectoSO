@@ -16,37 +16,28 @@ int agregarToken(Renglon *renglon, Token *token)
     renglon->ultimoToken = token;
 }
 
-/*int limpiarToken(Token *token)
-{
-    int i = 0;
-    while (token->textoToken[i])
-    {
-        if ((token->textoToken[i] == '\n') || (token->textoToken[i] == ' ')) {
-            token->textoToken[i] = '\0';
-            break;
-        }
-        i++;
-    }
-}*/
-
 int tokenizar(Archivo *archivo)
 {
     Renglon *temp = archivo->inicio;
 
     while (temp)
     {
+        char *textoCopia = strdup(temp->texto);
         char *palabra, *delim;
-        palabra = strtok_r(temp->texto, " ", &delim);
+        palabra = strtok_r(textoCopia, " \n\t\r", &delim);
+        
         while (palabra)
-        {
+        {   
             Token *nuevoToken = crearToken();
-            nuevoToken->textoToken = palabra;
-           // limpiarToken(nuevoToken);
+            nuevoToken->textoToken = strdup(palabra);
             agregarToken(temp, nuevoToken);
-            palabra = strtok_r(NULL, " ", &delim);
+            
+            palabra = strtok_r(NULL, " \n\t\r", &delim);
         }
+        free(textoCopia); 
         temp = temp->sig;
     }
+    return 0;
 }
 
 int imprimirTokens(Archivo *archivo)
