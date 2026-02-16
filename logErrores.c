@@ -42,32 +42,34 @@ void detectarError(int error)
     }
 }
 
-void imprimirRenglon(int indice, Renglon *renglon)
+void imprimirRenglon(Renglon *renglon)
 {
-    Token *tempTok = renglon->primerToken;
-    printf("%d: ", indice);
-
-    while (tempTok)
+    if (renglon->primerToken)
     {
-        printf("%s ", tempTok->textoToken);
-        tempTok = tempTok->sig;
+        Token *tempTok = renglon->primerToken;
+        int i;
+        while (tempTok)
+        {
+            printf("%s ", tempTok->textoToken);
+            tempTok = tempTok->sig;
+            i++;
+        }
+        printf("\n");
     }
-    printf("\n");
 }
 
 void imprimirInstrucciones(Archivo *archivo)
 {
     Renglon *tempRen = archivo->inicio;
     int i = 0;
-    printf("____________________\n");
+    printf("\n ____________________\n");
     printf("|   INSTRUCCIONES   |\n");
-    printf("--------------------\n");
+    printf("---------------------\n");
 
     while (tempRen)
     {
-        imprimirRenglon(i ,tempRen);
+        imprimirRenglon(tempRen);
         tempRen = tempRen->sig;
-        i++; //poner &i en la funcion del renglon
     }
 
 }

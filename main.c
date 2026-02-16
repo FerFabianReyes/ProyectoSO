@@ -5,7 +5,7 @@
 #include "archivos.c"
 #include "tokens.c"
 #include "logErrores.c"
-
+#include "instrucciones.c"
 
 int main()
 {
@@ -13,11 +13,11 @@ int main()
 
     leerArchivo("archivo.txt", archivo);
 
-    imprimirArchivo(archivo);
+    //imprimirArchivo(archivo);
 
     tokenizar(archivo);
 
-    imprimirTokens(archivo);
+    //imprimirTokens(archivo);
 
     imprimirInstrucciones(archivo);
     

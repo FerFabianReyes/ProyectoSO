@@ -69,7 +69,7 @@ int limpiarToken(Token *token);
 
 /* --------- LOG ERRORES ----------------------------*/
 void detectarError(int error);
-void imprimirRenglon(int indice, Renglon *renglon);
+void imprimirRenglon(Renglon *renglon);
 void imprimirInstrucciones(Archivo *archivo);
 
 
