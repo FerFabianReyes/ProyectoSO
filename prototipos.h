@@ -23,6 +23,6 @@ void imprimirInstrucciones(Archivo *archivo);
 void imprimirRenglon(Renglon *renglon);
 
 /* --------- LOG ERRORES ----------------------------*/
-void detectarError(int error);
+void detectarError(int error); // Después cambiar a int para ver si hay errores o no
 
 #endif

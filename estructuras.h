@@ -27,7 +27,7 @@ typedef struct {
 
 /*------------ TIPO DE PARAMETRO  ---------------------------------*/ 
 typedef enum {
-    VAR = 1, NUM
+    INSTR = 1, REG, NUM
 } tipoParametro;
 
 

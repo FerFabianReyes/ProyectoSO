@@ -37,11 +37,13 @@ void imprimirInstrucciones(Archivo *archivo)
     }
 }
 
+/*
+Primero ver el orden de la cadena
 void mov(Token *var)
 {    
     Token *sig = var->sig;
     char *texto = sig->textoToken;
-    if (sig->tipoParam = VAR)
+    if (sig->tipoParam == REG)
     {
         
     } else
@@ -51,7 +53,6 @@ void mov(Token *var)
         {
             
         }
-        
     }
 
-}
+}*/
