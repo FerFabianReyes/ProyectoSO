@@ -41,35 +41,3 @@ void detectarError(int error)
         break;
     }
 }
-
-void imprimirRenglon(Renglon *renglon)
-{
-    if (renglon->primerToken)
-    {
-        Token *tempTok = renglon->primerToken;
-        int i;
-        while (tempTok)
-        {
-            printf("%s ", tempTok->textoToken);
-            tempTok = tempTok->sig;
-            i++;
-        }
-        printf("\n");
-    }
-}
-
-void imprimirInstrucciones(Archivo *archivo)
-{
-    Renglon *tempRen = archivo->inicio;
-    int i = 0;
-    printf("\n ____________________\n");
-    printf("|   INSTRUCCIONES   |\n");
-    printf("---------------------\n");
-
-    while (tempRen)
-    {
-        imprimirRenglon(tempRen);
-        tempRen = tempRen->sig;
-    }
-
-}

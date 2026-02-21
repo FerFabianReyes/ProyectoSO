@@ -13,14 +13,11 @@ int main()
 
 
     Archivo *archivo = crearArchivo();
+    Registros *reg = crearRegistro();
 
-    leerArchivo("archivo.txt", archivo);
+    detectarError(leerArchivo("archivo.txt", archivo));
 
-    //imprimirArchivo(archivo);
-
-    tokenizar(archivo);
-
-    //imprimirTokens(archivo);
+    detectarError(tokenizar(archivo));
 
     imprimirInstrucciones(archivo);
     

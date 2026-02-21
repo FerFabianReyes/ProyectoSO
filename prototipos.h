@@ -2,7 +2,6 @@
 #define prototipos 
 #include "estructuras.h"
 
-
 /*---------- ARCHIVOS --------------------------------*/
 Archivo* crearArchivo();
 Renglon* crearRenglon(char *texto);
@@ -18,10 +17,12 @@ int agregarToken(Renglon *renglon, Token *token);
 Token* crearToken();
 int limpiarToken(Token *token);
 
+/*---------- INSTRUCCIONES --------------------------------*/
+Registros* crearRegistro();
+void imprimirInstrucciones(Archivo *archivo);
+void imprimirRenglon(Renglon *renglon);
+
 /* --------- LOG ERRORES ----------------------------*/
 void detectarError(int error);
-void imprimirRenglon(Renglon *renglon);
-void imprimirInstrucciones(Archivo *archivo);
-
 
 #endif
