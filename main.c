@@ -6,9 +6,12 @@
 #include "tokens.c"
 #include "logErrores.c"
 #include "instrucciones.c"
+#include "estructuras.h"
 
 int main()
 {
+
+
     Archivo *archivo = crearArchivo();
 
     leerArchivo("archivo.txt", archivo);
@@ -22,6 +25,8 @@ int main()
     imprimirInstrucciones(archivo);
     
     liberarArchivo(archivo);
+
+
 
     return 0;
 }

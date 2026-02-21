@@ -1,5 +1,7 @@
 #ifndef prototipos
 #define prototipos 
+#include "estructuras.h"
+
 
 /*---------- ARCHIVOS --------------------------------*/
 Archivo* crearArchivo();

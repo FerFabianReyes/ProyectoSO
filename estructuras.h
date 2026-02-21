@@ -3,6 +3,7 @@
 
 typedef struct Token{
     char *textoToken;
+    int tipoParam;
     struct Token *sig;
 } Token;
 
@@ -19,45 +20,53 @@ typedef struct {
     int tamanio;
 } Archivo;
 
+typedef struct {
+    int EAX;    int EBX;
+    int ECX;    int EDX;
+}Registros;
+
+/*------------ TIPO DE PARAMETRO  ---------------------------------*/ 
+typedef enum {
+    VAR = 1, NUM
+} tipoParametro;
+
+
 /*------------ TIPO DE INSTRUCCION  ---------------------------------*/ 
-enum tipoInstruccion {
-    MOV = 1,    ADD,
+typedef enum {
+    MOV = 10,    ADD,
     MUL,        DIV,
     INC,        DEC,
     END
-}
+}tipoInstruccion;
 
 /*------------ ERRORES Y ADVERTENCIAS ---------------------------------*/ 
-// todo bien = 0
-enum errorArchivo {
-    /*-- Errores --*/
+typedef enum {
+    BIEN = 0,
+/*----- Archivos -----*/ 
+    // Errores
     NOMBRE_INCORRECTO = 100,
     NO_HAY_ARCHIVO,
-    NO_HAY_TEXTO
-};
+    NO_HAY_TEXTO,
 
-enum errorLexico {
-    /*-- Errores --*/
+/*----- Lexico -----*/ 
+    // Errores
     INICIA_EN_NUMERO = 300,
     TIENE_MINUSCULA,
-    CARACTERES_ESPECIALES
-};
+    CARACTERES_ESPECIALES,
 
-enum errorSintactico {
-    /*-- Errores --*/
+/*----- Sintáctico -----*/ 
+     // Erroes
     PARAMETROS_INSUFICIENTES = 400,
     PARAMETROS_EXTRA,
     PARAMETROS_INCORRECTOS,
 
-    /*-- Advertencias --*/
+    //Advertencias
     ESPACIOS_EXTRA = 450,
-    SALTOS_LINEA_EXTRA
-};
+    SALTOS_LINEA_EXTRA,
 
-enum errorToken {
-    /*-- Errores --*/
+/*----- Tokens -----*/ 
+    //Errores
     NO_HAY_TOKENS = 200,
-};
-
+} errorAdvertencia;
 
 #endif

@@ -3,6 +3,7 @@ Token* crearToken()
     Token *nuevo = malloc(sizeof(Token));
     nuevo->textoToken = NULL;
     nuevo->sig = NULL;
+    nuevo->tipoParam = 0;
     return nuevo;
 }
 
