@@ -7,7 +7,7 @@ Token* crearToken()
     return nuevo;
 }
 
-int agregarToken(Renglon *renglon, Token *token)
+void agregarToken(Renglon *renglon, Token *token)
 {
     if (!renglon->primerToken) {
         renglon->primerToken = token;
@@ -16,6 +16,7 @@ int agregarToken(Renglon *renglon, Token *token)
     }
     renglon->ultimoToken = token;
 }
+
 
 int tokenizar(Archivo *archivo)
 {

@@ -13,9 +13,8 @@ int leerArchivo(char *nomArchivo, Archivo *archivo);
 /*---------- TOKENS --------------------------------*/
 int tokenizar(Archivo *archivo);
 int imprimirTokens(Archivo *archivo);
-int agregarToken(Renglon *renglon, Token *token);
+void agregarToken(Renglon *renglon, Token *token);
 Token* crearToken();
-int limpiarToken(Token *token);
 
 /*---------- INSTRUCCIONES --------------------------------*/
 Registros* crearRegistro();
