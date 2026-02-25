@@ -86,5 +86,5 @@ int leerArchivo(char *nomArchivo, Archivo *archivo)
 
     fclose(arch);
     free(ren);
-    return 0;
+    return BIEN;
 }

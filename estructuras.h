@@ -30,7 +30,6 @@ typedef enum {
     INSTR = 1, REG, NUM
 } tipoParametro;
 
-
 /*------------ TIPO DE INSTRUCCION  ---------------------------------*/ 
 typedef enum {
     MOV = 10,    ADD,
@@ -51,8 +50,10 @@ typedef enum {
 /*----- Lexico -----*/ 
     // Errores
     INICIA_EN_NUMERO = 300,
-    TIENE_MINUSCULA,
-    CARACTERES_ESPECIALES,
+    TIPO_PARAM_INVALIDO,
+    INICIA_MINUSCULA,
+    REGISTRO_INVALIDO,
+    NUM_DECIMAL,
 
 /*----- Sintáctico -----*/ 
      // Erroes

@@ -15,6 +15,7 @@ void imprimirRenglon(Renglon *renglon)
         while (tempTok)
         {
             printf("%s ", tempTok->textoToken);
+          //  printf("tipoParam: %d ", tempTok->tipoParam);
             tempTok = tempTok->sig;
             i++;
         }
