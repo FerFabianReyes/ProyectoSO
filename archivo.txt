@@ -3,5 +3,5 @@
 MOV EBX,  ,  5
 
 ADD EAX, EBX
-DIV EAX, 3
+DIV EAX, 0
 END

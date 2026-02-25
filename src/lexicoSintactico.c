@@ -75,13 +75,21 @@ int esInstruccion(Token *token)
 
 int parserDosParametros(Token *token)
 {
-    if (token) {
-        if (token->tipoParam == REG) {
-            if (token->sig) {
+    if (token->sig) {
+            Token *tem = token->sig;
+        if (tem->tipoParam == REG) {
+            if (tem->sig) {
 
-                if (token->sig->sig) { return PARAMETROS_EXTRA;}
+                if (tem->sig->sig) { return PARAMETROS_EXTRA;}
 
-                if (token->sig->tipoParam == REG || token->sig->tipoParam == NUM)
+                if (!strcmp(token->textoToken, "DIV"))
+                {
+                    if (!strcmp(tem->sig->textoToken, "0") ||
+                    !strcmp(tem->sig->textoToken, "+0") ||
+                    !strcmp(tem->sig->textoToken, "-0"))
+                     { return DIV_ENTRE_CERO; }
+                }
+                if (tem->sig->tipoParam == REG || tem->sig->tipoParam == NUM)
                 { return BIEN; }
                 else { return PARAMETROS_INCORRECTOS; }
 
@@ -118,7 +126,7 @@ int verifSintaxis(Archivo *archivo)
                 !strcmp(tempTok->textoToken, "MUL") || 
                 !strcmp(tempTok->textoToken, "DIV")) 
                 {
-                    int res = parserDosParametros(tempTok->sig); 
+                    int res = parserDosParametros(tempTok); 
                     printf("res: %d ", res);
                     if (res != BIEN) {return res;}
                 }

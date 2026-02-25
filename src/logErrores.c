@@ -44,6 +44,9 @@ void detectarError(int error)
     case PARAMETROS_EXTRA:
         printf("Error %d: Se detectaron instrucciones con parámetros extra", error);
         break;     
+    case DIV_ENTRE_CERO:
+        printf("Error %d: No se puede dividir entre cero", error);
+        break;     
         
     /*-- Tokens --*/
         case NO_HAY_TOKENS: 
