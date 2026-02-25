@@ -101,10 +101,10 @@ int parserDosParametros(Token *token)
 
 int parserUnParametro(Token *token)
 {
-    if (token)
+    if (!token->sig)
     {
-        if (token->sig) { return PARAMETROS_EXTRA;}
-        if (token->tipoParam == REG) { return BIEN;}
+        if (token->sig->sig) { return PARAMETROS_EXTRA;}
+        if (token->sig->tipoParam == REG) { return BIEN;}
         else {return TIPO_PARAM_INVALIDO;}
     } else { return PARAMETROS_INSUFICIENTES;}
 }
@@ -130,23 +130,24 @@ int verifSintaxis(Archivo *archivo)
                     printf("res: %d ", res);
                     if (res != BIEN) {return res;}
                 }
+
+                if (!strcmp(tempTok->textoToken, "INC") || 
+                !strcmp(tempTok->textoToken, "DEC")) 
+                {
+                    int res = parserUnParametro(tempTok); 
+                    printf("res: %d ", res);
+                    if (res != BIEN) {return res;}
+                }
+
+                if (!strcmp(tempTok->textoToken, "END")) 
+                {
+                    if (tempTok->sig) { return PARAMETROS_EXTRA; }
+                    printf("res: 0 ");
+                }
             }
             ren = ren->sig;
         }
     } else { return NO_HAY_TEXTO; }
     return BIEN;
-    
-
-   /*if (token->tipoParam == INSTR)
-    {
-        if (token->textoToken == "MOV") { return parserDosParametros(token->sig); }
-       /* if (token->textoToken == "ADD") { return verifAdd(token); }
-        if (token->textoToken == "MUL") { return verifMul(token); }
-        if (token->textoToken == "DIV") { return verifDiv(token); }
-        if (token->textoToken == "INC") { return verifInc(token); }
-        if (token->textoToken == "DEC") { return verifDec(token); }
-        if (token->textoToken == "END") { return verifEnd(token); }
-        
-    }*/
     
 }
