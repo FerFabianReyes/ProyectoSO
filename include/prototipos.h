@@ -22,10 +22,12 @@ void agregarToken(Renglon *renglon, Token *token);
 Token* crearToken();
 int agregarTipoDato(Token *token);
 
-/*---------- INSTRUCCIONES --------------------------------*/
+/*---------- LÉXICO Y SINTÁCTICO --------------------------------*/
 int esNumero(Token *token);
 int esRegistro(Token *token);
 int esInstruccion(Token *token);
+int verifSintaxis(Archivo *archivo);
+int parserDosParametros(Token *token);
 
 /*---------- INSTRUCCIONES --------------------------------*/
 Registros* crearRegistro();

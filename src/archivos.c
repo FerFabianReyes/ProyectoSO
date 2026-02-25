@@ -44,7 +44,7 @@ int imprimirArchivo(Archivo *archivo)
             temp = temp->sig;
         }
     } else { return NO_HAY_TEXTO; }
-    return 0;
+    return BIEN;
 }
 
 void liberarArchivo(Archivo *archivo)

@@ -68,3 +68,77 @@ int esInstruccion(Token *token)
 }
 
 /*--------------- Sintáctico ----------------------*/
+// Después de tokenizar
+// Detectar instrucción
+// Ver si se cumplen los parámetros
+// Llamar a la función de esa instrucción
+
+int parserDosParametros(Token *token)
+{
+    if (token) {
+        if (token->tipoParam == REG) {
+            if (token->sig) {
+
+                if (token->sig->sig) { return PARAMETROS_EXTRA;}
+
+                if (token->sig->tipoParam == REG || token->sig->tipoParam == NUM)
+                { return BIEN; }
+                else { return PARAMETROS_INCORRECTOS; }
+
+            } else { return PARAMETROS_INSUFICIENTES; }
+        
+        } else { return INSTR_REG_INCUMPLIDA; }
+    } else { return PARAMETROS_INSUFICIENTES; }
+}
+
+int parserUnParametro(Token *token)
+{
+    if (token)
+    {
+        if (token->sig) { return PARAMETROS_EXTRA;}
+        if (token->tipoParam == REG) { return BIEN;}
+        else {return TIPO_PARAM_INVALIDO;}
+    } else { return PARAMETROS_INSUFICIENTES;}
+}
+
+int verifSintaxis(Archivo *archivo)
+{
+    if (!archivo){ return NO_HAY_ARCHIVO;}
+
+    if (archivo->inicio) {
+        Renglon *ren = archivo->inicio;
+        while (ren)
+        {
+            if (ren->primerToken)
+            {
+                Token *tempTok = ren->primerToken;
+                if (!strcmp(tempTok->textoToken, "MOV") || 
+                !strcmp(tempTok->textoToken, "ADD") || 
+                !strcmp(tempTok->textoToken, "SUB") || 
+                !strcmp(tempTok->textoToken, "MUL") || 
+                !strcmp(tempTok->textoToken, "DIV")) 
+                {
+                    int res = parserDosParametros(tempTok->sig); 
+                    printf("res: %d ", res);
+                    if (res != BIEN) {return res;}
+                }
+            }
+            ren = ren->sig;
+        }
+    } else { return NO_HAY_TEXTO; }
+    return BIEN;
+    
+
+   /*if (token->tipoParam == INSTR)
+    {
+        if (token->textoToken == "MOV") { return parserDosParametros(token->sig); }
+       /* if (token->textoToken == "ADD") { return verifAdd(token); }
+        if (token->textoToken == "MUL") { return verifMul(token); }
+        if (token->textoToken == "DIV") { return verifDiv(token); }
+        if (token->textoToken == "INC") { return verifInc(token); }
+        if (token->textoToken == "DEC") { return verifDec(token); }
+        if (token->textoToken == "END") { return verifEnd(token); }
+        
+    }*/
+    
+}

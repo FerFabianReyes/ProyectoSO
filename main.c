@@ -13,6 +13,8 @@ int main()
     detectarError(leerArchivo("archivo.txt", archivo));
 
     detectarError(tokenizar(archivo));
+    
+    detectarError(verifSintaxis(archivo));
 
     imprimirInstrucciones(archivo);
     

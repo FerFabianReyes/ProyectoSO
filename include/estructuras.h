@@ -57,9 +57,10 @@ typedef enum {
 
 /*----- Sintáctico -----*/ 
      // Erroes
-    PARAMETROS_INSUFICIENTES = 400,
-    PARAMETROS_EXTRA,
+    INSTR_REG_INCUMPLIDA = 400, 
     PARAMETROS_INCORRECTOS,
+    PARAMETROS_INSUFICIENTES,
+    PARAMETROS_EXTRA,
 
     //Advertencias
     ESPACIOS_EXTRA = 450,

@@ -32,15 +32,18 @@ void detectarError(int error)
         break;               
     
     /*-- Sintactico --*/   
-     case PARAMETROS_INSUFICIENTES:
+    case INSTR_REG_INCUMPLIDA:
+        printf("Error %d: Después de una instrucción MOV, ADD, MULL... debe de seguir un registro", error);
+        break;  
+    case PARAMETROS_INCORRECTOS:
+        printf("Error %d: Se detectaron instrucciones con parámetros incorrectos", error);
+        break;   
+    case PARAMETROS_INSUFICIENTES:
         printf("Error %d: Se detectaron instrucciones con parámetros insuficientes", error);
-        break;
+        break;     
     case PARAMETROS_EXTRA:
         printf("Error %d: Se detectaron instrucciones con parámetros extra", error);
         break;     
-    case PARAMETROS_INCORRECTOS:
-        printf("Error %d: Se detectaron instrucciones con parámetros incorrectos", error);
-        break;
         
     /*-- Tokens --*/
         case NO_HAY_TOKENS: 
