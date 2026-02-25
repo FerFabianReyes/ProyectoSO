@@ -1,6 +1,8 @@
+#include "prototipos.h"
+
 Registros* crearRegistro()
 {
-    Registros *nuevo = malloc(sizeof(Token));
+    Registros *nuevo = malloc(sizeof(Registros));
     nuevo->EAX = 0;    nuevo->EBX = 0;
     nuevo->ECX = 0;    nuevo->EDX = 0;
     return nuevo;

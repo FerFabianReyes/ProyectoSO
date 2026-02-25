@@ -1,3 +1,5 @@
+#include "prototipos.h"
+
 Archivo* crearArchivo()
 {
     Archivo *nuevo = malloc(sizeof(Archivo));

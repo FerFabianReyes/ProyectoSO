@@ -2,15 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "prototipos.h"
-#include "archivos.c"
-#include "tokens.c"
-#include "logErrores.c"
-#include "instrucciones.c"
 #include "estructuras.h"
-
+// gcc main.c src/*.c -I./include
 int main()
 {
-
 
     Archivo *archivo = crearArchivo();
     Registros *reg = crearRegistro();
@@ -22,8 +17,6 @@ int main()
     imprimirInstrucciones(archivo);
     
     liberarArchivo(archivo);
-
-
 
     return 0;
 }

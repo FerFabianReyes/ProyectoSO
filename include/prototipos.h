@@ -1,7 +1,11 @@
 #ifndef prototipos
 #define prototipos 
-#include "estructuras.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <regex.h>
+#include "estructuras.h"
+
 
 /*---------- ARCHIVOS --------------------------------*/
 Archivo* crearArchivo();
@@ -17,6 +21,11 @@ int imprimirTokens(Archivo *archivo);
 void agregarToken(Renglon *renglon, Token *token);
 Token* crearToken();
 int agregarTipoDato(Token *token);
+
+/*---------- INSTRUCCIONES --------------------------------*/
+int esNumero(Token *token);
+int esRegistro(Token *token);
+int esInstruccion(Token *token);
 
 /*---------- INSTRUCCIONES --------------------------------*/
 Registros* crearRegistro();

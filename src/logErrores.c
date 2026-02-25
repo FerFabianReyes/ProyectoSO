@@ -1,3 +1,5 @@
+#include "prototipos.h"
+
 void detectarError(int error)
 {
     switch (error)
