@@ -14,6 +14,7 @@ void agregarRenglon(Archivo *archivo, char *texto);
 int imprimirArchivo(Archivo *archivo);
 void liberarArchivo(Archivo *archivo);
 int leerArchivo(char *nomArchivo, Archivo *archivo);
+Ejecucion* crearEjecucion(Archivo *prog);
 
 /*---------- TOKENS --------------------------------*/
 int tokenizar(Archivo *archivo);

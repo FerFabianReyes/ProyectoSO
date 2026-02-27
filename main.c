@@ -10,14 +10,15 @@ int main()
 
     Archivo *archivo = crearArchivo();
     reg = crearRegistro();
+    Ejecucion *ejec = crearEjecucion(archivo);
 
-    detectarError(leerArchivo("archivo.txt", archivo));
+    detectarError(leerArchivo("archivo.txt", ejec->programa));
 
-    detectarError(tokenizar(archivo));
+    detectarError(tokenizar(ejec->programa));
     
-    detectarError(verifSintaxis(archivo));
+    detectarError(verifSintaxis(ejec->programa));
 
-    imprimirInstrucciones(archivo);
+    imprimirInstrucciones(ejec->programa);
     
     liberarArchivo(archivo);
 
