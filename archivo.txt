@@ -1,2 +1,2 @@
 
-ADD                 EAX 2
+INC                 EAX

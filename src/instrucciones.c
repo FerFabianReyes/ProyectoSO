@@ -173,11 +173,11 @@ void divR(Token *param)
 void inc(Token *param)
 {    
     int *regDestino = obtenerRegistro(param->sig->textoToken);
-    *regDestino++;
+    *regDestino = *regDestino + 1;
 }
 
 void dec(Token *param)
 {    
     int *regDestino = obtenerRegistro(param->sig->textoToken);
-    *regDestino--;
+    *regDestino = *regDestino - 1;
 }

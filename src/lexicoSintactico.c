@@ -68,10 +68,6 @@ int esInstruccion(Token *token)
 }
 
 /*--------------- Sintáctico ----------------------*/
-// Después de tokenizar
-// Detectar instrucción
-// Ver si se cumplen los parámetros
-// Llamar a la función de esa instrucción
 
 int parserDosParametros(Token *token)
 {
@@ -101,7 +97,7 @@ int parserDosParametros(Token *token)
 
 int parserUnParametro(Token *token)
 {
-    if (!token->sig)
+    if (token->sig)
     {
         if (token->sig->sig) { return PARAMETROS_EXTRA;}
         if (token->sig->tipoParam == REG) { return BIEN;}
