@@ -46,6 +46,11 @@ void ejecutarPrograma(Ejecucion *ejec)
         ejec->PC++;
         mov(ejec->IR->primerToken);
     }
+
+    if (!strcmp(ejec->IR->primerToken->textoToken, "ADD")){
+        ejec->PC++;
+        mov(ejec->IR->primerToken);
+    }
 }
 
 char* imprimirIR(Renglon *IR)
@@ -90,5 +95,17 @@ void mov(Token *param)
     } else {
         int num = atoi(param->sig->sig->textoToken);
         *regDestino = num;
+    }
+}
+
+void add(Token *param)
+{    
+    int *regDestino = obtenerRegistro(param->sig->textoToken);
+    if (param->sig->sig->tipoParam == REG) {
+        int *regValor = obtenerRegistro(param->sig->sig->textoToken);
+        *regDestino = *regDestino + *regValor;
+    } else {
+        int num = atoi(param->sig->sig->textoToken);
+        *regDestino = *regDestino + num;
     }
 }
