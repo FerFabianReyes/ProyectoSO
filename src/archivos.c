@@ -1,5 +1,13 @@
 #include "prototipos.h"
 
+Ejecucion* crearEjecucion(Archivo *prog)
+{
+    Ejecucion *nueva = malloc(sizeof(Ejecucion));
+    nueva->programa = prog;
+    nueva->PC = 0;
+    nueva->IR = prog->inicio;
+}
+
 Archivo* crearArchivo()
 {
     Archivo *nuevo = malloc(sizeof(Archivo));

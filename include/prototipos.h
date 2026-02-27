@@ -21,6 +21,7 @@ int imprimirTokens(Archivo *archivo);
 void agregarToken(Renglon *renglon, Token *token);
 Token* crearToken();
 int agregarTipoDato(Token *token);
+void liberarRenglon(Renglon *renglon);
 
 /*---------- LÉXICO Y SINTÁCTICO --------------------------------*/
 int esNumero(Token *token);
