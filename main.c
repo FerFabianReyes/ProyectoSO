@@ -4,7 +4,7 @@
 #include "prototipos.h"
 #include "estructuras.h"
 Registros *reg = NULL;
-// gcc main.c src/*.c -I./include
+// gcc main.c src/*.c -I./include -lm
 int main()
 {
     Archivo *archivo = crearArchivo();

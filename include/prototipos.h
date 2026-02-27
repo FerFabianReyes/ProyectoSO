@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <regex.h>
+#include <math.h>
 #include "estructuras.h"
 
 
@@ -35,11 +36,18 @@ int parserDosParametros(Token *token);
 Registros* crearRegistro();
 void imprimirInstrucciones(Archivo *archivo);
 void imprimirRenglon(Renglon *renglon);
-void mov(Token *param);
 void ejecutarPrograma(Ejecucion *ejec);
 void imprimirTerminal(Ejecucion *ejec);
 char* imprimirIR(Renglon *IR);
 int *obtenerRegistro(char *registro);
+void mov(Token *param);
+void add(Token *param);
+void sub(Token *param);
+void mul(Token *param);
+void divR(Token *param);
+void inc(Token *param);
+void dec(Token *param)
+
 
 
 /* --------- LOG ERRORES ----------------------------*/
