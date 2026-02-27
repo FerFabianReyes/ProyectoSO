@@ -36,6 +36,11 @@ Registros* crearRegistro();
 void imprimirInstrucciones(Archivo *archivo);
 void imprimirRenglon(Renglon *renglon);
 void mov(Token *param);
+void ejecutarPrograma(Ejecucion *ejec);
+void imprimirTerminal(Ejecucion *ejec);
+char* imprimirIR(Renglon *IR);
+
+
 
 
 /* --------- LOG ERRORES ----------------------------*/

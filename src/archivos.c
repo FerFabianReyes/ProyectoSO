@@ -6,6 +6,7 @@ Ejecucion* crearEjecucion(Archivo *prog)
     nueva->programa = prog;
     nueva->PC = 0;
     nueva->IR = prog->inicio;
+    return nueva;
 }
 
 Archivo* crearArchivo()
