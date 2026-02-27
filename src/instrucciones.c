@@ -52,11 +52,11 @@ void mov(Token *var)
         
     } else
     {
-        int num = texto - '0';
+        /*int num = texto - '0';
         if (var->textoToken == "MOV")
         {
             
-        }
+        }*/
     }
 
 }

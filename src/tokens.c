@@ -31,18 +31,48 @@ int agregarTipoDato(Token *token)
     return tipoDato;
 }
 
+void liberarRenglon(Renglon *renglon)
+{
+    Token *tokenActual = renglon->primerToken;
+    while (tokenActual) {
+        Token *tempToken = tokenActual;
+        tokenActual = tokenActual->sig;
+        free(tempToken->textoToken);
+        free(tempToken);              
+    }
+    free(renglon->texto);
+    free(renglon);
+}
+
 int tokenizar(Archivo *archivo)
 {
     if (!archivo) { return NO_HAY_ARCHIVO; }
     
     Renglon *temp = archivo->inicio;
-    
+    Renglon *ant = NULL;
+
     while (temp)
     {
         char *textoCopia = strdup(temp->texto);
         char *palabra, *delim;
         
         palabra = strtok_r(textoCopia, " \n\t\r", &delim);
+        
+        if (!palabra)
+        {
+            Renglon *elimin = temp;
+            temp = temp->sig;
+ 
+            if (ant == NULL) { archivo->inicio = temp; } 
+            else { ant->sig = temp; }
+            
+            if (elimin == archivo->final) { archivo->final = ant; }
+            
+            archivo->tamanio--;
+            liberarRenglon(elimin);
+            free(textoCopia);
+            continue;
+        }
         
         while (palabra)
         {   
@@ -58,8 +88,8 @@ int tokenizar(Archivo *archivo)
             }
             palabra = strtok_r(NULL, " \n\t\r", &delim);
         }
-        
-        free(textoCopia); 
+        free(textoCopia);
+        ant = temp; 
         temp = temp->sig;
     }
     
