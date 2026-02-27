@@ -3,12 +3,13 @@
 #include <string.h>
 #include "prototipos.h"
 #include "estructuras.h"
+Registros *reg = NULL;
 // gcc main.c src/*.c -I./include
 int main()
 {
 
     Archivo *archivo = crearArchivo();
-    Registros *reg = crearRegistro();
+    reg = crearRegistro();
 
     detectarError(leerArchivo("archivo.txt", archivo));
 

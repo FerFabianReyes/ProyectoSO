@@ -40,8 +40,9 @@ void imprimirInstrucciones(Archivo *archivo)
     }
 }
 
-/*
-Primero ver el orden de la cadena
+
+
+
 void mov(Token *var)
 {    
     Token *sig = var->sig;
@@ -58,4 +59,4 @@ void mov(Token *var)
         }
     }
 
-}*/
+}

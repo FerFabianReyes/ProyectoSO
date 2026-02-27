@@ -1,5 +1,5 @@
 
-MOV                 EDX 2
+MOV                 EEX 2
 MOV EBX              5
 ADD       EAX EBX
 DIV        EAX   4

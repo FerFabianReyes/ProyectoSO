@@ -25,6 +25,10 @@ typedef struct {
     int ECX;    int EDX;
 }Registros;
 
+
+
+extern Registros *reg;
+
 /*------------ TIPO DE PARAMETRO  ---------------------------------*/ 
 typedef enum {
     INSTR = 1, REG, NUM
