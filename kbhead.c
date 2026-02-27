@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <curses.h>
+#include <string.h>
 #include <sys/select.h>
-
+//gcc kbhead.c -lncurses
 int kbhit(void);
 
 
@@ -14,8 +15,14 @@ int main()
 	{
 		mvprintw(3,4,"%d\n",i);
 		refresh();
-		if(kbhit())
-			mvscanw(10,5,"%s",cad);
+		if(kbhit()){ 
+			mvscanw(10,5,"%s",cad); 
+			if (strcmp(cad, "salir") == 0)
+			{
+				break;
+			}
+			
+		}
 		i++;
 	}
 
