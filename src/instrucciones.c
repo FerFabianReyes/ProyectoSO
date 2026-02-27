@@ -41,22 +41,24 @@ void imprimirInstrucciones(Archivo *archivo)
 }
 
 
-
-
-void mov(Token *var)
+void mov(Token *param)
 {    
-    Token *sig = var->sig;
-    char *texto = sig->textoToken;
-    if (sig->tipoParam == REG)
-    {
-        
-    } else
-    {
-        /*int num = texto - '0';
-        if (var->textoToken == "MOV")
-        {
-            
-        }*/
+    Token *destino = param->sig;
+    char *texto = destino->textoToken;
+    if (strcmp(texto, "EAX")) { 
+        if (destino->sig == REG) { 
+            texto = destino->sig->textoToken;
+            if (strcmp(texto, "EAX")) { reg->EAX = reg->EAX; } else
+            if (strcmp(texto, "EBX")) { reg->EAX = reg->EBX; } else
+            if (strcmp(texto, "ECX")) { reg->ECX = reg->ECX; }
+            else { reg->EDX = reg->EDX; } 
+        } 
+        else {
+            int num = atoi(destino->sig->textoToken);
+            if (strcmp(texto, "EAX")) { reg->EAX = num; } else
+            if (strcmp(texto, "EBX")) { reg->EAX = num; } else
+            if (strcmp(texto, "ECX")) { reg->ECX = num; }
+            else { reg->EDX = num; }
+        }        
     }
-
 }

@@ -35,6 +35,8 @@ int parserDosParametros(Token *token);
 Registros* crearRegistro();
 void imprimirInstrucciones(Archivo *archivo);
 void imprimirRenglon(Renglon *renglon);
+void mov(Token *param);
+
 
 /* --------- LOG ERRORES ----------------------------*/
 void detectarError(int error); // Después cambiar a int para ver si hay errores o no
