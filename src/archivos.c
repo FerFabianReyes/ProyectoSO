@@ -4,7 +4,7 @@ Ejecucion* crearEjecucion(Archivo *prog)
 {
     Ejecucion *nueva = malloc(sizeof(Ejecucion));
     nueva->programa = prog;
-    nueva->PC = 0;
+    nueva->PC = -1;
     nueva->IR = prog->inicio;
     return nueva;
 }

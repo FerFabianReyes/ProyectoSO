@@ -38,14 +38,6 @@ typedef enum {
     INSTR = 1, REG, NUM
 } tipoParametro;
 
-/*------------ TIPO DE INSTRUCCION  ---------------------------------*/ 
-typedef enum {
-    MOV = 10,    ADD,
-    MUL,        DIV,
-    INC,        DEC,
-    END
-}tipoInstruccion;
-
 /*------------ ERRORES Y ADVERTENCIAS ---------------------------------*/ 
 typedef enum {
     BIEN = 0,

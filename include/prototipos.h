@@ -39,8 +39,7 @@ void mov(Token *param);
 void ejecutarPrograma(Ejecucion *ejec);
 void imprimirTerminal(Ejecucion *ejec);
 char* imprimirIR(Renglon *IR);
-
-
+int *obtenerRegistro(char *registro);
 
 
 /* --------- LOG ERRORES ----------------------------*/

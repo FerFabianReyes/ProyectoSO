@@ -43,8 +43,8 @@ void imprimirInstrucciones(Archivo *archivo)
 void ejecutarPrograma(Ejecucion *ejec)
 {
     if (!strcmp(ejec->IR->primerToken->textoToken, "MOV")){
-        mov(ejec->IR->primerToken);
         ejec->PC++;
+        mov(ejec->IR->primerToken);
     }
 }
 
@@ -72,65 +72,23 @@ void imprimirTerminal(Ejecucion *ejec)
     printf("\n");
 }
 
+int *obtenerRegistro(char *registro)
+{
+    if (!strcmp(registro, "EAX")) { return &reg->EAX; }
+    if (!strcmp(registro, "EBX")) { return &reg->EBX; }
+    if (!strcmp(registro, "ECX")) { return &reg->ECX; }
+    if (!strcmp(registro, "EDX")) { return &reg->EDX; }    
+}
 
 
 void mov(Token *param)
 {    
-    Token *destino = param->sig;
-    char *texto = destino->textoToken;
-    if (!strcmp(texto, "EAX")) { 
-        texto = destino->sig->textoToken;
-        if (destino->sig->tipoParam == REG) { 
-            if (!strcmp(texto, "EAX")) { reg->EAX = reg->EAX; } else
-            if (!strcmp(texto, "EBX")) { reg->EAX = reg->EBX; } else
-            if (!strcmp(texto, "ECX")) { reg->EAX = reg->ECX; }
-            else { reg->EAX = reg->EDX; } 
-        } 
-        else {
-            int num = atoi(destino->sig->textoToken);
-            reg->EAX = num;
-        }        
-    }
-
-    if (!strcmp(texto, "EBX")) { 
-        texto = destino->sig->textoToken;
-        if (destino->sig->tipoParam == REG) { 
-            if (!strcmp(texto, "EAX")) { reg->EBX = reg->EAX; } else
-            if (!strcmp(texto, "EBX")) { reg->EBX = reg->EBX; } else
-            if (!strcmp(texto, "ECX")) { reg->EBX = reg->ECX; }
-            else { reg->EBX = reg->EDX; } 
-        } 
-        else {
-            int num = atoi(destino->sig->textoToken);
-            reg->EBX = num;
-        }     
-    }
-
-    if (!strcmp(texto, "ECX")) { 
-        texto = destino->sig->textoToken;
-        if (destino->sig->tipoParam == REG) { 
-            if (!strcmp(texto, "EAX")) { reg->ECX = reg->EAX; } else
-            if (!strcmp(texto, "EBX")) { reg->ECX = reg->EBX; } else
-            if (!strcmp(texto, "ECX")) { reg->ECX = reg->ECX; }
-            else { reg->ECX = reg->EDX; } 
-        } 
-        else {
-            int num = atoi(destino->sig->textoToken);
-            reg->ECX = num;
-        }        
-    }
-
-    if (!strcmp(texto, "EDX")) { 
-        texto = destino->sig->textoToken;
-        if (destino->sig->tipoParam == REG) { 
-            if (!strcmp(texto, "EAX")) { reg->EDX = reg->EAX; } else
-            if (!strcmp(texto, "EBX")) { reg->EDX = reg->EBX; } else
-            if (!strcmp(texto, "ECX")) { reg->EDX = reg->ECX; }
-            else { reg->EDX = reg->EDX; } 
-        } 
-        else {
-            int num = atoi(destino->sig->textoToken);
-            reg->EDX = num;
-        }        
+    int *regDestino = obtenerRegistro(param->sig->textoToken);
+    if (param->sig->sig->tipoParam == REG) {
+        int *regValor = obtenerRegistro(param->sig->sig->textoToken);
+        *regDestino = *regValor;
+    } else {
+        int num = atoi(param->sig->sig->textoToken);
+        *regDestino = num;
     }
 }
