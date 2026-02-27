@@ -42,7 +42,7 @@ int tokenizar(Archivo *archivo)
         char *textoCopia = strdup(temp->texto);
         char *palabra, *delim;
         
-        palabra = strtok_r(textoCopia, ", \n\t\r", &delim);
+        palabra = strtok_r(textoCopia, " \n\t\r", &delim);
         
         while (palabra)
         {   
@@ -56,7 +56,7 @@ int tokenizar(Archivo *archivo)
                 free(nuevoToken);  free(textoCopia);
                 return res; 
             }
-            palabra = strtok_r(NULL, ", \n\t\r", &delim);
+            palabra = strtok_r(NULL, " \n\t\r", &delim);
         }
         
         free(textoCopia); 
