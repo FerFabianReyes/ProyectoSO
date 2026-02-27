@@ -46,9 +46,7 @@ void sub(Token *param);
 void mul(Token *param);
 void divR(Token *param);
 void inc(Token *param);
-void dec(Token *param)
-
-
+void dec(Token *param);
 
 /* --------- LOG ERRORES ----------------------------*/
 void detectarError(int error); // Después cambiar a int para ver si hay errores o no

@@ -110,7 +110,6 @@ int *obtenerRegistro(char *registro)
     if (!strcmp(registro, "EDX")) { return &reg->EDX; }    
 }
 
-
 void mov(Token *param)
 {    
     int *regDestino = obtenerRegistro(param->sig->textoToken);
