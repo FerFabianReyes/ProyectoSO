@@ -78,9 +78,9 @@ int esInstruccion(Token *token)
 
 int parserDosParametros(Token *token)
 {
-    if (token->sig) {
-            Token *tem = token->sig;
-        if (tem->tipoParam == REG) {
+    if (token->sig) {        
+        Token *tem = token->sig;
+        if (tem->tipoParam == REG_COM) {
             if (tem->sig) {
 
                 if (tem->sig->sig) { return PARAMETROS_EXTRA;}

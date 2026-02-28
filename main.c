@@ -12,14 +12,14 @@ int main()
 
     detectarError(leerArchivo("archivo.txt", archivo));
     detectarError(tokenizar(archivo));
-    /*detectarError(verifSintaxis(archivo));
+    detectarError(verifSintaxis(archivo));
 
     Ejecucion *ejec = crearEjecucion(archivo);
 
     imprimirInstrucciones(ejec->programa);
-    ejecutarPrograma(ejec);
+    //ejecutarPrograma(ejec);
 
-    imprimirTerminal(ejec);*/
+    //imprimirTerminal(ejec);
     
     liberarArchivo(archivo);
     return 0;
