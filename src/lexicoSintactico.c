@@ -42,7 +42,11 @@ int esRegistro(Token *token)
     resultado = regexec(&regex, dato, 0, NULL, 0);
     regfree(&regex);
 
-    if (!resultado) { return REG_COM; }
+    if (!resultado) {
+        char *coma = strchr(dato, ',');
+        *coma = '\0';
+        return REG_COM; 
+    }
     else { 
         resultado = regcomp(&regex, minus, REG_EXTENDED);
         resultado = regexec(&regex, dato, 0, NULL, 0);
@@ -153,4 +157,14 @@ int verifSintaxis(Archivo *archivo)
     } else { return NO_HAY_TEXTO; }
     return BIEN;
     
+}
+
+int espaciosMultiples(char *texto)
+{
+    for (int i = 0; texto[i] != '\0'; i++) {
+        if (texto[i] == ' ' && texto[i+1] == ' ') {
+            return ESPACIOS_EXTRA;
+        }
+    }
+    return BIEN;
 }

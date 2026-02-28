@@ -56,6 +56,8 @@ int tokenizar(Archivo *archivo)
         char *textoCopia = strdup(temp->texto);
         char *palabra, *delim;
 
+        if (espaciosMultiples(textoCopia) == ESPACIOS_EXTRA) { return ESPACIOS_EXTRA; }
+        
         palabra = strtok_r(textoCopia, " \n\r", &delim);        
         if (!palabra) { return TIPO_PARAM_INVALIDO; }
         

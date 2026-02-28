@@ -62,10 +62,7 @@ typedef enum {
     PARAMETROS_INSUFICIENTES,
     PARAMETROS_EXTRA,
     DIV_ENTRE_CERO,
-
-    //Advertencias
-    ESPACIOS_EXTRA = 450,
-    SALTOS_LINEA_EXTRA,
+    ESPACIOS_EXTRA,
 
 /*----- Tokens -----*/ 
     //Errores

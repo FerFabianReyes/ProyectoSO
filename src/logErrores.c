@@ -46,7 +46,10 @@ void detectarError(int error)
         break;     
     case DIV_ENTRE_CERO:
         printf("Error %d: No se puede dividir entre cero", error);
-        break;       
+        break;  
+    case ESPACIOS_EXTRA:
+        printf("Error %d: Se detectaron espacios múltiples en instrucciones", error);
+        break;           
         
     /*-- Tokens --*/
         case NO_HAY_TOKENS: 
