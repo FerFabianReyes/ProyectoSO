@@ -1,2 +1,4 @@
-
-INC                 EAX
+MOV EAX, EAX
+ADD EAX, EAX
+DIV EAX, EAX
+MUL EAX, EAX

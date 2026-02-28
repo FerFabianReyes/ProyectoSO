@@ -28,6 +28,7 @@ int esRegistro(Token *token)
     char *dato = token->textoToken;
     regex_t regex;
     char *patron = "^E[A-D]X$";
+    char *patronComa = "^E[A-D]X,$";
     char *minus = "^E[a-z]?X$";
     int resultado;
 
@@ -36,6 +37,12 @@ int esRegistro(Token *token)
     regfree(&regex);
 
     if (!resultado) { return REG; }
+
+    resultado = regcomp(&regex, patronComa, REG_EXTENDED);
+    resultado = regexec(&regex, dato, 0, NULL, 0);
+    regfree(&regex);
+
+    if (!resultado) { return REG_COM; }
     else { 
         resultado = regcomp(&regex, minus, REG_EXTENDED);
         resultado = regexec(&regex, dato, 0, NULL, 0);

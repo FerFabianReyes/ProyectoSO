@@ -35,7 +35,7 @@ typedef struct {
 
 /*------------ TIPO DE PARAMETRO  ---------------------------------*/ 
 typedef enum {
-    INSTR = 1, REG, NUM
+    INSTR = 1, REG_COM, REG, NUM
 } tipoParametro;
 
 /*------------ ERRORES Y ADVERTENCIAS ---------------------------------*/ 
