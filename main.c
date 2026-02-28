@@ -18,7 +18,7 @@ int main()
 
     imprimirInstrucciones(ejec->programa);
     //ejecutarPrograma(ejec);
-
+ 
     //imprimirTerminal(ejec);
     
     liberarArchivo(archivo);
