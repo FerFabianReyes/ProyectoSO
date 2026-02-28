@@ -33,7 +33,7 @@ void detectarError(int error)
     
     /*-- Sintactico --*/   
     case INSTR_REG_INCUMPLIDA:
-        printf("Error %d: Después de una instrucción MOV, ADD, MULL... debe de seguir un registro", error);
+        printf("Error %d: Revise los parámetros después de las instrucciones", error);
         break;  
     case PARAMETROS_INCORRECTOS:
         printf("Error %d: Se detectaron instrucciones con parámetros incorrectos", error);
@@ -46,7 +46,10 @@ void detectarError(int error)
         break;     
     case DIV_ENTRE_CERO:
         printf("Error %d: No se puede dividir entre cero", error);
-        break;     
+        break;  
+    case ESPACIOS_EXTRA:
+        printf("Error %d: Se detectaron espacios múltiples en instrucciones", error);
+        break;           
         
     /*-- Tokens --*/
         case NO_HAY_TOKENS: 

@@ -23,7 +23,7 @@ int agregarTipoDato(Token *token)
 {    
     int tipoDato = esInstruccion(token);
 
-    if (tipoDato == INSTR || tipoDato == REG || tipoDato == NUM)
+    if (tipoDato == INSTR || tipoDato == REG || tipoDato == REG_COM || tipoDato == NUM)
     { 
         token->tipoParam = tipoDato;
         return BIEN;
@@ -55,38 +55,27 @@ int tokenizar(Archivo *archivo)
     {
         char *textoCopia = strdup(temp->texto);
         char *palabra, *delim;
+
+        if (espaciosMultiples(textoCopia) == ESPACIOS_EXTRA) { return ESPACIOS_EXTRA; }
         
-        palabra = strtok_r(textoCopia, " \n\t\r", &delim);
-        
-        if (!palabra)
-        {
-            Renglon *elimin = temp;
-            temp = temp->sig;
- 
-            if (ant == NULL) { archivo->inicio = temp; } 
-            else { ant->sig = temp; }
-            
-            if (elimin == archivo->final) { archivo->final = ant; }
-            
-            archivo->tamanio--;
-            liberarRenglon(elimin);
-            free(textoCopia);
-            continue;
-        }
+        palabra = strtok_r(textoCopia, " \n\r", &delim);        
+        if (!palabra) { return TIPO_PARAM_INVALIDO; }
         
         while (palabra)
         {   
             Token *nuevoToken = crearToken();
             nuevoToken->textoToken = strdup(palabra);
+            printf("palabra nuevoToken: %s\n", nuevoToken->textoToken);
 
             int res = agregarTipoDato(nuevoToken);
+            printf("res: %d\n", res);
             if (res == BIEN) { agregarToken(temp, nuevoToken); } 
             else { 
                 free(nuevoToken->textoToken);
                 free(nuevoToken);  free(textoCopia);
                 return res; 
             }
-            palabra = strtok_r(NULL, " \n\t\r", &delim);
+            palabra = strtok_r(NULL, " \n\r", &delim);
         }
         free(textoCopia);
         ant = temp; 

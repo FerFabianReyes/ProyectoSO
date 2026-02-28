@@ -17,9 +17,9 @@ int main()
     Ejecucion *ejec = crearEjecucion(archivo);
 
     imprimirInstrucciones(ejec->programa);
-    ejecutarPrograma(ejec);
-
-    imprimirTerminal(ejec);
+    //ejecutarPrograma(ejec);
+ 
+    //imprimirTerminal(ejec);
     
     liberarArchivo(archivo);
     return 0;

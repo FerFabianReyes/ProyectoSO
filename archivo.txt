@@ -1,5 +1,5 @@
-
-
-
-
-INC                 EAX
+MOV EAX, EAX
+ADD EAX, EAX
+DIV EAX, EAX
+INC EAX
+END

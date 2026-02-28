@@ -31,6 +31,7 @@ int esRegistro(Token *token);
 int esInstruccion(Token *token);
 int verifSintaxis(Archivo *archivo);
 int parserDosParametros(Token *token);
+int espaciosMultiples(char *texto);
 
 /*---------- INSTRUCCIONES --------------------------------*/
 Registros* crearRegistro();

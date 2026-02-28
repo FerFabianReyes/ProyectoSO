@@ -28,6 +28,7 @@ int esRegistro(Token *token)
     char *dato = token->textoToken;
     regex_t regex;
     char *patron = "^E[A-D]X$";
+    char *patronComa = "^E[A-D]X,$";
     char *minus = "^E[a-z]?X$";
     int resultado;
 
@@ -36,6 +37,16 @@ int esRegistro(Token *token)
     regfree(&regex);
 
     if (!resultado) { return REG; }
+
+    resultado = regcomp(&regex, patronComa, REG_EXTENDED);
+    resultado = regexec(&regex, dato, 0, NULL, 0);
+    regfree(&regex);
+
+    if (!resultado) {
+        char *coma = strchr(dato, ',');
+        *coma = '\0';
+        return REG_COM; 
+    }
     else { 
         resultado = regcomp(&regex, minus, REG_EXTENDED);
         resultado = regexec(&regex, dato, 0, NULL, 0);
@@ -71,9 +82,9 @@ int esInstruccion(Token *token)
 
 int parserDosParametros(Token *token)
 {
-    if (token->sig) {
-            Token *tem = token->sig;
-        if (tem->tipoParam == REG) {
+    if (token->sig) {        
+        Token *tem = token->sig;
+        if (tem->tipoParam == REG_COM) {
             if (tem->sig) {
 
                 if (tem->sig->sig) { return PARAMETROS_EXTRA;}
@@ -146,4 +157,14 @@ int verifSintaxis(Archivo *archivo)
     } else { return NO_HAY_TEXTO; }
     return BIEN;
     
+}
+
+int espaciosMultiples(char *texto)
+{
+    for (int i = 0; texto[i] != '\0'; i++) {
+        if (texto[i] == ' ' && texto[i+1] == ' ') {
+            return ESPACIOS_EXTRA;
+        }
+    }
+    return BIEN;
 }
