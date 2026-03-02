@@ -1,3 +1,6 @@
+#include <curses.h>
+#include <sys/select.h>
+
 int kbhit(void) 
 {
     struct timeval tv;
@@ -23,4 +26,13 @@ WINDOW *crearVentana(int altura, int anchura, int posY, char *nombre)
     mvwprintw(ventana, 0, 2, nombre);
     wrefresh(ventana);
     return ventana;
+}
+
+void impVentanaComandos(WINDOW *ventana, int maxY)
+{
+        mvwprintw(ventana, maxY*2/3, 1, "> ");
+		wclrtoeol(ventana);
+		box(ventana, 0, 0);
+        mvwprintw(ventana, 0, 2, " Comandos ");
+		wrefresh(ventana); 
 }

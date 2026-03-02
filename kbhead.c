@@ -2,6 +2,10 @@
 #include <curses.h>
 #include <string.h>
 #include <sys/select.h>
+#include "prototipos.h"
+#include "estructuras.h"
+Registros *reg = NULL;
+
 //gcc kbhead.c -lncurses
 int kbhit(void);
 
@@ -10,40 +14,65 @@ int main()
 {
 	int i=0;
 	char cad[50];
+	int maxY, maxX;
+
 	initscr();
+	cbreak();
+	noecho();
+	keypad(stdscr, TRUE);
+	getmaxyx(stdscr, maxY, maxX);
+
+	WINDOW *ventanaDatos = crearVentana(maxY/3, maxX, 0, " Datos ");
+	WINDOW *ventanaErrores = crearVentana(maxY/3, maxX, maxY/3, " Errores ");
+	WINDOW *ventanaComandos = crearVentana(maxY/3, maxX, maxY*2/3, " Comandos ");
+
+    reg = crearRegistro();
+
 	while(1)
 	{
 		mvprintw(3,4,"%d\n",i);
-		refresh();
-		if(kbhit()){ 
-			mvscanw(10,5,"%s",cad); 
-			if (strcmp(cad, "salir") == 0)
+
+		if(kbhit()) { 
+			impVentanaComandos(ventanaComandos, maxY);
+			int caracter, pos = 0;
+			memset(cad, 0, sizeof(cad));
+
+			curs_set(1);
+
+			while (1)
 			{
-				break;
+				wmove(ventanaComandos, 1, pos+3);
+				wrefresh(ventanaComandos);
+				caracter = wgetch(ventanaComandos);
+
+				if (caracter == '\n' || caracter == '\r') { break; }
+
+				if (caracter == KEY_BACKSPACE || caracter == 127 || caracter == 8 || caracter == 263) {
+					if (pos > 0) {
+						pos--;
+						mvwaddch(ventanaComandos, 1, pos+3, ' ');
+						wrefresh(ventanaComandos);
+					}
+				} else if (caracter >= 32 && pos < 48) {
+					cad[pos] = (char)caracter;
+					mvwaddch(ventanaComandos, 1, pos+3, caracter);
+					wrefresh(ventanaComandos);
+					pos++;
+				}
+				impVentanaComandos(ventanaComandos, maxY);
 			}
-			
+			curs_set(0);
+			cad[pos] = '\0';
+
+			if (strcmp(cad, "salir") == 0) { break; }
 		}
 		i++;
+		napms(100);
 	}
 
+	delwin(ventanaDatos);
+	delwin(ventanaErrores);
+	delwin(ventanaComandos);
 	endwin();
-}
-
-
-int kbhit(void) 
-{
-    struct timeval tv;
-    fd_set read_fd;
-    tv.tv_sec = 0;
-    tv.tv_usec = 0;
-    FD_ZERO(&read_fd);
-    FD_SET(0, &read_fd);
-
-    if (select(1, &read_fd, NULL, NULL, &tv) == -1)
-        return 0;
-
-    if (FD_ISSET(0, &read_fd))
-        return 1;
-
-    return 0;
+	return 0;
 }

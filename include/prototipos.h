@@ -53,8 +53,8 @@ void dec(Token *param);
 
 /*---------- VENTANAS --------------------------------*/
 int kbhit(void);
-WINDOW *crearVentana();
-
+WINDOW *crearVentana(int altura, int anchura, int posY, char *nombre);
+void impVentanaComandos(WINDOW *ventana, int maxY);
 
 /* --------- LOG ERRORES ----------------------------*/
 void detectarError(int error); // Después cambiar a int para ver si hay errores o no
