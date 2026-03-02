@@ -2,55 +2,104 @@
 #include <curses.h>
 #include <string.h>
 #include <sys/select.h>
-//gcc kbhead.c -lncurses
+// gcc kbhead.c -lncurses
 
 int kbhit(void);
-
-#define ROWS 2
-#define COLS 6
-#define CELL_H 3
-#define CELL_W 16
-
-char data[ROWS][COLS][50] = {
-    {"PC",  "IR", "EAX", "EBX", "ECX", "EDX"},
-    {"2",     "INC EAX",   "1", "1", "0", "2"}
-};
-
-void draw_table(int y, int x)
-{
-    for(int r = 0; r < ROWS; r++)
-        for(int c = 0; c < COLS; c++)
-        {
-            WINDOW *cell = newwin(CELL_H, CELL_W, y + r*CELL_H, x + c*CELL_W);
-            box(cell, 0, 0);
-            mvwprintw(cell, 1, 2, "%s", data[r][c]);
-            wrefresh(cell);
-        }
-}
 
 int main()
 {
     int i = 0;
     char cad[50];
+    int max_y, max_x;
 
-    initscr();
+    initscr(); //inicializa ncurses
+    cbreak(); // detecta las teclas sin tener que esperar el enter
+    noecho(); // controlar que se puede poner en pantalla y que nno
+    keypad(stdscr, TRUE); // Para detectar teclas especiales como backspace
 
-    while(1)
+    // Obtener tamaño de la terminal
+    getmaxyx(stdscr, max_y, max_x);
+
+    // --- Ventana superior: mostrar datos ---
+    int win_top_h = (max_y * 2) / 3;
+    WINDOW *win_top = newwin(win_top_h, max_x, 0, 0);
+    box(win_top, 0, 0);
+    mvwprintw(win_top, 0, 2, " Datos ");
+    wrefresh(win_top);
+
+    // --- Ventana inferior: recibir comandos ---
+    int win_bot_h = max_y - win_top_h;
+    WINDOW *win_bot = newwin(win_bot_h, max_x, win_top_h, 0);
+    keypad(win_bot, TRUE); // Para detectar backspace dentro de la ventana
+    box(win_bot, 0, 0);
+    mvwprintw(win_bot, 0, 2, " Comandos ");
+    mvwprintw(win_bot, 1, 1, "> ");
+    wrefresh(win_bot);
+
+    while (1)
     {
-    draw_table(1, 1);
+        // Mostrar datos en ventana superior
+        mvwprintw(win_top, 1, 1, "Contador: %d", i);
+        mvwprintw(win_top, 2, 1, "Ultimo comando: %-40s", cad);
+        wrefresh(win_top);
 
-        mvprintw(15, 4, "Contador: %d", i);
-        refresh();
-
-        if(kbhit())
+        if (kbhit())
         {
-            mvscanw(18, 5, "%49s", cad);
-            if(strcmp(cad, "salir") == 0)
+            // Limpiar línea y redibujar prompt
+            mvwprintw(win_bot, 1, 1, "> ");
+            wclrtoeol(win_bot); // quita lo que se escribió antes a partir de la posición actual del cursor
+            box(win_bot, 0, 0);
+            mvwprintw(win_bot, 0, 2, " Comandos ");
+            wrefresh(win_bot);
+
+            int ch;
+            int pos = 0;
+            memset(cad, 0, sizeof(cad)); // llena la cadena con ceros
+
+            // Forzar cursor visible
+            curs_set(1);
+
+            while (1)
+            {
+                // Mover cursor explícitamente antes de leer
+                wmove(win_bot, 1, 3 + pos); 
+                wrefresh(win_bot);
+
+                ch = wgetch(win_bot); // sin mv, el cursor ya está en su lugar
+
+                if (ch == '\n' || ch == '\r')
+                    break;
+
+                if (ch == KEY_BACKSPACE || ch == 127 || ch == 8)
+                {
+                    if (pos > 0)
+                    {
+                        pos--;
+                        mvwaddch(win_bot, 1, 3 + pos, ' ');
+                        wrefresh(win_bot);
+                    }
+                }
+                else if (ch >= 32 && pos < 48)
+                {
+                    cad[pos] = (char)ch;
+                    mvwaddch(win_bot, 1, 3 + pos, ch);
+                    wrefresh(win_bot);
+                    pos++;
+                }
+            }
+
+            curs_set(0);
+            cad[pos] = '\0';
+
+            if (strcmp(cad, "salir") == 0)
                 break;
         }
         i++;
+        napms(100);
     }
 
+    delwin(win_top);
+    delwin(win_bot);
     endwin();
     return 0;
 }

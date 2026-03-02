@@ -5,6 +5,8 @@
 #include <string.h>
 #include <regex.h>
 #include <math.h>
+#include <curses.h>
+#include <sys/select.h>
 #include "estructuras.h"
 
 
@@ -48,6 +50,10 @@ void mul(Token *param);
 void divR(Token *param);
 void inc(Token *param);
 void dec(Token *param);
+
+/*---------- VENTANAS --------------------------------*/
+WINDOW *crearVentana();
+
 
 /* --------- LOG ERRORES ----------------------------*/
 void detectarError(int error); // Después cambiar a int para ver si hay errores o no
