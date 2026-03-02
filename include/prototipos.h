@@ -55,6 +55,8 @@ void dec(Token *param);
 int kbhit(void);
 WINDOW *crearVentana(int altura, int anchura, int posY, char *nombre);
 void impVentanaComandos(WINDOW *ventana);
+void limpiarComando(WINDOW *ventana);
+
 
 /* --------- LOG ERRORES ----------------------------*/
 void detectarError(int error); // Después cambiar a int para ver si hay errores o no

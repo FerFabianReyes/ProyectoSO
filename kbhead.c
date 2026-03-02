@@ -59,11 +59,11 @@ int main()
 					wrefresh(ventanaComandos);
 					pos++;
 				}
-				//impVentanaComandos(ventanaComandos);
 			}
 			curs_set(0);
 			cad[pos] = '\0';
 			if (strcmp(cad, "salir") == 0) { break; }
+			limpiarComando(ventanaComandos);
 		}
 		i++;
 		napms(100);

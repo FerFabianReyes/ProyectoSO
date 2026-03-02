@@ -36,3 +36,13 @@ void impVentanaComandos(WINDOW *ventana)
         mvwprintw(ventana, 0, 2, " Comandos ");
 		wrefresh(ventana); 
 }
+
+void limpiarComando(WINDOW *ventana)
+{
+    wmove(ventana, 1, 1);
+            wclrtoeol(ventana);
+            box(ventana, 0, 0);
+            mvwprintw(ventana, 0, 2, " Comandos ");
+            mvwprintw(ventana, 1, 1, " > ");
+            wrefresh(ventana);
+}
