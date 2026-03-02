@@ -36,7 +36,6 @@ int main()
 			int caracter, pos = 0;
 			memset(cad, 0, sizeof(cad));
 			impVentanaComandos(ventanaComandos);
-
 			curs_set(1);
 
 			while (1)
@@ -47,17 +46,12 @@ int main()
 
 				if (caracter == '\n' || caracter == '\r') { break; }
 
-				if (caracter == KEY_BACKSPACE || caracter == 127 || caracter == 8 || caracter == 263) {
+				if (caracter == KEY_BACKSPACE || caracter == 127) {
 					if (pos > 0) {
-						pos--;
-						mvwaddch(ventanaComandos, 1, pos+4, ' ');
-						wrefresh(ventanaComandos);
+						borrarCaracter(ventanaComandos, &pos);
 					}
 				} else if (caracter >= 32 && pos < 48) {
-					cad[pos] = (char)caracter;
-					mvwaddch(ventanaComandos, 1, pos+4, caracter);
-					wrefresh(ventanaComandos);
-					pos++;
+					imprimirCaracter(ventanaComandos, &pos, cad, caracter);
 				}
 			}
 			curs_set(0);

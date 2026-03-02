@@ -40,9 +40,24 @@ void impVentanaComandos(WINDOW *ventana)
 void limpiarComando(WINDOW *ventana)
 {
     wmove(ventana, 1, 1);
-            wclrtoeol(ventana);
-            box(ventana, 0, 0);
-            mvwprintw(ventana, 0, 2, " Comandos ");
-            mvwprintw(ventana, 1, 1, " > ");
-            wrefresh(ventana);
+    wclrtoeol(ventana);
+    box(ventana, 0, 0);
+    mvwprintw(ventana, 0, 2, " Comandos ");
+    mvwprintw(ventana, 1, 1, " > ");
+    wrefresh(ventana);
+}
+
+void borrarCaracter(WINDOW *ventana, int *pos)
+{
+    (*pos)--;
+    mvwaddch(ventana, 1, (*pos)+4, ' ');
+	wrefresh(ventana); 
+}
+
+void imprimirCaracter(WINDOW *ventana, int *pos, char cad[], int caracter)
+{
+    cad[*pos] = (char)caracter;
+    mvwaddch(ventana, 1, (*pos)+4, caracter);
+    wrefresh(ventana);
+    (*pos)++;
 }
