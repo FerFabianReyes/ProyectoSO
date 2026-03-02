@@ -52,6 +52,7 @@ void inc(Token *param);
 void dec(Token *param);
 
 /*---------- VENTANAS --------------------------------*/
+int kbhit(void);
 WINDOW *crearVentana();
 
 
