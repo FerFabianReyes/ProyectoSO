@@ -28,9 +28,9 @@ WINDOW *crearVentana(int altura, int anchura, int posY, char *nombre)
     return ventana;
 }
 
-void impVentanaComandos(WINDOW *ventana, int maxY)
+void impVentanaComandos(WINDOW *ventana)
 {
-        mvwprintw(ventana, maxY*2/3, 1, "> ");
+        mvwprintw(ventana, 1, 1, " > ");
 		wclrtoeol(ventana);
 		box(ventana, 0, 0);
         mvwprintw(ventana, 0, 2, " Comandos ");

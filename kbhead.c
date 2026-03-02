@@ -22,26 +22,26 @@ int main()
 	keypad(stdscr, TRUE);
 	getmaxyx(stdscr, maxY, maxX);
 
-	WINDOW *ventanaDatos = crearVentana(maxY/3, maxX, 0, " Datos ");
-	WINDOW *ventanaErrores = crearVentana(maxY/3, maxX, maxY/3, " Errores ");
-	WINDOW *ventanaComandos = crearVentana(maxY/3, maxX, maxY*2/3, " Comandos ");
+	WINDOW *ventanaDatos = crearVentana(maxY*3/5, maxX, 0, " Datos ");
+	WINDOW *ventanaErrores = crearVentana(maxY/5, maxX, maxY*3/5, " Errores ");
+	WINDOW *ventanaComandos = crearVentana(maxY/5, maxX, maxY*4/5, " Comandos ");
+	mvwprintw(ventanaComandos, 1, 1, " > ");
+    wrefresh(ventanaComandos);
 
     reg = crearRegistro();
 
 	while(1)
 	{
-		mvprintw(3,4,"%d\n",i);
-
 		if(kbhit()) { 
-			impVentanaComandos(ventanaComandos, maxY);
 			int caracter, pos = 0;
 			memset(cad, 0, sizeof(cad));
+			impVentanaComandos(ventanaComandos);
 
 			curs_set(1);
 
 			while (1)
 			{
-				wmove(ventanaComandos, 1, pos+3);
+				wmove(ventanaComandos, 1, pos+4);
 				wrefresh(ventanaComandos);
 				caracter = wgetch(ventanaComandos);
 
@@ -50,20 +50,19 @@ int main()
 				if (caracter == KEY_BACKSPACE || caracter == 127 || caracter == 8 || caracter == 263) {
 					if (pos > 0) {
 						pos--;
-						mvwaddch(ventanaComandos, 1, pos+3, ' ');
+						mvwaddch(ventanaComandos, 1, pos+4, ' ');
 						wrefresh(ventanaComandos);
 					}
 				} else if (caracter >= 32 && pos < 48) {
 					cad[pos] = (char)caracter;
-					mvwaddch(ventanaComandos, 1, pos+3, caracter);
+					mvwaddch(ventanaComandos, 1, pos+4, caracter);
 					wrefresh(ventanaComandos);
 					pos++;
 				}
-				impVentanaComandos(ventanaComandos, maxY);
+				//impVentanaComandos(ventanaComandos);
 			}
 			curs_set(0);
 			cad[pos] = '\0';
-
 			if (strcmp(cad, "salir") == 0) { break; }
 		}
 		i++;
