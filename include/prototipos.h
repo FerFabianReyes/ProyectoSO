@@ -59,7 +59,7 @@ void impVentanaComandos(WINDOW *ventana);
 void limpiarComando(WINDOW *ventana);
 void borrarCaracter(WINDOW *ventana, int *pos);
 void imprimirCaracter(WINDOW *ventana, int *pos, char cad[], int caracter);
-void impEncabezado();
+void impEncabezado(WINDOW *ventana, int maxX);
 
 /*---------- COMANDOS --------------------------------*/
 int detectarComando(char cad[]);

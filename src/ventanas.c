@@ -1,5 +1,4 @@
-#include <curses.h>
-#include <sys/select.h>
+#include "prototipos.h"
 
 int kbhit(void) 
 {
@@ -72,8 +71,30 @@ void imprimirCaracter(WINDOW *ventana, int *pos, char cad[], int caracter)
     (*pos)++;
 }
 
-void impEncabezado()
+void impEncabezado(WINDOW *ventana, int maxX)
 {
+    mvwhline(ventana, 1, 1, ACS_HLINE, maxX - 2);
+    mvwhline(ventana, 3, 1, ACS_HLINE, maxX - 2);
 
+    mvwaddch(ventana, 1, 1,        ACS_ULCORNER);
+    mvwaddch(ventana, 1, maxX - 2, ACS_URCORNER);
+    mvwaddch(ventana, 3, 1,        ACS_LLCORNER);
+    mvwaddch(ventana, 3, maxX - 2, ACS_LRCORNER);
+
+    int anchCol = (maxX - 2) / 6;
+
+    for (int col = 1; col <= 5; col++) {
+        int x = 1 + anchCol * col;
+        mvwaddch(ventana, 1, x, ACS_TTEE);   // ┬
+        mvwaddch(ventana, 2, x, ACS_VLINE);  // │
+        mvwaddch(ventana, 3, x, ACS_BTEE);   // ┴
+    }
+
+    char *encabezado[] = {"PC", "IR", "EAX", "EBX", "ECX", "EDX"};
+    for (int col = 0; col < 6; col++) {
+        int x = 1 + anchCol * col + (anchCol - strlen(encabezado[col])) / 2;
+        mvwprintw(ventana, 2, x, encabezado[col]);
+    }
+    wrefresh(ventana);
 }
 

@@ -23,6 +23,7 @@ int main()
 	WINDOW *ventanaErrores = crearVentana(maxY/5, maxX, maxY*3/5, " Errores ");
 	WINDOW *ventanaComandos = crearVentana(maxY/5, maxX, maxY*4/5, " Comandos ");
 	limpiarComando(ventanaComandos);
+	
 
     Archivo *archivo = crearArchivo();
     Ejecucion *ejecucion = crearEjecucion(archivo);
@@ -31,7 +32,7 @@ int main()
 
 	while(1)
 	{
-		//void impEncabezado();
+		impEncabezado(ventanaDatos, maxX);
 
 		if(kbhit()) { 
 			int caracter, pos = 0;
