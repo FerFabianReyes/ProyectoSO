@@ -25,6 +25,7 @@ int main()
 	limpiarComando(ventanaComandos);
 
     Archivo *archivo = crearArchivo();
+    Ejecucion *ejecucion = crearEjecucion(archivo);
     reg = crearRegistro();
 
 
@@ -52,15 +53,27 @@ int main()
 			if (comando == SALIR) { break; }
 			if (comando == EJECUTAR_ARCHIVO) {
 				char *nomArchivo = sacarNomArchivo(cad);
-				int res = leerArchivo(nomArchivo, archivo);
+				liberarEjecucion(ejecucion);
+    			archivo = crearArchivo();
+    			ejecucion = NULL;
 
-				if (res == BIEN) { continue; }
+    			int res = leerArchivo(nomArchivo, archivo);
+
+				if (res == BIEN) { 
+					ejecucion = crearEjecucion(archivo);
+					 }
 				else
 				{
-					mvwprintw(ventanaErrores, 1, 1, " no ");
+					limpiarVentana(ventanaErrores, " Errores ");
+					mvwprintw(ventanaErrores, 1, 1, " no 1");
 					wrefresh(ventanaErrores); 
 				}
-			} 
+			} else
+				{
+					limpiarVentana(ventanaErrores, " Errores ");
+					mvwprintw(ventanaErrores, 1, 1, " no 2");
+					wrefresh(ventanaErrores); 
+				}
 		}
 		i++;
 		napms(100);
@@ -69,6 +82,8 @@ int main()
 	delwin(ventanaDatos);
 	delwin(ventanaErrores);
 	delwin(ventanaComandos);
+	liberarEjecucion(ejecucion);
+	free(reg);
 	endwin();
 	return 0;
 }

@@ -18,6 +18,7 @@ int imprimirArchivo(Archivo *archivo);
 void liberarArchivo(Archivo *archivo);
 int leerArchivo(char *nomArchivo, Archivo *archivo);
 Ejecucion* crearEjecucion(Archivo *prog);
+void liberarEjecucion(Ejecucion *ejec);
 
 /*---------- TOKENS --------------------------------*/
 int tokenizar(Archivo *archivo);
@@ -64,6 +65,7 @@ void impEncabezado();
 int detectarComando(char cad[]);
 char *sacarNomArchivo(char cad[]);
 void leerComando(WINDOW *ventana, int *pos, char cad[], int caracter);
+void limpiarVentana(WINDOW *ventana, char* nomVentana);
 
 
 /* --------- LOG ERRORES ----------------------------*/

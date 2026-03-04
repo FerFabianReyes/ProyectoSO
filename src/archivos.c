@@ -79,6 +79,15 @@ void liberarArchivo(Archivo *archivo)
     free(archivo); 
 }
 
+void liberarEjecucion(Ejecucion *ejec)
+{
+    if (!ejec) { return; }
+    liberarArchivo(ejec->programa);
+    ejec->programa = NULL;
+    ejec->IR = NULL;
+    free(ejec);
+}
+
 int leerArchivo(char *nomArchivo, Archivo *archivo)
 {
     if (!archivo){ return NO_HAY_ARCHIVO;}

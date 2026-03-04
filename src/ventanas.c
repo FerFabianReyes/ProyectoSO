@@ -47,6 +47,16 @@ void limpiarComando(WINDOW *ventana)
     wrefresh(ventana);
 }
 
+void limpiarVentana(WINDOW *ventana, char* nomVentana)
+{
+    wmove(ventana, 1, 1);
+    wclrtoeol(ventana);
+    box(ventana, 0, 0);
+    mvwprintw(ventana, 0, 2, nomVentana);
+    mvwprintw(ventana, 1, 1, " ");
+    wrefresh(ventana);
+}
+
 void borrarCaracter(WINDOW *ventana, int *pos)
 {
     (*pos)--;
