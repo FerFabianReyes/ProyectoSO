@@ -52,6 +52,10 @@ typedef enum {
     NO_HAY_ARCHIVO,
     NO_HAY_TEXTO,
 
+/*----- Tokens -----*/ 
+    //Errores
+    NO_HAY_TOKENS = 200,
+
 /*----- Lexico -----*/ 
     // Errores
     INICIA_EN_NUMERO = 300,
@@ -69,9 +73,10 @@ typedef enum {
     DIV_ENTRE_CERO,
     ESPACIOS_EXTRA,
 
-/*----- Tokens -----*/ 
-    //Errores
-    NO_HAY_TOKENS = 200,
+/*----- Comandos -----*/ 
+    COMANDO_INVALIDO = 500
+
+    //Errores    
 } errorAdvertencia;
 
 #endif

@@ -46,6 +46,7 @@ int main()
 				if (caracter == '\n' || caracter == '\r') { break; }
 				leerComando(ventanaComandos, &pos, cad, caracter);
 			}
+			
 			cad[pos] = '\0';
 			int comando;
 			limpiarComando(ventanaComandos);
@@ -59,21 +60,15 @@ int main()
     			ejecucion = NULL;
 
     			int res = leerArchivo(nomArchivo, archivo);
-
 				if (res == BIEN) { 
 					ejecucion = crearEjecucion(archivo);
-					 }
-				else
-				{
-					limpiarVentana(ventanaErrores, " Errores ");
-					mvwprintw(ventanaErrores, 1, 1, " no 1");
-					wrefresh(ventanaErrores); 
+				} else {
+					detectarError(ventanaErrores, res);
+					break;
 				}
-			} else
-				{
-					limpiarVentana(ventanaErrores, " Errores ");
-					mvwprintw(ventanaErrores, 1, 1, " no 2");
-					wrefresh(ventanaErrores); 
+			} else {
+					detectarError(ventanaErrores, comando);
+					break;
 				}
 		}
 		i++;

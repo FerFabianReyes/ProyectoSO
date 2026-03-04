@@ -69,6 +69,6 @@ void limpiarVentana(WINDOW *ventana, char* nomVentana);
 
 
 /* --------- LOG ERRORES ----------------------------*/
-void detectarError(int error); // Después cambiar a int para ver si hay errores o no
+void detectarError(WINDOW *ventana, int error); // Después cambiar a int para ver si hay errores o no
 
 #endif

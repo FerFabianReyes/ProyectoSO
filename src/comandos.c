@@ -24,10 +24,9 @@ int detectarComando(char cad[])
     resultado = regexec(&regex, cad, 0, NULL, 0);
     regfree(&regex);
 
-    if (!resultado)
-    {
-        return EJECUTAR_ARCHIVO;
-    }
+    if (!resultado) { return EJECUTAR_ARCHIVO; }
+    else {return COMANDO_INVALIDO; }
+    
 }
 
 char *sacarNomArchivo(char cad[])

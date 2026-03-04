@@ -1,6 +1,6 @@
 #include "prototipos.h"
 
-void detectarError(int error)
+void detectarError(WINDOW *ventana, int error)
 {
     switch (error)
     {
@@ -8,7 +8,10 @@ void detectarError(int error)
         break;
     /*-- Archivos --*/    
     case NOMBRE_INCORRECTO:
-        printf("Error %d: Archivo no encontrado. Favor de verificar el nombre", error);
+		limpiarVentana(ventana, " Errores ");
+		mvwprintw(ventana, 1, 1, "Error %d: Archivo no encontrado. Favor de verificar el nombre", error);
+        wrefresh(ventana);
+        //printf("Error %d: Archivo no encontrado. Favor de verificar el nombre", error);
         break;    
     case NO_HAY_ARCHIVO:
         printf("Error %d: No se pudo abrir el archivo", error);
@@ -55,6 +58,15 @@ void detectarError(int error)
         case NO_HAY_TOKENS: 
         printf("Error %d: No se encontraron tokens.", error);
         break;
+
+    /*-- Comandos --*/
+    case COMANDO_INVALIDO:
+        limpiarVentana(ventana, " Errores ");
+		mvwprintw(ventana, 1, 1, "Error %d: El comando que ingresó es inválido. Favor de verificar", error);
+        wrefresh(ventana);
+        break;
+
+    
     default:
         break;
     }
