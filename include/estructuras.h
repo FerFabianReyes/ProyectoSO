@@ -38,6 +38,11 @@ typedef enum {
     INSTR = 1, REG_COM, REG, NUM
 } tipoParametro;
 
+/*------------ COMANDO EN LA TERMINAL  ---------------------------------*/ 
+typedef enum {
+    SALIR = 10, EJECUTAR_ARCHIVO
+} comandoTerminal;
+
 /*------------ ERRORES Y ADVERTENCIAS ---------------------------------*/ 
 typedef enum {
     BIEN = 0,

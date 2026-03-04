@@ -58,6 +58,11 @@ void impVentanaComandos(WINDOW *ventana);
 void limpiarComando(WINDOW *ventana);
 void borrarCaracter(WINDOW *ventana, int *pos);
 void imprimirCaracter(WINDOW *ventana, int *pos, char cad[], int caracter);
+void impEncabezado();
+
+/*---------- COMANDOS --------------------------------*/
+int detectarComando(char cad[]);
+char *sacarNomArchivo(char cad[]);
 void leerComando(WINDOW *ventana, int *pos, char cad[], int caracter);
 
 

@@ -24,10 +24,14 @@ int main()
 	WINDOW *ventanaComandos = crearVentana(maxY/5, maxX, maxY*4/5, " Comandos ");
 	limpiarComando(ventanaComandos);
 
+    Archivo *archivo = crearArchivo();
     reg = crearRegistro();
+
 
 	while(1)
 	{
+		//void impEncabezado();
+
 		if(kbhit()) { 
 			int caracter, pos = 0;
 			memset(cad, 0, sizeof(cad));
@@ -41,9 +45,22 @@ int main()
 				leerComando(ventanaComandos, &pos, cad, caracter);
 			}
 			cad[pos] = '\0';
-			if (strcmp(cad, "salir") == 0) { break; }
-
+			int comando;
 			limpiarComando(ventanaComandos);
+			comando = detectarComando(cad);
+
+			if (comando == SALIR) { break; }
+			if (comando == EJECUTAR_ARCHIVO) {
+				char *nomArchivo = sacarNomArchivo(cad);
+				int res = leerArchivo(nomArchivo, archivo);
+
+				if (res == BIEN) { continue; }
+				else
+				{
+					mvwprintw(ventanaErrores, 1, 1, " no ");
+					wrefresh(ventanaErrores); 
+				}
+			} 
 		}
 		i++;
 		napms(100);

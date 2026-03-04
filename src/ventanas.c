@@ -62,16 +62,8 @@ void imprimirCaracter(WINDOW *ventana, int *pos, char cad[], int caracter)
     (*pos)++;
 }
 
-void leerComando(WINDOW *ventana, int *pos, char cad[], int caracter)
+void impEncabezado()
 {
-    wmove(ventana, 1, (*pos)+4);
-	wrefresh(ventana);
 
-    if (caracter == KEY_BACKSPACE || caracter == 127) {
-		if (*pos > 0) { borrarCaracter(ventana, pos); }
-
-	} else if (caracter >= 32 && *pos < 48) {
-		imprimirCaracter(ventana, pos, cad, caracter);
-	}
 }
 

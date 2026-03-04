@@ -1,0 +1,38 @@
+#include "prototipos.h"
+
+void leerComando(WINDOW *ventana, int *pos, char cad[], int caracter)
+{
+    wmove(ventana, 1, (*pos)+4);
+	wrefresh(ventana);
+
+    if (caracter == KEY_BACKSPACE || caracter == 127) {
+		if (*pos > 0) { borrarCaracter(ventana, pos); }
+
+	} else if (caracter >= 32 && *pos < 48) {
+		imprimirCaracter(ventana, pos, cad, caracter);
+	}
+}
+
+int detectarComando(char cad[])
+{
+    if (strcmp(cad, "salir") == 0) { return SALIR; }
+    regex_t regex;
+    char *patron = "^ejecuta [^ ]+$";
+    int resultado;
+
+    resultado = regcomp(&regex, patron, REG_EXTENDED);
+    resultado = regexec(&regex, cad, 0, NULL, 0);
+    regfree(&regex);
+
+    if (!resultado)
+    {
+        return EJECUTAR_ARCHIVO;
+    }
+}
+
+char *sacarNomArchivo(char cad[])
+{
+    char *nomArchivo = strchr(cad, ' ');
+    if (nomArchivo) { return nomArchivo + 1; }
+    else return NULL;
+}
