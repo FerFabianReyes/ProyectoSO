@@ -6,27 +6,23 @@
 #include "estructuras.h"
 Registros *reg = NULL;
 
-//gcc kbhead.c -lncurses
+//gcc kbhead.c -lncurses src/*.c -I./include -lm
 int kbhit(void);
 
 
 int main()
 {
-	int i=0;
+	int i=0, maxY, maxX;
 	char cad[50];
-	int maxY, maxX;
 
-	initscr();
-	cbreak();
-	noecho();
+	initscr();	cbreak();	noecho();
 	keypad(stdscr, TRUE);
 	getmaxyx(stdscr, maxY, maxX);
 
 	WINDOW *ventanaDatos = crearVentana(maxY*3/5, maxX, 0, " Datos ");
 	WINDOW *ventanaErrores = crearVentana(maxY/5, maxX, maxY*3/5, " Errores ");
 	WINDOW *ventanaComandos = crearVentana(maxY/5, maxX, maxY*4/5, " Comandos ");
-	mvwprintw(ventanaComandos, 1, 1, " > ");
-    wrefresh(ventanaComandos);
+	limpiarComando(ventanaComandos);
 
     reg = crearRegistro();
 
@@ -40,23 +36,13 @@ int main()
 
 			while (1)
 			{
-				wmove(ventanaComandos, 1, pos+4);
-				wrefresh(ventanaComandos);
 				caracter = wgetch(ventanaComandos);
-
 				if (caracter == '\n' || caracter == '\r') { break; }
-
-				if (caracter == KEY_BACKSPACE || caracter == 127) {
-					if (pos > 0) {
-						borrarCaracter(ventanaComandos, &pos);
-					}
-				} else if (caracter >= 32 && pos < 48) {
-					imprimirCaracter(ventanaComandos, &pos, cad, caracter);
-				}
+				leerComando(ventanaComandos, &pos, cad, caracter);
 			}
-			curs_set(0);
 			cad[pos] = '\0';
 			if (strcmp(cad, "salir") == 0) { break; }
+
 			limpiarComando(ventanaComandos);
 		}
 		i++;
