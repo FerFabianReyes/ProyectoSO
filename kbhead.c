@@ -61,12 +61,14 @@ int main()
 
     			int res = leerArchivo(nomArchivo, archivo);
 				if (res == BIEN) { 
-					ejecucion = crearEjecucion(archivo);
+				ejecucion = crearEjecucion(archivo);
 				} else {
 					detectarError(ventanaErrores, res);
+					continue;
 				}
 			} else {
 					detectarError(ventanaErrores, comando);
+					continue;
 				}
 		}
 		i++;
