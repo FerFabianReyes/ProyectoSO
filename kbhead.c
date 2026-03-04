@@ -64,11 +64,9 @@ int main()
 					ejecucion = crearEjecucion(archivo);
 				} else {
 					detectarError(ventanaErrores, res);
-					break;
 				}
 			} else {
 					detectarError(ventanaErrores, comando);
-					break;
 				}
 		}
 		i++;
