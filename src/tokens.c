@@ -65,10 +65,7 @@ int tokenizar(Archivo *archivo)
         {   
             Token *nuevoToken = crearToken();
             nuevoToken->textoToken = strdup(palabra);
-            printf("palabra nuevoToken: %s\n", nuevoToken->textoToken);
-
             int res = agregarTipoDato(nuevoToken);
-            printf("res: %d\n", res);
             if (res == BIEN) { agregarToken(temp, nuevoToken); } 
             else { 
                 free(nuevoToken->textoToken);

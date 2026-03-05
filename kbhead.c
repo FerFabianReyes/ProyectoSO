@@ -60,8 +60,35 @@ int main()
     			ejecucion = NULL;
 
     			int res = leerArchivo(nomArchivo, archivo);
-				if (res == BIEN) { 
-				ejecucion = crearEjecucion(archivo);
+				if (res == BIEN) {
+					res = tokenizar(archivo);
+					if (res != BIEN) {
+						detectarError(ventanaErrores, res);
+						continue;
+					} else
+					{
+						limpiarVentana(ventanaDatos, " Datos ");
+						mvwprintw(ventanaDatos, 1, 1, "no hay error en tokenizar. Error: %d", res);
+        				wrefresh(ventanaDatos);
+						napms(1000);
+
+					}
+					
+
+					res = verifSintaxis(archivo);
+					if (res != BIEN) {
+						detectarError(ventanaErrores, res);
+						continue;
+					} else
+					{
+						limpiarVentana(ventanaDatos, " Datos ");
+						mvwprintw(ventanaDatos, 1, 1, "no hay error en la sintaxis. Error: %d", res);
+        				wrefresh(ventanaDatos);
+						napms(1000);
+					}
+					
+					
+					ejecucion = crearEjecucion(archivo);
 				} else {
 					detectarError(ventanaErrores, res);
 					continue;

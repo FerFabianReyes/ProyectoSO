@@ -2,56 +2,54 @@
 
 void detectarError(WINDOW *ventana, int error)
 {
+	limpiarVentana(ventana, " Errores ");
     switch (error)
     {
     case BIEN:
         break;
     /*-- Archivos --*/    
     case NOMBRE_INCORRECTO:
-		limpiarVentana(ventana, " Errores ");
-		mvwprintw(ventana, 1, 1, "Error %d: Archivo no encontrado. Favor de verificar el nombre", error);
-        wrefresh(ventana);
-        //printf("Error %d: Archivo no encontrado. Favor de verificar el nombre", error);
+		mvwprintw(ventana, 1, 1, " Error %d: Archivo no encontrado. Favor de verificar el nombre", error);
         break;    
     case NO_HAY_ARCHIVO:
-        printf("Error %d: No se pudo abrir el archivo", error);
+		mvwprintw(ventana, 1, 1, " Error %d: No se pudo abrir el archivo", error);
         break;
     case NO_HAY_TEXTO:
-        printf("Error %d: No se pudo leer el texto", error);
+		mvwprintw(ventana, 1, 1, " Error %d:No se pudo leer el texto", error);
         break;   
 
     /*-- Léxico --*/    
     case TIPO_PARAM_INVALIDO:
-        printf("Error %d: Los parametros que se ingresaron son inválidos, favor de verificar", error);
+		mvwprintw(ventana, 1, 1, " Error %d: Los parametros que se ingresaron son inválidos, favor de verificar", error);
         break;   
     case INICIA_MINUSCULA:
         printf("Error %d: No se permiten pámetros con letras minúsculas", error);
         break;    
     case REGISTRO_INVALIDO:
-        printf("Error %d: Sólo se permiten registros de la A a la D sin letras munúsculas", error);
+		mvwprintw(ventana, 1, 1, " Error %d: Sólo se permiten registros de la A a la D sin letras munúsculas", error);
         break; 
     case NUM_DECIMAL:
-        printf("Error %d: No se permite ingresar números decimales", error);
+		mvwprintw(ventana, 1, 1, " Error %d: No se permite ingresar números decimales", error);
         break;               
     
     /*-- Sintactico --*/   
     case INSTR_REG_INCUMPLIDA:
-        printf("Error %d: Revise los parámetros después de las instrucciones", error);
+		mvwprintw(ventana, 1, 1, " Error %d: Revise los parámetros después de las instrucciones", error);
         break;  
     case PARAMETROS_INCORRECTOS:
-        printf("Error %d: Se detectaron instrucciones con parámetros incorrectos", error);
+		mvwprintw(ventana, 1, 1, " Error %d: Se detectaron instrucciones con parámetros incorrectos", error);
         break;   
     case PARAMETROS_INSUFICIENTES:
-        printf("Error %d: Se detectaron instrucciones con parámetros insuficientes", error);
+		mvwprintw(ventana, 1, 1, " Error %d: Se detectaron instrucciones con parámetros insuficientes", error);
         break;     
     case PARAMETROS_EXTRA:
-        printf("Error %d: Se detectaron instrucciones con parámetros extra", error);
+		mvwprintw(ventana, 1, 1, " Error %d: Se detectaron instrucciones con parámetros extra", error);
         break;     
     case DIV_ENTRE_CERO:
-        printf("Error %d: No se puede dividir entre cero", error);
+		mvwprintw(ventana, 1, 1, " Error %d: No se puede dividir entre cero", error);
         break;  
     case ESPACIOS_EXTRA:
-        printf("Error %d: Se detectaron espacios múltiples en instrucciones", error);
+		mvwprintw(ventana, 1, 1, " Error %d: Se detectaron espacios múltiples en instrucciones", error);
         break;           
         
     /*-- Tokens --*/
@@ -61,13 +59,13 @@ void detectarError(WINDOW *ventana, int error)
 
     /*-- Comandos --*/
     case COMANDO_INVALIDO:
-        limpiarVentana(ventana, " Errores ");
-		mvwprintw(ventana, 1, 1, "Error %d: El comando que ingresó es inválido. Favor de verificar", error);
-        wrefresh(ventana);
+		mvwprintw(ventana, 1, 1, " Error %d: El comando que ingresó es inválido. Favor de verificar", error);
         break;
 
     
     default:
         break;
     }
+    wrefresh(ventana);
+
 }
