@@ -1,12 +1,29 @@
 #include "prototipos.h"
 
+void borrarCaracter(WINDOW *ventana, int *pos)
+{
+    (*pos)--;
+    mvwaddch(ventana, 1, (*pos)+4, ' ');
+	wrefresh(ventana); 
+    wmove(ventana, 1, (*pos)+4);
+
+}
+
+void imprimirCaracter(WINDOW *ventana, int *pos, char cad[], int caracter)
+{
+    cad[*pos] = (char)caracter;
+    mvwaddch(ventana, 1, (*pos)+4, caracter);
+    wrefresh(ventana);
+    (*pos)++;
+}
+
 void leerComando(WINDOW *ventana, int *pos, char cad[], int caracter)
 {
     wmove(ventana, 1, (*pos)+4);
 	wrefresh(ventana);
 
     if (caracter == KEY_BACKSPACE || caracter == 127) {
-		if (*pos > 0) { borrarCaracter(ventana, pos); }
+		if (*pos > 0) { borrarCaracter(ventana, pos);}
 
 	} else if (caracter >= 32 && *pos < 48) {
 		imprimirCaracter(ventana, pos, cad, caracter);

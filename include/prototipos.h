@@ -57,8 +57,6 @@ int kbhit(void);
 WINDOW *crearVentana(int altura, int anchura, int posY, char *nombre);
 void impVentanaComandos(WINDOW *ventana);
 void limpiarComando(WINDOW *ventana);
-void borrarCaracter(WINDOW *ventana, int *pos);
-void imprimirCaracter(WINDOW *ventana, int *pos, char cad[], int caracter);
 void impEncabezado(WINDOW *ventana, int maxX);
 
 /*---------- COMANDOS --------------------------------*/
@@ -66,6 +64,8 @@ int detectarComando(char cad[]);
 char *sacarNomArchivo(char cad[]);
 void leerComando(WINDOW *ventana, int *pos, char cad[], int caracter);
 void limpiarVentana(WINDOW *ventana, char* nomVentana);
+void borrarCaracter(WINDOW *ventana, int *pos);
+void imprimirCaracter(WINDOW *ventana, int *pos, char cad[], int caracter);
 
 
 /* --------- LOG ERRORES ----------------------------*/

@@ -56,21 +56,6 @@ void limpiarVentana(WINDOW *ventana, char* nomVentana)
     wrefresh(ventana);
 }
 
-void borrarCaracter(WINDOW *ventana, int *pos)
-{
-    (*pos)--;
-    mvwaddch(ventana, 1, (*pos)+4, ' ');
-	wrefresh(ventana); 
-}
-
-void imprimirCaracter(WINDOW *ventana, int *pos, char cad[], int caracter)
-{
-    cad[*pos] = (char)caracter;
-    mvwaddch(ventana, 1, (*pos)+4, caracter);
-    wrefresh(ventana);
-    (*pos)++;
-}
-
 void impEncabezado(WINDOW *ventana, int maxX)
 {
     mvwhline(ventana, 1, 1, ACS_HLINE, maxX - 2);

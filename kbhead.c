@@ -71,7 +71,6 @@ int main()
 						mvwprintw(ventanaDatos, 1, 1, "no hay error en tokenizar. Error: %d", res);
         				wrefresh(ventanaDatos);
 						napms(1000);
-
 					}
 					
 
