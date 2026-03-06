@@ -7,6 +7,7 @@ Ejecucion* crearEjecucion(Archivo *prog)
     nueva->PC = -1;
     nueva->IR = prog->inicio;
     nueva->estado = ESPERA;
+    reg->EAX = 0; reg->EBX = 0; reg->ECX = 0; reg->EDX = 0;
     return nueva;
 }
 

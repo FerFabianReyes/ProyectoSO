@@ -1,0 +1,10 @@
+esInstruccion: [MOV] len=3
+esInstruccion: [EAX,] len=4
+esInstruccion: [10] len=2
+esInstruccion: [MOV] len=3
+esInstruccion: [EBX,] len=4
+esInstruccion: [5] len=1
+esInstruccion: [ADD] len=3
+esInstruccion: [EAX,] len=4
+esInstruccion: [EBX] len=3
+esInstruccion: [SUB] len=3

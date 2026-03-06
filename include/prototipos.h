@@ -40,17 +40,17 @@ int espaciosMultiples(char *texto);
 Registros* crearRegistro();
 void imprimirInstrucciones(Archivo *archivo);
 void imprimirRenglon(Renglon *renglon);
-void ejecutarPrograma(Ejecucion *ejec);
+int ejecutarPrograma(Ejecucion *ejec);
 void imprimirTerminal(Ejecucion *ejec);
 char* imprimirIR(Renglon *IR);
 int *obtenerRegistro(char *registro);
-void mov(Token *param);
-void add(Token *param);
-void sub(Token *param);
-void mul(Token *param);
-void divR(Token *param);
-void inc(Token *param);
-void dec(Token *param);
+int mov(Token *param);
+int add(Token *param);
+int sub(Token *param);
+int mul(Token *param);
+int divR(Token *param);
+int inc(Token *param);
+int dec(Token *param);
 
 /*---------- VENTANAS --------------------------------*/
 int kbhit(void);
@@ -59,13 +59,14 @@ void impVentanaComandos(WINDOW *ventana);
 void limpiarComando(WINDOW *ventana);
 void impEncabezado(WINDOW *ventana, int maxX);
 void impInstruccVentana(WINDOW *ventana, int maxX, Ejecucion *ejecucion);
+void limpiarVentana(WINDOW *ventana, char* nomVentana);
+
 
 
 /*---------- COMANDOS --------------------------------*/
 int detectarComando(char cad[]);
 char *sacarNomArchivo(char cad[]);
 void leerComando(WINDOW *ventana, int *pos, char cad[], int caracter);
-void limpiarVentana(WINDOW *ventana, char* nomVentana);
 void borrarCaracter(WINDOW *ventana, int *pos);
 void imprimirCaracter(WINDOW *ventana, int *pos, char cad[], int caracter);
 

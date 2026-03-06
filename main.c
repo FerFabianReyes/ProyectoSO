@@ -25,9 +25,9 @@ int main()
 	limpiarComando(ventanaComandos);
 	
 
+    reg = crearRegistro();
     Archivo *archivo = crearArchivo();
     Ejecucion *ejecucion = crearEjecucion(archivo);
-    reg = crearRegistro();
 
 
 	while(1)
@@ -36,7 +36,8 @@ int main()
         if (ejecucion->estado == EJECUCION)
         {
             if (!ejecucion->IR) { ejecucion->estado = ESPERA; continue; }
-            ejecutarPrograma(ejecucion);
+            int res = ejecutarPrograma(ejecucion);
+            if (res != BIEN) { ejecucion->estado = ESPERA; detectarError(ventanaErrores, res); continue; }
             impInstruccVentana(ventanaDatos, maxX, ejecucion);
             ejecucion->IR = ejecucion->IR->sig;
 			napms(2000);
@@ -56,6 +57,7 @@ int main()
 			
 			cad[pos] = '\0';
 			int comando;
+            limpiarVentana(ventanaErrores, " Errores ");
 			limpiarComando(ventanaComandos);
 			comando = detectarComando(cad);
             char *nomArchivo = sacarNomArchivo(cad);

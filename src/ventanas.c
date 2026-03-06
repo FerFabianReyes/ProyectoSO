@@ -52,7 +52,12 @@ void limpiarVentana(WINDOW *ventana, char* nomVentana)
     wclrtoeol(ventana);
     box(ventana, 0, 0);
     mvwprintw(ventana, 0, 2, nomVentana);
-    mvwprintw(ventana, 1, 1, " ");
+    int maxY, maxX;
+	getmaxyx(ventana, maxY, maxX);
+
+    for (int i = 0; i < maxX-10; i++) {
+        mvwprintw(ventana, 2, i+2, " ");
+    }
     wrefresh(ventana);
 }
 
@@ -86,7 +91,7 @@ void impEncabezado(WINDOW *ventana, int maxX)
 void impInstruccVentana(WINDOW *ventana, int maxX, Ejecucion *ejecucion)
 {
     int anchCol = (maxX - 2) / 6;
-    for (int i = 0; i < maxX-2; i++) {
+    for (int i = 0; i < maxX-10; i++) {
         mvwprintw(ventana, 5, i+2, " ");
     }
     mvwprintw(ventana, 5, 8, " %d", ejecucion->PC);

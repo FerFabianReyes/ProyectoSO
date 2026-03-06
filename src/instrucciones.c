@@ -40,45 +40,46 @@ void imprimirInstrucciones(Archivo *archivo)
     }
 }
 
-void ejecutarPrograma(Ejecucion *ejec)
+int ejecutarPrograma(Ejecucion *ejec)
 {
     if (!strcmp(ejec->IR->primerToken->textoToken, "MOV")){
         ejec->PC++;
-        mov(ejec->IR->primerToken);
+       return mov(ejec->IR->primerToken);
     }
 
     if (!strcmp(ejec->IR->primerToken->textoToken, "ADD")){
         ejec->PC++;
-        add(ejec->IR->primerToken);
+        return add(ejec->IR->primerToken);
     }
 
     if (!strcmp(ejec->IR->primerToken->textoToken, "SUB")){
         ejec->PC++;
-        sub(ejec->IR->primerToken);
+        return sub(ejec->IR->primerToken);
     }
 
     if (!strcmp(ejec->IR->primerToken->textoToken, "MUL")){
         ejec->PC++;
-        mul(ejec->IR->primerToken);
+        return mul(ejec->IR->primerToken);
     }
 
     if (!strcmp(ejec->IR->primerToken->textoToken, "DIV")){
         ejec->PC++;
-        divR(ejec->IR->primerToken);
+        return divR(ejec->IR->primerToken);
     }
 
     if (!strcmp(ejec->IR->primerToken->textoToken, "INC")){
         ejec->PC++;
-        inc(ejec->IR->primerToken);
+        return inc(ejec->IR->primerToken);
     }
 
     if (!strcmp(ejec->IR->primerToken->textoToken, "DEC")){
         ejec->PC++;
-        dec(ejec->IR->primerToken);
+        return dec(ejec->IR->primerToken);
     }
 
     if (!strcmp(ejec->IR->primerToken->textoToken, "END")){
         ejec->PC++;
+        return BIEN;
     }
 }
 
@@ -114,7 +115,7 @@ int *obtenerRegistro(char *registro)
     if (!strcmp(registro, "EDX")) { return &reg->EDX; }    
 }
 
-void mov(Token *param)
+int mov(Token *param)
 {    
     int *regDestino = obtenerRegistro(param->sig->textoToken);
     if (param->sig->sig->tipoParam == REG) {
@@ -124,9 +125,10 @@ void mov(Token *param)
         int num = atoi(param->sig->sig->textoToken);
         *regDestino = num;
     }
+    return BIEN;
 }
 
-void add(Token *param)
+int add(Token *param)
 {    
     int *regDestino = obtenerRegistro(param->sig->textoToken);
     if (param->sig->sig->tipoParam == REG) {
@@ -136,9 +138,10 @@ void add(Token *param)
         int num = atoi(param->sig->sig->textoToken);
         *regDestino = *regDestino + num;
     }
+    return BIEN;
 }
 
-void sub(Token *param)
+int sub(Token *param)
 {    
     int *regDestino = obtenerRegistro(param->sig->textoToken);
     if (param->sig->sig->tipoParam == REG) {
@@ -148,9 +151,10 @@ void sub(Token *param)
         int num = atoi(param->sig->sig->textoToken);
         *regDestino = *regDestino - num;
     }
+    return BIEN;
 }
 
-void mul(Token *param)
+int mul(Token *param)
 {    
     int *regDestino = obtenerRegistro(param->sig->textoToken);
     if (param->sig->sig->tipoParam == REG) {
@@ -160,32 +164,34 @@ void mul(Token *param)
         int num = atoi(param->sig->sig->textoToken);
         *regDestino = *regDestino * num;
     }
+    return BIEN;
 }
 
-void divR(Token *param)
+int divR(Token *param)
 {    
     int *regDestino = obtenerRegistro(param->sig->textoToken);
     if (param->sig->sig->tipoParam == REG) {
         int *regValor = obtenerRegistro(param->sig->sig->textoToken);
+        if (!(*regValor)) { return DIV_ENTRE_CERO; }
         *regDestino = (int)floor((double)*regDestino / *regValor);
     } else {
         int num = atoi(param->sig->sig->textoToken);
-        if (!num)
-        {
-            /* code */
-        }
         *regDestino = (int)floor((double)*regDestino / num);
     }
+    return BIEN;
 }
 
-void inc(Token *param)
+int inc(Token *param)
 {    
     int *regDestino = obtenerRegistro(param->sig->textoToken);
     *regDestino = *regDestino + 1;
+    return BIEN;
 }
 
-void dec(Token *param)
+int dec(Token *param)
 {    
     int *regDestino = obtenerRegistro(param->sig->textoToken);
     *regDestino = *regDestino - 1;
+    return BIEN;
+
 }
