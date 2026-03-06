@@ -9,7 +9,6 @@ Registros *reg = NULL;
 //gcc main.c -lncurses src/*.c -I./include -lm
 int kbhit(void);
 
-
 int main()
 {
     int i=0, maxY, maxX;
@@ -107,7 +106,6 @@ int main()
         i++;
         napms(16);
     }
-
     delwin(ventanaDatos);
     delwin(ventanaErrores);
     delwin(ventanaComandos);
