@@ -34,17 +34,17 @@ typedef struct {
 } Ejecucion;
 
 /*------------ TIPO DE PARAMETRO  ---------------------------------*/ 
-typedef enum {
+typedef enum tipoParametro{
     INSTR = 1, REG_COM, REG, NUM
-} tipoParametro;
+};
 
 /*------------ COMANDO EN LA TERMINAL  ---------------------------------*/ 
-typedef enum {
+typedef enum comandoTerminal{
     SALIR = 10, EJECUTAR_ARCHIVO
-} comandoTerminal;
+};
 
 /*------------ ERRORES Y ADVERTENCIAS ---------------------------------*/ 
-typedef enum {
+typedef enum errorAdvertencia{
     BIEN = 0,
 /*----- Archivos -----*/ 
     // Errores
@@ -76,7 +76,6 @@ typedef enum {
 /*----- Comandos -----*/ 
     COMANDO_INVALIDO = 500
 
-    //Errores    
-} errorAdvertencia;
+};
 
 #endif
