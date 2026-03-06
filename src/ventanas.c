@@ -22,7 +22,7 @@ WINDOW *crearVentana(int altura, int anchura, int posY, char *nombre)
 {
     WINDOW *ventana = newwin(altura, anchura, posY, 0);
     box(ventana, 0, 0);
-    mvwprintw(ventana, 0, 2, nombre);
+    mvwprintw(ventana, 0, 2, "%s", nombre);
     wrefresh(ventana);
     return ventana;
 }
@@ -51,7 +51,7 @@ void limpiarVentana(WINDOW *ventana, char* nomVentana)
     wmove(ventana, 1, 1);
     wclrtoeol(ventana);
     box(ventana, 0, 0);
-    mvwprintw(ventana, 0, 2, nomVentana);
+    mvwprintw(ventana, 0, 2, "%s", nomVentana);
     int maxY, maxX;
 	getmaxyx(ventana, maxY, maxX);
 
@@ -83,7 +83,7 @@ void impEncabezado(WINDOW *ventana, int maxX)
     char *encabezado[] = {"PC", "IR", "EAX", "EBX", "ECX", "EDX"};
     for (int col = 0; col < 6; col++) {
         int x = 1 + anchCol * col + (anchCol - strlen(encabezado[col])) / 2;
-        mvwprintw(ventana, 2, x, encabezado[col]);
+        mvwprintw(ventana, 2, x, "%s", encabezado[col]);
     }
     wrefresh(ventana);
 }

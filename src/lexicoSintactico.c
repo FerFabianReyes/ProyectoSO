@@ -135,7 +135,6 @@ int verifSintaxis(Archivo *archivo)
                 !strcmp(tempTok->textoToken, "DIV")) 
                 {
                     int res = parserDosParametros(tempTok); 
-                    printf("res: %d ", res);
                     if (res != BIEN) {return res;}
                 }
 
@@ -143,14 +142,12 @@ int verifSintaxis(Archivo *archivo)
                 !strcmp(tempTok->textoToken, "DEC")) 
                 {
                     int res = parserUnParametro(tempTok); 
-                    printf("res: %d ", res);
                     if (res != BIEN) {return res;}
                 }
 
                 if (!strcmp(tempTok->textoToken, "END")) 
                 {
                     if (tempTok->sig) { return PARAMETROS_EXTRA; }
-                    printf("res: 0 ");
                 }
             }
             ren = ren->sig;
