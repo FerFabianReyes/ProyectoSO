@@ -31,17 +31,23 @@ typedef struct {
     Archivo *programa;
     int PC;
     Renglon *IR;
+    int estado;
 } Ejecucion;
 
 /*------------ TIPO DE PARAMETRO  ---------------------------------*/ 
 typedef enum tipoParametro{
     INSTR = 1, REG_COM, REG, NUM
-};
+}tipoParametro;
 
 /*------------ COMANDO EN LA TERMINAL  ---------------------------------*/ 
 typedef enum comandoTerminal{
     SALIR = 10, EJECUTAR_ARCHIVO
-};
+}comandoTerminal;
+
+/*------------ ESTADOS DEL SISTEMA  ---------------------------------*/ 
+typedef enum estadoSistema{
+    EJECUCION = 50, ESPERA,
+}estadoSistema;
 
 /*------------ ERRORES Y ADVERTENCIAS ---------------------------------*/ 
 typedef enum errorAdvertencia{
@@ -75,7 +81,6 @@ typedef enum errorAdvertencia{
 
 /*----- Comandos -----*/ 
     COMANDO_INVALIDO = 500
-
-};
+}errorAdvertencia;
 
 #endif

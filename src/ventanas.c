@@ -86,6 +86,9 @@ void impEncabezado(WINDOW *ventana, int maxX)
 void impInstruccVentana(WINDOW *ventana, int maxX, Ejecucion *ejecucion)
 {
     int anchCol = (maxX - 2) / 6;
+    for (int i = 0; i < maxX-2; i++) {
+        mvwprintw(ventana, 5, i+2, " ");
+    }
     mvwprintw(ventana, 5, 8, " %d", ejecucion->PC);
     mvwprintw(ventana, 5, anchCol+4, " %s", imprimirIR(ejecucion->IR));
     mvwprintw(ventana, 5, anchCol*2+8, " %d", reg->EAX);

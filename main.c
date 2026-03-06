@@ -33,8 +33,15 @@ int main()
 	while(1)
 	{
 		impEncabezado(ventanaDatos, maxX);
-
-		if(kbhit()) { 
+        if (ejecucion->estado == EJECUCION)
+        {
+            if (!ejecucion->IR) { ejecucion->estado = ESPERA; continue; }
+            ejecutarPrograma(ejecucion);
+            impInstruccVentana(ventanaDatos, maxX, ejecucion);
+            ejecucion->IR = ejecucion->IR->sig;
+			napms(2000);
+        } else if (ejecucion->estado == ESPERA) {
+           if(kbhit()) { 
 			int caracter, pos = 0;
 			memset(cad, 0, sizeof(cad));
 			impVentanaComandos(ventanaComandos);
@@ -57,7 +64,7 @@ int main()
 			if (comando == EJECUTAR_ARCHIVO) {
 				liberarEjecucion(ejecucion);
     			archivo = crearArchivo();
-    			ejecucion = NULL;
+                ejecucion = crearEjecucion(archivo);
 			} else { detectarError(ventanaErrores, comando); continue; }
 
             int res = leerArchivo(nomArchivo, archivo);
@@ -70,11 +77,10 @@ int main()
             if (res != BIEN) { detectarError(ventanaErrores, res); continue; }
 
 			ejecucion = crearEjecucion(archivo);
+            ejecucion->estado = EJECUCION;
 			limpiarVentana(ventanaDatos, " Datos ");            
-			impInstruccVentana(ventanaDatos, maxX, ejecucion);
-			napms(500);
-					
-		}     
+		    }     
+        }
         i++;
 	    napms(100);  
 	}

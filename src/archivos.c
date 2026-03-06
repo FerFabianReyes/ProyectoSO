@@ -6,6 +6,7 @@ Ejecucion* crearEjecucion(Archivo *prog)
     nueva->programa = prog;
     nueva->PC = -1;
     nueva->IR = prog->inicio;
+    nueva->estado = ESPERA;
     return nueva;
 }
 

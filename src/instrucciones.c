@@ -76,6 +76,10 @@ void ejecutarPrograma(Ejecucion *ejec)
         ejec->PC++;
         dec(ejec->IR->primerToken);
     }
+
+    if (!strcmp(ejec->IR->primerToken->textoToken, "END")){
+        ejec->PC++;
+    }
 }
 
 char* imprimirIR(Renglon *IR)
@@ -166,6 +170,10 @@ void divR(Token *param)
         *regDestino = (int)floor((double)*regDestino / *regValor);
     } else {
         int num = atoi(param->sig->sig->textoToken);
+        if (!num)
+        {
+            /* code */
+        }
         *regDestino = (int)floor((double)*regDestino / num);
     }
 }

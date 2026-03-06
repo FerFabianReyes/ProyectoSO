@@ -34,7 +34,7 @@ int detectarComando(char cad[])
 {
     if (strcmp(cad, "salir") == 0) { return SALIR; }
     regex_t regex;
-    char *patron = "^ejecuta [^ ]+$";
+    char *patron = "^ejecutar [^ ]+$";
     int resultado;
 
     resultado = regcomp(&regex, patron, REG_EXTENDED);
