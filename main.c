@@ -51,58 +51,33 @@ int main()
 			int comando;
 			limpiarComando(ventanaComandos);
 			comando = detectarComando(cad);
+            char *nomArchivo = sacarNomArchivo(cad);
 
 			if (comando == SALIR) { break; }
 			if (comando == EJECUTAR_ARCHIVO) {
-				char *nomArchivo = sacarNomArchivo(cad);
 				liberarEjecucion(ejecucion);
     			archivo = crearArchivo();
     			ejecucion = NULL;
+			} else { detectarError(ventanaErrores, comando); continue; }
 
-    			int res = leerArchivo(nomArchivo, archivo);
-				if (res == BIEN) {
-					res = tokenizar(archivo);
-					if (res != BIEN) {
-						detectarError(ventanaErrores, res);
-						continue;
-					} else
-					{
-						ejecucion = crearEjecucion(archivo);
-						limpiarVentana(ventanaDatos, " Datos ");
-						impInstruccVentana(ventanaDatos, maxX, ejecucion);
-						/*mvwprintw(ventanaDatos, 1, 1, "no hay error en tokenizar. Error: %d", res);
-        				wrefresh(ventanaDatos);*/
-						napms(500);
-					}
-					
+            int res = leerArchivo(nomArchivo, archivo);
+			if (res != BIEN) { detectarError(ventanaErrores, res); continue; }
 
-					res = verifSintaxis(archivo);
-					if (res != BIEN) {
-						detectarError(ventanaErrores, res);
-						continue;
-					} else
-					{
-						limpiarVentana(ventanaDatos, " Datos ");
-						mvwprintw(ventanaDatos, 1, 1, "no hay error en la sintaxis. Error: %d", res);
-        				wrefresh(ventanaDatos);
-						napms(1000);
-					}
+            res = tokenizar(archivo);
+			if (res != BIEN) { detectarError(ventanaErrores, res); continue; } 
+
+			res = verifSintaxis(archivo); 
+            if (res != BIEN) { detectarError(ventanaErrores, res); continue; }
+
+			ejecucion = crearEjecucion(archivo);
+			limpiarVentana(ventanaDatos, " Datos ");            
+			impInstruccVentana(ventanaDatos, maxX, ejecucion);
+			napms(500);
 					
-					
-					ejecucion = crearEjecucion(archivo);
-				} else {
-					detectarError(ventanaErrores, res);
-					continue;
-				}
-			} else {
-					detectarError(ventanaErrores, comando);
-					continue;
-				}
-		}
-		i++;
-		napms(100);
+		}     
+        i++;
+	    napms(100);  
 	}
-
 	delwin(ventanaDatos);
 	delwin(ventanaErrores);
 	delwin(ventanaComandos);
