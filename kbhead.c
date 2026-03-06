@@ -67,10 +67,12 @@ int main()
 						continue;
 					} else
 					{
+						ejecucion = crearEjecucion(archivo);
 						limpiarVentana(ventanaDatos, " Datos ");
-						mvwprintw(ventanaDatos, 1, 1, "no hay error en tokenizar. Error: %d", res);
-        				wrefresh(ventanaDatos);
-						napms(1000);
+						impInstruccVentana(ventanaDatos, maxX, ejecucion);
+						/*mvwprintw(ventanaDatos, 1, 1, "no hay error en tokenizar. Error: %d", res);
+        				wrefresh(ventanaDatos);*/
+						napms(500);
 					}
 					
 
