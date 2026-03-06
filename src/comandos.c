@@ -4,9 +4,8 @@ void borrarCaracter(WINDOW *ventana, int *pos)
 {
     (*pos)--;
     mvwaddch(ventana, 1, (*pos)+4, ' ');
-	wrefresh(ventana); 
     wmove(ventana, 1, (*pos)+4);
-
+	wrefresh(ventana); 
 }
 
 void imprimirCaracter(WINDOW *ventana, int *pos, char cad[], int caracter)
