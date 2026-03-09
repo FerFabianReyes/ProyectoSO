@@ -29,25 +29,25 @@ int main()
 
     reg = crearRegistro();
     Archivo *archivo = crearArchivo();
-    Ejecucion *ejecucion = crearEjecucion(archivo);
+    Proceso *proceso = crearProceso(archivo);
 
     while(1)
     {
         impEncabezado(ventanaDatos, maxX);
 
-        if (ejecucion->estado == EJECUCION)
+        if (proceso->estado == EJECUCION)
         {
-            if (!ejecucion->IR) { ejecucion->estado = ESPERA; continue; }
+            if (!proceso->IR) { proceso->estado = ESPERA; continue; }
 
-            if (ejecucion->espera < 125) {
-                ejecucion->espera++;
+            if (proceso->espera < 125) {
+                proceso->espera++;
             } else {
-                ejecucion->espera = 0;
-                int res = ejecutarPrograma(ejecucion);
-                if (res != BIEN) { ejecucion->estado = ESPERA; detectarError(ventanaErrores, res); }
+                proceso->espera = 0;
+                int res = ejecutarPrograma(proceso);
+                if (res != BIEN) { proceso->estado = ESPERA; detectarError(ventanaErrores, res); }
                 else {
-                    impInstruccVentana(ventanaDatos, maxX, ejecucion);
-                    ejecucion->IR = ejecucion->IR->sig;
+                    impInstruccVentana(ventanaDatos, maxX, proceso);
+                    proceso->IR = proceso->IR->sig;
                 }
             }
         }
@@ -76,9 +76,9 @@ int main()
 
                 if (comando == SALIR) { break; }
                 if (comando == EJECUTAR_ARCHIVO) {
-                    liberarEjecucion(ejecucion);
+                    liberarProceso(proceso);
                     archivo = crearArchivo();
-                    ejecucion = crearEjecucion(archivo);
+                    proceso = crearProceso(archivo);
                 } else { detectarError(ventanaErrores, comando); }
 
                 if (comando == EJECUTAR_ARCHIVO) {
@@ -91,8 +91,8 @@ int main()
                             res = verifSintaxis(archivo);
                             if (res != BIEN) { detectarError(ventanaErrores, res); }
                             else {
-                                ejecucion = crearEjecucion(archivo);
-                                ejecucion->estado = EJECUCION;
+                                proceso = crearProceso(archivo);
+                                proceso->estado = EJECUCION;
                                 limpiarVentana(ventanaDatos, " Datos ");
                             }
                         }
@@ -109,7 +109,7 @@ int main()
     delwin(ventanaDatos);
     delwin(ventanaErrores);
     delwin(ventanaComandos);
-    liberarEjecucion(ejecucion);
+    liberarProceso(proceso);
     free(reg);
     endwin();
     return 0;

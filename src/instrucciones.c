@@ -25,60 +25,45 @@ void imprimirRenglon(Renglon *renglon)
     }
 }
 
-void imprimirInstrucciones(Archivo *archivo)
+int ejecutarPrograma(Proceso *proceso)
 {
-    Renglon *tempRen = archivo->inicio;
-    int i = 0;
-    printf("\n ____________________\n");
-    printf("|   INSTRUCCIONES   |\n");
-    printf("---------------------\n");
-
-    while (tempRen)
-    {
-        imprimirRenglon(tempRen);
-        tempRen = tempRen->sig;
-    }
-}
-
-int ejecutarPrograma(Ejecucion *ejec)
-{
-    if (!strcmp(ejec->IR->primerToken->textoToken, "MOV")){
-        ejec->PC++;
-       return mov(ejec->IR->primerToken);
+    if (!strcmp(proceso->IR->primerToken->textoToken, "MOV")){
+        proceso->PC++;
+       return mov(proceso->IR->primerToken);
     }
 
-    if (!strcmp(ejec->IR->primerToken->textoToken, "ADD")){
-        ejec->PC++;
-        return add(ejec->IR->primerToken);
+    if (!strcmp(proceso->IR->primerToken->textoToken, "ADD")){
+        proceso->PC++;
+        return add(proceso->IR->primerToken);
     }
 
-    if (!strcmp(ejec->IR->primerToken->textoToken, "SUB")){
-        ejec->PC++;
-        return sub(ejec->IR->primerToken);
+    if (!strcmp(proceso->IR->primerToken->textoToken, "SUB")){
+        proceso->PC++;
+        return sub(proceso->IR->primerToken);
     }
 
-    if (!strcmp(ejec->IR->primerToken->textoToken, "MUL")){
-        ejec->PC++;
-        return mul(ejec->IR->primerToken);
+    if (!strcmp(proceso->IR->primerToken->textoToken, "MUL")){
+        proceso->PC++;
+        return mul(proceso->IR->primerToken);
     }
 
-    if (!strcmp(ejec->IR->primerToken->textoToken, "DIV")){
-        ejec->PC++;
-        return divR(ejec->IR->primerToken);
+    if (!strcmp(proceso->IR->primerToken->textoToken, "DIV")){
+        proceso->PC++;
+        return divR(proceso->IR->primerToken);
     }
 
-    if (!strcmp(ejec->IR->primerToken->textoToken, "INC")){
-        ejec->PC++;
-        return inc(ejec->IR->primerToken);
+    if (!strcmp(proceso->IR->primerToken->textoToken, "INC")){
+        proceso->PC++;
+        return inc(proceso->IR->primerToken);
     }
 
-    if (!strcmp(ejec->IR->primerToken->textoToken, "DEC")){
-        ejec->PC++;
-        return dec(ejec->IR->primerToken);
+    if (!strcmp(proceso->IR->primerToken->textoToken, "DEC")){
+        proceso->PC++;
+        return dec(proceso->IR->primerToken);
     }
 
-    if (!strcmp(ejec->IR->primerToken->textoToken, "END")){
-        ejec->PC++;
+    if (!strcmp(proceso->IR->primerToken->textoToken, "END")){
+        proceso->PC++;
         return BIEN;
     }
 }
@@ -98,12 +83,12 @@ char* imprimirIR(Renglon *IR)
     return cadena;
 }
 
-void imprimirTerminal(Ejecucion *ejec)
+void imprimirTerminal(Proceso *proceso)
 {
     printf("\n_______________________________________________________\n");
     printf("PC\tIR\t\tEAX\tEBX\tECX\tEDX");
     printf("\n--------------------------------------------------------\n");
-    printf("%d\t%s\t%d\t%d\t%d\t%d", ejec->PC, imprimirIR(ejec->IR), reg->EAX,reg->EBX, reg->ECX, reg->EDX);
+    printf("%d\t%s\t%d\t%d\t%d\t%d", proceso->PC, imprimirIR(proceso->IR), reg->EAX,reg->EBX, reg->ECX, reg->EDX);
     printf("\n");
 }
 

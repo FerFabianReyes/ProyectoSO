@@ -33,7 +33,7 @@ typedef struct {
     Renglon *IR;
     int estado;
     int espera;
-} Ejecucion;
+} Proceso;
 
 /*------------ TIPO DE PARAMETRO  ---------------------------------*/ 
 typedef enum tipoParametro{

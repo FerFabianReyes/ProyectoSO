@@ -1,15 +1,15 @@
 #include "prototipos.h"
 
-Ejecucion* crearEjecucion(Archivo *prog)
+Proceso* crearProceso(Archivo *prog)
 {
-    Ejecucion *nueva = malloc(sizeof(Ejecucion));
-    nueva->programa = prog;
-    nueva->PC = -1;
-    nueva->IR = prog->inicio;
-    nueva->estado = ESPERA;
-    nueva->espera = 0;
+    Proceso *nuevo = malloc(sizeof(Proceso));
+    nuevo->programa = prog;
+    nuevo->PC = -1;
+    nuevo->IR = prog->inicio;
+    nuevo->estado = ESPERA;
+    nuevo->espera = 0;
     reg->EAX = 0; reg->EBX = 0; reg->ECX = 0; reg->EDX = 0;
-    return nueva;
+    return nuevo;
 }
 
 Archivo* crearArchivo()
@@ -82,13 +82,13 @@ void liberarArchivo(Archivo *archivo)
     free(archivo); 
 }
 
-void liberarEjecucion(Ejecucion *ejec)
+void liberarProceso(Proceso *proceso)
 {
-    if (!ejec) { return; }
-    liberarArchivo(ejec->programa);
-    ejec->programa = NULL;
-    ejec->IR = NULL;
-    free(ejec);
+    if (!proceso) { return; }
+    liberarArchivo(proceso->programa);
+    proceso->programa = NULL;
+    proceso->IR = NULL;
+    free(proceso);
 }
 
 int leerArchivo(char *nomArchivo, Archivo *archivo)

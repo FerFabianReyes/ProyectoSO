@@ -17,8 +17,8 @@ void agregarRenglon(Archivo *archivo, char *texto);
 int imprimirArchivo(Archivo *archivo);
 void liberarArchivo(Archivo *archivo);
 int leerArchivo(char *nomArchivo, Archivo *archivo);
-Ejecucion* crearEjecucion(Archivo *prog);
-void liberarEjecucion(Ejecucion *ejec);
+Proceso* crearProceso(Archivo *prog);
+void liberarProceso(Proceso *proceso);
 
 /*---------- TOKENS --------------------------------*/
 int tokenizar(Archivo *archivo);
@@ -40,8 +40,8 @@ int espaciosMultiples(char *texto);
 Registros* crearRegistro();
 void imprimirInstrucciones(Archivo *archivo);
 void imprimirRenglon(Renglon *renglon);
-int ejecutarPrograma(Ejecucion *ejec);
-void imprimirTerminal(Ejecucion *ejec);
+int ejecutarPrograma(Proceso *proceso);
+void imprimirTerminal(Proceso *proceso);
 char* imprimirIR(Renglon *IR);
 int *obtenerRegistro(char *registro);
 int mov(Token *param);
@@ -58,9 +58,8 @@ WINDOW *crearVentana(int altura, int anchura, int posY, char *nombre);
 void impVentanaComandos(WINDOW *ventana);
 void limpiarComando(WINDOW *ventana);
 void impEncabezado(WINDOW *ventana, int maxX);
-void impInstruccVentana(WINDOW *ventana, int maxX, Ejecucion *ejecucion);
+void impInstruccVentana(WINDOW *ventana, int maxX, Proceso *proceso);
 void limpiarVentana(WINDOW *ventana, char* nomVentana);
-
 
 
 /*---------- COMANDOS --------------------------------*/
