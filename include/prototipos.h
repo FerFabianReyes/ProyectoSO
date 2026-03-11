@@ -8,6 +8,7 @@
 #include <curses.h>
 #include <sys/select.h>
 #include "estructuras.h"
+#include "enumeraciones.h"
 
 
 /*---------- ARCHIVOS --------------------------------*/
@@ -69,6 +70,13 @@ void leerComando(WINDOW *ventana, int *pos, char cad[], int caracter);
 void borrarCaracter(WINDOW *ventana, int *pos);
 void imprimirCaracter(WINDOW *ventana, int *pos, char cad[], int caracter);
 
+/*---------- LISTAS --------------------------------*/
+Cabecera* crearCabecera();
+Nodo* crearNodo();
+void agregarNodo(Cabecera *cabecera, Nodo *nodo);
+Nodo *sacarNodo(Cabecera *cabecera, int numProceso);
+Nodo *buscarNodo(Cabecera *cabecera, int numProceso);
+void imprimirLista(Cabecera *cabecera);
 
 /* --------- LOG ERRORES ----------------------------*/
 void detectarError(WINDOW *ventana, int error); // Después cambiar a int para ver si hay errores o no

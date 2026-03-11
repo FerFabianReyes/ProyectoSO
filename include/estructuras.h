@@ -35,4 +35,19 @@ typedef struct {
     int espera;
 } Proceso;
 
+typedef struct Nodo {
+    Proceso *proceso;
+    struct Nodo *sig;
+    struct Nodo *ant;
+    int numProceso;
+} Nodo;
+
+typedef struct Cabecera {
+
+    Nodo *inicio;
+    Nodo *final;
+} Cabecera;
+
+extern int nProcesos;
+
 #endif
