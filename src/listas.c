@@ -1,6 +1,5 @@
 #include "prototipos.h"
 #include "estructuras.h"
-Registros *registrosCPU = NULL;
 
 Registros* inicializarRegistrosCPU()
 {
@@ -24,7 +23,6 @@ Nodo* crearNodo(PCB *pcb)
     nuevo->proceso = pcb;
     nuevo->sig = NULL;
     nuevo->ant = NULL;
-    nProcesos++;
     return nuevo;
 }
 
