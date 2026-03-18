@@ -8,6 +8,8 @@ int main()
     Cabecera *listos = crearCabecera();
     Cabecera *ejecuta = crearCabecera();
     Cabecera *terminados = crearCabecera();
+    Registros *registrosCPU = NULL;
+
 
     printf("listos: ");
     imprimirLista(listos);
@@ -21,11 +23,13 @@ int main()
     char *nom = "bien.asm";
     Archivo *arch = crearArchivo();
     leerArchivo(nom, arch);
-    PCB *pcb = crearProceso(arch);
+    PCB *pcb0 = crearProceso(arch);
+    PCB *pcb1 = crearProceso(arch);
+    PCB *pcb2 = crearProceso(arch);
 
-    Nodo *nodo1 = crearNodo(pcb);
-    Nodo *nodo2 = crearNodo(pcb);
-    Nodo *nodo3 = crearNodo(pcb); 
+    Nodo *nodo1 = crearNodo(pcb0);
+    Nodo *nodo2 = crearNodo(pcb1);
+    Nodo *nodo3 = crearNodo(pcb2); 
     Nodo *aux = NULL;
 
     agregarNodo(listos, nodo1);

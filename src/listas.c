@@ -1,5 +1,6 @@
 #include "prototipos.h"
 #include "estructuras.h"
+Registros *registrosCPU = NULL;
 
 Registros* inicializarRegistrosCPU()
 {

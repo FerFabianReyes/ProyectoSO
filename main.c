@@ -4,7 +4,6 @@
 #include <sys/select.h>
 #include "prototipos.h"
 #include "estructuras.h"
-Registros *registrosCPU = NULL;
 
 //gcc main.c -lncurses src/*.c -I./include -lm
 int kbhit(void);
@@ -30,24 +29,29 @@ int main()
     registrosCPU = crearRegistro();
     Archivo *archivo = crearArchivo();
     PCB *proceso = crearProceso(archivo);
+    Cabecera *listos = crearCabecera();
+    Cabecera *ejecuta = crearCabecera();
+    Cabecera *terminados = crearCabecera();
 
     while(1)
     {
         impEncabezado(ventanaDatos, maxX);
 
-        if (proceso->estado == EJECUCION)
+        if (listos->inicio)
         {
-            if (!proceso->IR) { proceso->estado = ESPERA; continue; }
+            if (listos->inicio->proceso->estado == EJECUCION) {
+                if (!proceso->IR) { proceso->estado = ESPERA; continue; }
 
-            if (proceso->espera < 125) {
-                proceso->espera++;
-            } else {
-                proceso->espera = 0;
-                int res = ejecutarPrograma(proceso);
-                if (res != BIEN) { proceso->estado = ESPERA; detectarError(ventanaErrores, res); }
-                else {
-                    impInstruccVentana(ventanaDatos, maxX, proceso);
-                    proceso->IR = proceso->IR->sig;
+                if (proceso->espera < 125) {
+                    proceso->espera++;
+                } else {
+                    proceso->espera = 0;
+                    int res = ejecutarPrograma(proceso);
+                    if (res != BIEN) { proceso->estado = ESPERA; detectarError(ventanaErrores, res); }
+                    else {
+                        impInstruccVentana(ventanaDatos, maxX, proceso);
+                        proceso->IR = proceso->IR->sig;
+                    }
                 }
             }
         }
