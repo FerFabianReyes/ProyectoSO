@@ -4,7 +4,7 @@
 #include <sys/select.h>
 #include "prototipos.h"
 #include "estructuras.h"
-Registros *reg = NULL;
+Registros *registrosCPU = NULL;
 
 //gcc main.c -lncurses src/*.c -I./include -lm
 int kbhit(void);
@@ -27,9 +27,9 @@ int main()
     nodelay(ventanaComandos, TRUE);
     limpiarComando(ventanaComandos);
 
-    reg = crearRegistro();
+    registrosCPU = crearRegistro();
     Archivo *archivo = crearArchivo();
-    Proceso *proceso = crearProceso(archivo);
+    PCB *proceso = crearProceso(archivo);
 
     while(1)
     {
@@ -110,7 +110,7 @@ int main()
     delwin(ventanaErrores);
     delwin(ventanaComandos);
     liberarProceso(proceso);
-    free(reg);
+    free(registrosCPU);
     endwin();
     return 0;
 }

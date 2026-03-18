@@ -18,9 +18,14 @@ int main()
     printf("terminados: ");
     imprimirLista(terminados);
 
-    Nodo *nodo1 = crearNodo();
-    Nodo *nodo2 = crearNodo();
-    Nodo *nodo3 = crearNodo(); 
+    char *nom = "bien.asm";
+    Archivo *arch = crearArchivo();
+    leerArchivo(nom, arch);
+    PCB *pcb = crearProceso(arch);
+
+    Nodo *nodo1 = crearNodo(pcb);
+    Nodo *nodo2 = crearNodo(pcb);
+    Nodo *nodo3 = crearNodo(pcb); 
     Nodo *aux = NULL;
 
     agregarNodo(listos, nodo1);

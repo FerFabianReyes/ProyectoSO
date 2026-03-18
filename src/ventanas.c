@@ -88,7 +88,7 @@ void impEncabezado(WINDOW *ventana, int maxX)
     wrefresh(ventana);
 }
 
-void impInstruccVentana(WINDOW *ventana, int maxX, Proceso *proceso)
+void impInstruccVentana(WINDOW *ventana, int maxX, PCB *proceso)
 {
     int anchCol = (maxX - 2) / 6;
     for (int i = 0; i < maxX-10; i++) {
@@ -96,10 +96,10 @@ void impInstruccVentana(WINDOW *ventana, int maxX, Proceso *proceso)
     }
     mvwprintw(ventana, 5, 8, " %d", proceso->PC);
     mvwprintw(ventana, 5, anchCol+4, " %s", imprimirIR(proceso->IR));
-    mvwprintw(ventana, 5, anchCol*2+8, " %d", reg->EAX);
-    mvwprintw(ventana, 5, anchCol*3+8, " %d", reg->EBX);
-    mvwprintw(ventana, 5, anchCol*4+8, " %d", reg->ECX);
-    mvwprintw(ventana, 5, anchCol*5+8, " %d", reg->EDX);
+    mvwprintw(ventana, 5, anchCol*2+8, " %d", registrosCPU->EAX);
+    mvwprintw(ventana, 5, anchCol*3+8, " %d", registrosCPU->EBX);
+    mvwprintw(ventana, 5, anchCol*4+8, " %d", registrosCPU->ECX);
+    mvwprintw(ventana, 5, anchCol*5+8, " %d", registrosCPU->EDX);
     wrefresh(ventana);
 
 }

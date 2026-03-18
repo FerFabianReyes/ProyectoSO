@@ -1,14 +1,16 @@
 #include "prototipos.h"
 
-Proceso* crearProceso(Archivo *prog)
+PCB* crearProceso(Archivo *prog)
 {
-    Proceso *nuevo = malloc(sizeof(Proceso));
+    PCB *nuevo = malloc(sizeof(PCB));
     nuevo->programa = prog;
     nuevo->PC = -1;
     nuevo->IR = prog->inicio;
     nuevo->estado = ESPERA;
     nuevo->espera = 0;
-    reg->EAX = 0; reg->EBX = 0; reg->ECX = 0; reg->EDX = 0;
+    nuevo->regContex->EAX = 0; nuevo->regContex->EBX = 0;
+    nuevo->regContex->ECX = 0; nuevo->regContex->EDX = 0;
+    nuevo->pid = nProcesos; nProcesos++;
     return nuevo;
 }
 
@@ -82,7 +84,7 @@ void liberarArchivo(Archivo *archivo)
     free(archivo); 
 }
 
-void liberarProceso(Proceso *proceso)
+void liberarProceso(PCB *proceso)
 {
     if (!proceso) { return; }
     liberarArchivo(proceso->programa);

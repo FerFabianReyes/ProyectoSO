@@ -25,7 +25,7 @@ void imprimirRenglon(Renglon *renglon)
     }
 }
 
-int ejecutarPrograma(Proceso *proceso)
+int ejecutarPrograma(PCB *proceso)
 {
     if (!strcmp(proceso->IR->primerToken->textoToken, "MOV")){
         proceso->PC++;
@@ -83,21 +83,21 @@ char* imprimirIR(Renglon *IR)
     return cadena;
 }
 
-void imprimirTerminal(Proceso *proceso)
+void imprimirTerminal(PCB *proceso)
 {
     printf("\n_______________________________________________________\n");
     printf("PC\tIR\t\tEAX\tEBX\tECX\tEDX");
     printf("\n--------------------------------------------------------\n");
-    printf("%d\t%s\t%d\t%d\t%d\t%d", proceso->PC, imprimirIR(proceso->IR), reg->EAX,reg->EBX, reg->ECX, reg->EDX);
+    printf("%d\t%s\t%d\t%d\t%d\t%d", proceso->PC, imprimirIR(proceso->IR), registrosCPU->EAX,registrosCPU->EBX, registrosCPU->ECX, registrosCPU->EDX);
     printf("\n");
 }
 
 int *obtenerRegistro(char *registro)
 {
-    if (!strcmp(registro, "EAX")) { return &reg->EAX; }
-    if (!strcmp(registro, "EBX")) { return &reg->EBX; }
-    if (!strcmp(registro, "ECX")) { return &reg->ECX; }
-    if (!strcmp(registro, "EDX")) { return &reg->EDX; }    
+    if (!strcmp(registro, "EAX")) { return &registrosCPU->EAX; }
+    if (!strcmp(registro, "EBX")) { return &registrosCPU->EBX; }
+    if (!strcmp(registro, "ECX")) { return &registrosCPU->ECX; }
+    if (!strcmp(registro, "EDX")) { return &registrosCPU->EDX; }    
 }
 
 int mov(Token *param)

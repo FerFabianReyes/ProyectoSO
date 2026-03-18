@@ -10,7 +10,6 @@
 #include "estructuras.h"
 #include "enumeraciones.h"
 
-
 /*---------- ARCHIVOS --------------------------------*/
 Archivo* crearArchivo();
 Renglon* crearRenglon(char *texto);
@@ -18,8 +17,8 @@ void agregarRenglon(Archivo *archivo, char *texto);
 int imprimirArchivo(Archivo *archivo);
 void liberarArchivo(Archivo *archivo);
 int leerArchivo(char *nomArchivo, Archivo *archivo);
-Proceso* crearProceso(Archivo *prog);
-void liberarProceso(Proceso *proceso);
+PCB* crearProceso(Archivo *prog);
+void liberarProceso(PCB *proceso);
 
 /*---------- TOKENS --------------------------------*/
 int tokenizar(Archivo *archivo);
@@ -41,8 +40,8 @@ int espaciosMultiples(char *texto);
 Registros* crearRegistro();
 void imprimirInstrucciones(Archivo *archivo);
 void imprimirRenglon(Renglon *renglon);
-int ejecutarPrograma(Proceso *proceso);
-void imprimirTerminal(Proceso *proceso);
+int ejecutarPrograma(PCB *proceso);
+void imprimirTerminal(PCB *proceso);
 char* imprimirIR(Renglon *IR);
 int *obtenerRegistro(char *registro);
 int mov(Token *param);
@@ -59,7 +58,7 @@ WINDOW *crearVentana(int altura, int anchura, int posY, char *nombre);
 void impVentanaComandos(WINDOW *ventana);
 void limpiarComando(WINDOW *ventana);
 void impEncabezado(WINDOW *ventana, int maxX);
-void impInstruccVentana(WINDOW *ventana, int maxX, Proceso *proceso);
+void impInstruccVentana(WINDOW *ventana, int maxX, PCB *proceso);
 void limpiarVentana(WINDOW *ventana, char* nomVentana);
 
 
@@ -72,13 +71,13 @@ void imprimirCaracter(WINDOW *ventana, int *pos, char cad[], int caracter);
 
 /*---------- LISTAS --------------------------------*/
 Cabecera* crearCabecera();
-Nodo* crearNodo();
+Nodo* crearNodo(PCB *pcb);
 void agregarNodo(Cabecera *cabecera, Nodo *nodo);
-Nodo *sacarNodo(Cabecera *cabecera, int numProceso);
-Nodo *buscarNodo(Cabecera *cabecera, int numProceso);
+Nodo *sacarNodo(Cabecera *cabecera, int pid);
+Nodo *buscarNodo(Cabecera *cabecera, int pid);
 void imprimirLista(Cabecera *cabecera);
 
 /* --------- LOG ERRORES ----------------------------*/
-void detectarError(WINDOW *ventana, int error); // Después cambiar a int para ver si hay errores o no
+void detectarError(WINDOW *ventana, int error); 
 
 #endif

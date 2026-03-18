@@ -1,6 +1,14 @@
 #include "prototipos.h"
 #include "estructuras.h"
 
+Registros* inicializarRegistrosCPU()
+{
+    Registros *reg = malloc(sizeof(Registros));
+    reg->EAX = 0; reg->EBX = 0;  
+    reg->ECX = 0; reg->EDX = 0;
+    return reg;
+}
+
 Cabecera* crearCabecera()
 {
     Cabecera *nueva = malloc(sizeof(Cabecera));
@@ -9,13 +17,12 @@ Cabecera* crearCabecera()
     return nueva;
 }
 
-Nodo* crearNodo()
+Nodo* crearNodo(PCB *pcb)
 {
     Nodo *nuevo = malloc(sizeof(Nodo));
-    nuevo->proceso = NULL;
+    nuevo->proceso = pcb;
     nuevo->sig = NULL;
     nuevo->ant = NULL;
-    nuevo->numProceso = nProcesos;
     nProcesos++;
     return nuevo;
 }
@@ -34,11 +41,11 @@ void agregarNodo(Cabecera *cabecera, Nodo *nodo)
     }
 }
 
-Nodo *sacarNodo(Cabecera *cabecera, int numProceso)
+Nodo *sacarNodo(Cabecera *cabecera, int pid)
 {
     if (!cabecera->inicio) { return NULL; }
     
-    Nodo *sacar = buscarNodo(cabecera, numProceso);
+    Nodo *sacar = buscarNodo(cabecera, pid);
     
     if (!sacar) { return NULL; }
     
@@ -63,14 +70,14 @@ Nodo *sacarNodo(Cabecera *cabecera, int numProceso)
     return sacar;
 }
 
-Nodo *buscarNodo(Cabecera *cabecera, int numProceso)
+Nodo *buscarNodo(Cabecera *cabecera, int pid)
 {   
     if (!cabecera->inicio) { return NULL; }
     
     Nodo *actual = cabecera->inicio;
     while (actual)
     {
-        if (numProceso == actual->numProceso) {
+        if (pid == actual->proceso->pid) {
             return actual;
         }
         actual = actual->sig;
@@ -83,7 +90,7 @@ void imprimirLista(Cabecera *cabecera)
     Nodo *actual = cabecera->inicio;
     while (actual)
     {
-        printf("[%d]", actual->numProceso);
+        printf("[%d]", actual->proceso->pid);
         if (actual->sig) {
             printf(" -> ");
         }

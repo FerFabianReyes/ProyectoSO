@@ -25,29 +25,28 @@ typedef struct {
     int ECX;    int EDX;
 }Registros;
 
-extern Registros *reg;
+extern Registros *registrosCPU;
 
 typedef struct {
     Archivo *programa;
     int PC;
     Renglon *IR;
+    Registros *regContex;
+    int pid;
     int estado;
     int espera;
-} Proceso;
+} PCB;
 
 typedef struct Nodo {
-    Proceso *proceso;
+    PCB *proceso;
     struct Nodo *sig;
     struct Nodo *ant;
-    int numProceso;
 } Nodo;
 
 typedef struct Cabecera {
-
     Nodo *inicio;
     Nodo *final;
 } Cabecera;
-
 extern int nProcesos;
 
 #endif
