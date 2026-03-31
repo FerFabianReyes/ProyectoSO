@@ -8,7 +8,7 @@ PCB* crearProceso(Archivo *prog)
     nuevo->IR = prog->inicio;
     nuevo->estado = NUEVO;
     nuevo->espera = 0;
-
+    nuevo->nomArchivo = NULL;
     nuevo->regContex = malloc(sizeof(Registros));
     nuevo->regContex->EAX = 0; nuevo->regContex->EBX = 0;
     nuevo->regContex->ECX = 0; nuevo->regContex->EDX = 0;

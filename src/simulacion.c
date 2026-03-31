@@ -57,6 +57,7 @@ int procesarComando(char *cad, Cabecera *listos, Ventanas *vent)
     if (res != BIEN) { return res; }
 
     PCB *proceso = crearProceso(archivo);
+    proceso->nomArchivo = nomArchivo;
     Nodo *proc = crearNodo(proceso);
     agregarNodo(listos, proc);
     return BIEN;

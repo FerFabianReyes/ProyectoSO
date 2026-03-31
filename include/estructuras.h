@@ -29,6 +29,7 @@ extern Registros *registrosCPU;
 
 typedef struct {
     Archivo *programa;
+    char *nomArchivo;
     int PC;
     Renglon *IR;
     Registros *regContex;
