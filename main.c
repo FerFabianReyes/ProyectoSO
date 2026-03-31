@@ -38,11 +38,7 @@ int main()
             if (caracter == ERR) { napms(100); continue; }
 
             if (!leyendo) {
-                leyendo = 1;
-                pos = 0;
-                memset(cad, 0, sizeof(cad));
-                impVentanaComandos(ventanas->comandos);
-                curs_set(1);
+                iniciarLectura(ventanas, &pos, cad, &leyendo, sizeof(cad));
             }
 
             if (caracter == '\n' || caracter == '\r') {

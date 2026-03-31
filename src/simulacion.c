@@ -31,10 +31,10 @@ void ejecutar(PCB *proceso, Ventanas *ventanas)
 
 }
 
-void iniciarLectura(Ventanas *ventanas, int *pos, char *cad, int *leyendo)
+void iniciarLectura(Ventanas *ventanas, int *pos, char *cad, int *leyendo, int tamCad)
 {
-    *leyendo = 1; pos = 0;
-    memset(cad, 0, sizeof(cad));
+    *leyendo = 1; *pos = 0;
+    memset(cad, 0, tamCad);
     impVentanaComandos(ventanas->comandos);
     curs_set(1);
 }
