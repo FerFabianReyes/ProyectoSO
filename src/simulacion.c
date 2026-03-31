@@ -41,42 +41,60 @@ void iniciarLectura(Ventanas *ventanas, int *pos, char *cad, int *leyendo, int t
     curs_set(1);
 }
 
-int procesarComando(char *cad, PCB **proceso, Archivo **archivo, Ventanas *vent)
+int procesarComando(char *cad, Cabecera *listos, Ventanas *vent)
 {
     limpiarVentana(vent->errores, " Errores ");
     limpiarComando(vent->comandos);
     int comando = detectarComando(cad);
-    char *nomArchivo = sacarNomArchivo(cad);
 
     if (comando == SALIR) { return SALIR; }
     if (comando != EJECUTAR_ARCHIVO) { detectarError(vent->errores, comando); return comando; }
 
-    liberarProceso(*proceso);
-    *archivo = crearArchivo();
-    *proceso = crearProceso(*archivo);
+    Archivo *archivo = crearArchivo();
+    char *nomArchivo = sacarNomArchivo(cad);
 
-    int res = leerArchivo(nomArchivo, *archivo);
+    int res = leerArchivo(nomArchivo, archivo);
     if (res != BIEN) { return res; }
 
-    res = tokenizar(*archivo);
-    if (res != BIEN) { return res; }
-
-    res = verifSintaxis(*archivo);
-    if (res != BIEN) { return res; }
-
-    *proceso = crearProceso(*archivo);
-    (*proceso)->estado = EJECUCION;
-    limpiarVentana(vent->datos, " Datos ");
+    PCB *proceso = crearProceso(archivo);
+    Nodo *proc = crearNodo(proceso);
+    agregarNodo(listos, proc);
     return BIEN;
 }
 
-void liberarInterfaz(Ventanas *ven, PCB *proceso)
+int revisarArchivo(PCB *proceso)
+{
+    int res;
+    res = tokenizar(proceso->programa);
+    if (res != BIEN) { return res; }
+
+    res = verifSintaxis(proceso->programa);
+    if (res != BIEN) { return res; }
+    return BIEN;
+}
+
+void dispatch(Cabecera *listos, Cabecera *ejecuta, Ventanas *vent)
+{
+    Nodo *nodo = desencolarNodo(listos);
+    
+    if (nodo->proceso->estado == NUEVO) {
+        int res = revisarArchivo(nodo->proceso);
+        if (res != BIEN) {
+            detectarError(vent->errores, res);
+            free(nodo);
+            return;
+        }
+    }
+    nodo->proceso->estado = EJECUCION;
+    agregarNodo(ejecuta, nodo);
+}
+
+void liberarInterfaz(Ventanas *ven)
 {
     delwin(ven->datos);
     delwin(ven->errores);
     delwin(ven->comandos);
     delwin(ven->contexto);
-    liberarProceso(proceso);
     free(registrosCPU);
     endwin();
 }

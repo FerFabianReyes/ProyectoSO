@@ -13,7 +13,7 @@ typedef enum comandoTerminal{
 
 /*------------ ESTADOS DEL SISTEMA  ---------------------------------*/ 
 typedef enum estadoSistema{
-    EJECUCION = 50, ESPERA,
+    EJECUCION = 50, NUEVO, ESPERA, TERMINADO,
 }estadoSistema;
 
 /*------------ ERRORES Y ADVERTENCIAS ---------------------------------*/ 

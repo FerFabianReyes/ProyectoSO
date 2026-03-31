@@ -18,22 +18,14 @@ int main()
     Ventanas *ventanas = inicializarInterfaz();
 
     registrosCPU = crearRegistro();
-    Archivo *archivo = crearArchivo();
-    PCB *proceso = crearProceso(archivo);
     Cabecera *listos = crearCabecera();
     Cabecera *ejecuta = crearCabecera();
     Cabecera *terminados = crearCabecera();
 
-    while(1)
+   while(1)
     {
         impEncabezado(ventanas->datos, ventanas->maxX);
         impContextoEncabezado(ventanas->contexto, ventanas->maxX);
-
-
-        if (proceso->estado == EJECUCION) {
-            if (!proceso->IR) { proceso->estado = ESPERA; continue; }
-            ejecutar(proceso, ventanas);
-        }
 
         if (kbhit()) {
             int caracter = wgetch(ventanas->comandos);
@@ -46,7 +38,7 @@ int main()
             if (caracter == '\n' || caracter == '\r') {
                 cad[pos] = '\0'; leyendo = 0;
                 curs_set(0);
-                int res = procesarComando(cad, &proceso, &archivo, ventanas);
+                int res = procesarComando(cad, listos, ventanas);
                 if (res == SALIR) { break; }
                 if (res != BIEN) { detectarError(ventanas->errores, res); }
             } else {
@@ -54,9 +46,30 @@ int main()
             }
         }
 
+        if (!ejecuta->inicio && listos->inicio) { 
+           dispatch(listos, ejecuta, ventanas);
+            limpiarVentana(ventanas->datos, " Datos ");
+        }
+
+        if (ejecuta->inicio) {
+            PCB *proc = ejecuta->inicio->proceso;
+            if (proc->estado == EJECUCION) {
+                if (!proc->IR) {
+                    proc->estado = TERMINADO;
+                    Nodo *nodo = desencolarNodo(ejecuta);
+                    agregarNodo(terminados, nodo);
+                    continue;
+                }
+                ejecutar(proc, ventanas);
+            }
+            if (proc->estado == ESPERA) {
+                Nodo *nodo = desencolarNodo(ejecuta);
+                agregarNodo(terminados, nodo);
+            }
+        }
         i++;
         napms(16);
     }
-    liberarInterfaz(ventanas, proceso);
+    liberarInterfaz(ventanas);
     return 0;
 }

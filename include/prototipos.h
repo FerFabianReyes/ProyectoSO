@@ -77,13 +77,17 @@ void agregarNodo(Cabecera *cabecera, Nodo *nodo);
 Nodo *sacarNodo(Cabecera *cabecera, int pid);
 Nodo *buscarNodo(Cabecera *cabecera, int pid);
 void imprimirLista(Cabecera *cabecera);
+Nodo *desencolarNodo(Cabecera *cab);
 
-/*---------- LISTAS --------------------------------*/
+/*---------- SIMULACIÓN --------------------------------*/
 Ventanas *inicializarInterfaz();
 void ejecutar(PCB *proceso, Ventanas *ventanas);
 void iniciarLectura(Ventanas *ventanas, int *pos, char *cad, int *leyendo, int tamCad);
-int procesarComando(char *cad, PCB **proceso, Archivo **archivo, Ventanas *vent);
-void liberarInterfaz(Ventanas *ven, PCB *proceso);
+int procesarComando(char *cad, Cabecera *listos, Ventanas *vent);
+void liberarInterfaz(Ventanas *ven);
+void dispatch(Cabecera *listos, Cabecera *ejecuta, Ventanas *vent);
+int revisarArchivo(PCB *proceso);
+
 
 /* --------- LOG ERRORES ----------------------------*/
 void detectarError(WINDOW *ventana, int error); 

@@ -69,6 +69,19 @@ Nodo *sacarNodo(Cabecera *cabecera, int pid)
     return sacar;
 }
 
+Nodo *desencolarNodo(Cabecera *cab)
+{
+    if (!cab->inicio) { return NULL; }
+    Nodo *sacar = cab->inicio;
+    cab->inicio = cab->inicio->sig;
+
+    if (cab->inicio) { cab->inicio->ant = NULL; }
+    else { cab->final = NULL; } 
+    sacar->sig = NULL;
+    sacar->ant = NULL;
+    return sacar;
+}
+
 Nodo *buscarNodo(Cabecera *cabecera, int pid)
 {   
     if (!cabecera->inicio) { return NULL; }
