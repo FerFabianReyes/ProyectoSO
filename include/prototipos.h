@@ -79,6 +79,7 @@ void imprimirLista(Cabecera *cabecera);
 
 /*---------- LISTAS --------------------------------*/
 Ventanas *inicializarInterfaz();
+void ejecutar(PCB *proceso, Ventanas *ventanas);
 
 /* --------- LOG ERRORES ----------------------------*/
 void detectarError(WINDOW *ventana, int error); 

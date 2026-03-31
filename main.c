@@ -30,20 +30,8 @@ int main()
 
         if (proceso->estado == EJECUCION) {
             if (!proceso->IR) { proceso->estado = ESPERA; continue; }
-
-            if (proceso->espera < 125) {
-                proceso->espera++;
-            } else {
-                proceso->espera = 0;
-                int res = ejecutarPrograma(proceso);
-                if (res != BIEN) { proceso->estado = ESPERA; detectarError(ventanas->errores, res); }
-                else {
-                    impInstruccVentana(ventanas->datos, ventanas->maxX, proceso);
-                    proceso->IR = proceso->IR->sig;
-                }
-            }
+            ejecutar(proceso, ventanas);
         }
- 
 
         if (kbhit()) {
             int caracter = wgetch(ventanas->comandos);
