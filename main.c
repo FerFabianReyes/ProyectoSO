@@ -55,11 +55,6 @@ int main()
         i++;
         napms(16);
     }
-    delwin(ventanas->datos);
-    delwin(ventanas->errores);
-    delwin(ventanas->comandos);
-    liberarProceso(proceso);
-    free(registrosCPU);
-    endwin();
+    liberarInterfaz(ventanas, proceso);
     return 0;
 }

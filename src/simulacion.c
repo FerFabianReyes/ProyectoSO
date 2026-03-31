@@ -67,3 +67,13 @@ int procesarComando(char *cad, PCB **proceso, Archivo **archivo, Ventanas *vent)
     limpiarVentana(vent->datos, " Datos ");
     return BIEN;
 }
+
+void liberarInterfaz(Ventanas *ven, PCB *proceso)
+{
+    delwin(ven->datos);
+    delwin(ven->errores);
+    delwin(ven->comandos);
+    liberarProceso(proceso);
+    free(registrosCPU);
+    endwin();
+}
