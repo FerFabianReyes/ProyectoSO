@@ -55,6 +55,7 @@ typedef struct
     WINDOW *datos;
     WINDOW *errores;
     WINDOW *comandos;
+    WINDOW *contexto;
     int maxY, maxX;
 } Ventanas;
 

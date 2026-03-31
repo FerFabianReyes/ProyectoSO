@@ -60,6 +60,7 @@ void limpiarComando(WINDOW *ventana);
 void impEncabezado(WINDOW *ventana, int maxX);
 void impInstruccVentana(WINDOW *ventana, int maxX, PCB *proceso);
 void limpiarVentana(WINDOW *ventana, char* nomVentana);
+void impContextoEncabezado(WINDOW *ventana, int maxX);
 
 
 /*---------- COMANDOS --------------------------------*/

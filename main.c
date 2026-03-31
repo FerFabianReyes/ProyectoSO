@@ -27,6 +27,8 @@ int main()
     while(1)
     {
         impEncabezado(ventanas->datos, ventanas->maxX);
+        impContextoEncabezado(ventanas->contexto, ventanas->maxX);
+
 
         if (proceso->estado == EJECUCION) {
             if (!proceso->IR) { proceso->estado = ESPERA; continue; }

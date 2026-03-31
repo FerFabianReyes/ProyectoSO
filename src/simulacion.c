@@ -7,9 +7,11 @@ Ventanas *inicializarInterfaz()
     keypad(stdscr, TRUE);
     getmaxyx(stdscr, ven->maxY, ven->maxX);
 
-    ven->datos = crearVentana(ven->maxY*3/5, ven->maxX, 0, " Datos ");
-    ven->errores = crearVentana(ven->maxY/5, ven->maxX, ven->maxY*3/5, " Errores ");
-    ven->comandos = crearVentana(ven->maxY/5, ven->maxX, ven->maxY*4/5, " Comandos ");
+    ven->datos    = crearVentana(ven->maxY * 30 / 100, ven->maxX, 0, " Datos ");
+    ven->contexto = crearVentana(ven->maxY * 40 / 100, ven->maxX, ven->maxY * 30 / 100, " Contexto ");
+    ven->errores  = crearVentana(ven->maxY - 4 - ven->maxY * 70 / 100, ven->maxX, ven->maxY * 70 / 100, " Errores ");
+    ven->comandos = crearVentana(4, ven->maxX, ven->maxY - 4," Comandos ");
+
     nodelay(ven->comandos, TRUE);
     limpiarComando(ven->comandos);
     return ven;
@@ -73,6 +75,7 @@ void liberarInterfaz(Ventanas *ven, PCB *proceso)
     delwin(ven->datos);
     delwin(ven->errores);
     delwin(ven->comandos);
+    delwin(ven->contexto);
     liberarProceso(proceso);
     free(registrosCPU);
     endwin();

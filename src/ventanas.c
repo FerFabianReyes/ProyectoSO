@@ -103,3 +103,38 @@ void impInstruccVentana(WINDOW *ventana, int maxX, PCB *proceso)
     wrefresh(ventana);
 
 }
+
+void impContextoEncabezado(WINDOW *ventana, int maxX)
+{
+    mvwhline(ventana, 1, 1, ACS_HLINE, maxX - 2);
+    mvwhline(ventana, 3, 1, ACS_HLINE, maxX - 2);
+
+    mvwaddch(ventana, 1, 1,        ACS_ULCORNER);
+    mvwaddch(ventana, 1, maxX - 2, ACS_URCORNER);
+    mvwaddch(ventana, 3, 1,        ACS_LLCORNER);
+    mvwaddch(ventana, 3, maxX - 2, ACS_LRCORNER);
+
+    int anchCol = (maxX - 2) / 6;
+
+    for (int col = 1; col <= 3; col++) {
+        int x = 1 + anchCol * col;
+        mvwaddch(ventana, 1, x, ACS_TTEE);
+        mvwaddch(ventana, 2, x, ACS_VLINE);
+        mvwaddch(ventana, 3, x, ACS_BTEE);
+    }
+
+    char *encabezado[] = {"PID", "Nombre", "Estado", "PC", "IR", "EAX", "EBX", "ECX", "EDX"};
+    for (int col = 0; col < 3; col++) {
+        int x = 1 + anchCol * col + (anchCol - strlen(encabezado[col])) / 2;
+        mvwprintw(ventana, 2, x, "%s", encabezado[col]);
+    }
+
+    int xContexto = 1 + anchCol * 3;
+    int anchReg = anchCol * 3 / 6;
+    for (int col = 0; col < 6; col++) {
+        int x = xContexto + anchReg * col + (anchReg - strlen(encabezado[3 + col])) / 2;
+        mvwprintw(ventana, 2, x, "%s", encabezado[3 + col]);
+    }
+
+    wrefresh(ventana);
+}
