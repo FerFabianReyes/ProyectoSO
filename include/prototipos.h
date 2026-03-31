@@ -77,6 +77,9 @@ Nodo *sacarNodo(Cabecera *cabecera, int pid);
 Nodo *buscarNodo(Cabecera *cabecera, int pid);
 void imprimirLista(Cabecera *cabecera);
 
+/*---------- LISTAS --------------------------------*/
+Ventanas *inicializarInterfaz();
+
 /* --------- LOG ERRORES ----------------------------*/
 void detectarError(WINDOW *ventana, int error); 
 

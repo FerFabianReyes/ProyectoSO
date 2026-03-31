@@ -47,6 +47,16 @@ typedef struct Cabecera {
     Nodo *inicio;
     Nodo *final;
 } Cabecera;
+
 extern int nProcesos;
+
+typedef struct
+{
+    WINDOW *datos;
+    WINDOW *errores;
+    WINDOW *comandos;
+    int maxY, maxX;
+} Ventanas;
+
 
 #endif

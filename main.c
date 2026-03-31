@@ -12,21 +12,10 @@ int kbhit(void);
 
 int main()
 {
-    int i=0, maxY, maxX;
+    int i=0, pos = 0, leyendo = 0;
     char cad[50];
-    int pos = 0;
-    int leyendo = 0;
     memset(cad, 0, sizeof(cad));
-
-    initscr(); cbreak(); noecho();
-    keypad(stdscr, TRUE);
-    getmaxyx(stdscr, maxY, maxX);
-
-    WINDOW *ventanaDatos = crearVentana(maxY*3/5, maxX, 0, " Datos ");
-    WINDOW *ventanaErrores = crearVentana(maxY/5, maxX, maxY*3/5, " Errores ");
-    WINDOW *ventanaComandos = crearVentana(maxY/5, maxX, maxY*4/5, " Comandos ");
-    nodelay(ventanaComandos, TRUE);
-    limpiarComando(ventanaComandos);
+    Ventanas *ventanas = inicializarInterfaz();
 
     registrosCPU = crearRegistro();
     Archivo *archivo = crearArchivo();
@@ -37,7 +26,7 @@ int main()
 
     while(1)
     {
-        impEncabezado(ventanaDatos, maxX);
+        impEncabezado(ventanas->datos, ventanas->maxX);
 
         if (proceso->estado == EJECUCION) {
             if (!proceso->IR) { proceso->estado = ESPERA; continue; }
@@ -47,9 +36,9 @@ int main()
             } else {
                 proceso->espera = 0;
                 int res = ejecutarPrograma(proceso);
-                if (res != BIEN) { proceso->estado = ESPERA; detectarError(ventanaErrores, res); }
+                if (res != BIEN) { proceso->estado = ESPERA; detectarError(ventanas->errores, res); }
                 else {
-                    impInstruccVentana(ventanaDatos, maxX, proceso);
+                    impInstruccVentana(ventanas->datos, ventanas->maxX, proceso);
                     proceso->IR = proceso->IR->sig;
                 }
             }
@@ -57,14 +46,14 @@ int main()
  
 
         if (kbhit()) {
-            int caracter = wgetch(ventanaComandos);
+            int caracter = wgetch(ventanas->comandos);
             if (caracter == ERR) { napms(100); continue; }
 
             if (!leyendo) {
                 leyendo = 1;
                 pos = 0;
                 memset(cad, 0, sizeof(cad));
-                impVentanaComandos(ventanaComandos);
+                impVentanaComandos(ventanas->comandos);
                 curs_set(1);
             }
 
@@ -73,8 +62,8 @@ int main()
                 leyendo = 0;
                 curs_set(0);
 
-                limpiarVentana(ventanaErrores, " Errores ");
-                limpiarComando(ventanaComandos);
+                limpiarVentana(ventanas->errores, " Errores ");
+                limpiarComando(ventanas->comandos);
                 int comando = detectarComando(cad);
                 char *nomArchivo = sacarNomArchivo(cad);
 
@@ -83,36 +72,36 @@ int main()
                     liberarProceso(proceso);
                     archivo = crearArchivo();
                     proceso = crearProceso(archivo);
-                } else { detectarError(ventanaErrores, comando); }
+                } else { detectarError(ventanas->errores, comando); }
 
                 if (comando == EJECUTAR_ARCHIVO) {
                     int res = leerArchivo(nomArchivo, archivo);
-                    if (res != BIEN) { detectarError(ventanaErrores, res); }
+                    if (res != BIEN) { detectarError(ventanas->errores, res); }
                     else {
                         res = tokenizar(archivo);
-                        if (res != BIEN) { detectarError(ventanaErrores, res); }
+                        if (res != BIEN) { detectarError(ventanas->errores, res); }
                         else {
                             res = verifSintaxis(archivo);
-                            if (res != BIEN) { detectarError(ventanaErrores, res); }
+                            if (res != BIEN) { detectarError(ventanas->errores, res); }
                             else {
                                 proceso = crearProceso(archivo);
                                 proceso->estado = EJECUCION;
-                                limpiarVentana(ventanaDatos, " Datos ");
+                                limpiarVentana(ventanas->datos, " Datos ");
                             }
                         }
                     }
                 }
             } else {
-                leerComando(ventanaComandos, &pos, cad, caracter);
+                leerComando(ventanas->comandos, &pos, cad, caracter);
             }
         }
 
         i++;
         napms(16);
     }
-    delwin(ventanaDatos);
-    delwin(ventanaErrores);
-    delwin(ventanaComandos);
+    delwin(ventanas->datos);
+    delwin(ventanas->errores);
+    delwin(ventanas->comandos);
     liberarProceso(proceso);
     free(registrosCPU);
     endwin();
