@@ -42,39 +42,11 @@ int main()
             }
 
             if (caracter == '\n' || caracter == '\r') {
-                cad[pos] = '\0';
-                leyendo = 0;
+                cad[pos] = '\0'; leyendo = 0;
                 curs_set(0);
-
-                limpiarVentana(ventanas->errores, " Errores ");
-                limpiarComando(ventanas->comandos);
-                int comando = detectarComando(cad);
-                char *nomArchivo = sacarNomArchivo(cad);
-
-                if (comando == SALIR) { break; }
-                if (comando == EJECUTAR_ARCHIVO) {
-                    liberarProceso(proceso);
-                    archivo = crearArchivo();
-                    proceso = crearProceso(archivo);
-                } else { detectarError(ventanas->errores, comando); }
-
-                if (comando == EJECUTAR_ARCHIVO) {
-                    int res = leerArchivo(nomArchivo, archivo);
-                    if (res != BIEN) { detectarError(ventanas->errores, res); }
-                    else {
-                        res = tokenizar(archivo);
-                        if (res != BIEN) { detectarError(ventanas->errores, res); }
-                        else {
-                            res = verifSintaxis(archivo);
-                            if (res != BIEN) { detectarError(ventanas->errores, res); }
-                            else {
-                                proceso = crearProceso(archivo);
-                                proceso->estado = EJECUCION;
-                                limpiarVentana(ventanas->datos, " Datos ");
-                            }
-                        }
-                    }
-                }
+                int res = procesarComando(cad, &proceso, &archivo, ventanas);
+                if (res == SALIR) { break; }
+                if (res != BIEN) { detectarError(ventanas->errores, res); }
             } else {
                 leerComando(ventanas->comandos, &pos, cad, caracter);
             }

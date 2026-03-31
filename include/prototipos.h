@@ -81,6 +81,7 @@ void imprimirLista(Cabecera *cabecera);
 Ventanas *inicializarInterfaz();
 void ejecutar(PCB *proceso, Ventanas *ventanas);
 void iniciarLectura(Ventanas *ventanas, int *pos, char *cad, int *leyendo, int tamCad);
+int procesarComando(char *cad, PCB **proceso, Archivo **archivo, Ventanas *vent);
 
 /* --------- LOG ERRORES ----------------------------*/
 void detectarError(WINDOW *ventana, int error); 

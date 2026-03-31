@@ -54,13 +54,13 @@ int procesarComando(char *cad, PCB **proceso, Archivo **archivo, Ventanas *vent)
     *proceso = crearProceso(*archivo);
 
     int res = leerArchivo(nomArchivo, *archivo);
-    if (res != BIEN) { detectarError(vent->errores, res); return res; }
+    if (res != BIEN) { return res; }
 
     res = tokenizar(*archivo);
-    if (res != BIEN) { detectarError(vent->errores, res); return res; }
+    if (res != BIEN) { return res; }
 
     res = verifSintaxis(*archivo);
-    if (res != BIEN) { detectarError(vent->errores, res); return res; }
+    if (res != BIEN) { return res; }
 
     *proceso = crearProceso(*archivo);
     (*proceso)->estado = EJECUCION;
