@@ -63,7 +63,7 @@ int ejecutarPrograma(PCB *proceso)
     }
 
     if (!strcmp(proceso->IR->primerToken->textoToken, "END")){
-        proceso->PC++;
+        proceso->PC++; proceso->estado = TERMINADO;
         return BIEN;
     }
 }

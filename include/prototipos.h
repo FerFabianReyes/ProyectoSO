@@ -61,6 +61,7 @@ void impEncabezado(WINDOW *ventana, int maxX);
 void impInstruccVentana(WINDOW *ventana, int maxX, PCB *proceso);
 void limpiarVentana(WINDOW *ventana, char* nomVentana);
 void impContextoEncabezado(WINDOW *ventana, int maxX);
+void impContextoProceso(WINDOW *ventana, int maxX, PCB *proceso, int fila);
 
 
 /*---------- COMANDOS --------------------------------*/
@@ -69,6 +70,7 @@ char *sacarNomArchivo(char cad[]);
 void leerComando(WINDOW *ventana, int *pos, char cad[], int caracter);
 void borrarCaracter(WINDOW *ventana, int *pos);
 void imprimirCaracter(WINDOW *ventana, int *pos, char cad[], int caracter);
+int procesarComando(char *cad, Cabecera *listos, Cabecera *vista, Ventanas *vent);
 
 /*---------- LISTAS --------------------------------*/
 Cabecera* crearCabecera();
@@ -83,11 +85,11 @@ Nodo *desencolarNodo(Cabecera *cab);
 Ventanas *inicializarInterfaz();
 void ejecutar(PCB *proceso, Ventanas *ventanas);
 void iniciarLectura(Ventanas *ventanas, int *pos, char *cad, int *leyendo, int tamCad);
-int procesarComando(char *cad, Cabecera *listos, Ventanas *vent);
 void liberarInterfaz(Ventanas *ven);
 void dispatch(Cabecera *listos, Cabecera *ejecuta, Ventanas *vent);
 int revisarArchivo(PCB *proceso);
-
+void actualizarContexto(Cabecera *vista, Ventanas *ventanas);
+void registrarEnVista(Cabecera *vista, Nodo *nodo);
 
 /* --------- LOG ERRORES ----------------------------*/
 void detectarError(WINDOW *ventana, int error); 

@@ -24,11 +24,11 @@ void ejecutar(PCB *proceso, Ventanas *ventanas)
     } else {
         proceso->espera = 0;
         int res = ejecutarPrograma(proceso);
-        if (res != BIEN) { proceso->estado = ESPERA; detectarError(ventanas->errores, res); }
+        if (res != BIEN) { proceso->estado = TERMINADO; detectarError(ventanas->errores, res); }
         else {
              impInstruccVentana(ventanas->datos, ventanas->maxX, proceso);
                     proceso->IR = proceso->IR->sig;
-                }
+        }
     }
 
 }
@@ -39,28 +39,6 @@ void iniciarLectura(Ventanas *ventanas, int *pos, char *cad, int *leyendo, int t
     memset(cad, 0, tamCad);
     impVentanaComandos(ventanas->comandos);
     curs_set(1);
-}
-
-int procesarComando(char *cad, Cabecera *listos, Ventanas *vent)
-{
-    limpiarVentana(vent->errores, " Errores ");
-    limpiarComando(vent->comandos);
-    int comando = detectarComando(cad);
-
-    if (comando == SALIR) { return SALIR; }
-    if (comando != EJECUTAR_ARCHIVO) { detectarError(vent->errores, comando); return comando; }
-
-    Archivo *archivo = crearArchivo();
-    char *nomArchivo = sacarNomArchivo(cad);
-
-    int res = leerArchivo(nomArchivo, archivo);
-    if (res != BIEN) { return res; }
-
-    PCB *proceso = crearProceso(archivo);
-    proceso->nomArchivo = nomArchivo;
-    Nodo *proc = crearNodo(proceso);
-    agregarNodo(listos, proc);
-    return BIEN;
 }
 
 int revisarArchivo(PCB *proceso)
@@ -88,6 +66,36 @@ void dispatch(Cabecera *listos, Cabecera *ejecuta, Ventanas *vent)
     }
     nodo->proceso->estado = EJECUCION;
     agregarNodo(ejecuta, nodo);
+}
+
+void registrarEnVista(Cabecera *vista, Nodo *nodo)
+{
+    Nodo *temp = vista->inicio;
+    while (temp) {
+        if (temp->proceso->pid == nodo->proceso->pid) {
+            return;
+        }
+        temp = temp->sig;
+    }
+    Nodo *copia = crearNodo(nodo->proceso);
+    agregarNodo(vista, copia);
+}
+
+static int filaContexto = 4;  // empieza después del encabezado
+
+void actualizarContexto(Cabecera *vista, Ventanas *ventanas)
+{
+    int fila = 4;
+    int maxY, maxX;
+    getmaxyx(ventanas->contexto, maxY, maxX);
+    int maxFilas = maxY - 2;
+
+    Nodo *temp = vista->inicio;
+    while (temp && fila < maxFilas) {
+        impContextoProceso(ventanas->contexto, ventanas->maxX, temp->proceso, fila);
+        fila++;
+        temp = temp->sig;
+    }
 }
 
 void liberarInterfaz(Ventanas *ven)

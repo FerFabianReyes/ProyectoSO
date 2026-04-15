@@ -51,3 +51,26 @@ char *sacarNomArchivo(char cad[])
     if (nomArchivo) { return nomArchivo + 1; }
     else return NULL;
 }
+
+int procesarComando(char *cad, Cabecera *listos, Cabecera *vista, Ventanas *vent)
+{
+    limpiarVentana(vent->errores, " Errores ");
+    limpiarComando(vent->comandos);
+    int comando = detectarComando(cad);
+
+    if (comando == SALIR) { return SALIR; }
+    if (comando != EJECUTAR_ARCHIVO) { return comando; }
+
+    Archivo *archivo = crearArchivo();
+    char *nomArchivo = sacarNomArchivo(cad);
+
+    int res = leerArchivo(nomArchivo, archivo);
+    if (res != BIEN) { return res; }
+
+    PCB *proceso = crearProceso(archivo);
+    proceso->nomArchivo = strdup(nomArchivo);
+    Nodo *proc = crearNodo(proceso);
+    agregarNodo(listos, proc);
+    registrarEnVista(vista, proc);
+    return BIEN;
+}
