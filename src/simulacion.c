@@ -112,10 +112,16 @@ void liberarInterfaz(Ventanas *ven)
 void roundRobin(Cabecera *listos, Cabecera *ejecuta, Cabecera *terminados, Cabecera *vistaContexto, Ventanas *vent, int *cambioContexto)
 {
     if (!ejecuta->inicio && listos->inicio) {
+        PCB *procPendiente = listos->inicio->proceso;
         dispatch(listos, ejecuta, vent);
-        if (ejecuta->inicio) { registrarEnVista(vistaContexto, ejecuta->inicio); }
-        *cambioContexto = 1;
-        limpiarVentana(vent->datos, " Datos ");
+        if (!ejecuta->inicio) {
+            procPendiente->estado = TERMINADO;
+            *cambioContexto = 1;
+        } else {
+            registrarEnVista(vistaContexto, ejecuta->inicio);
+            *cambioContexto = 1;
+            limpiarVentana(vent->datos, " Datos ");
+        }
     } 
 
     if (ejecuta->inicio) {
@@ -129,9 +135,8 @@ void roundRobin(Cabecera *listos, Cabecera *ejecuta, Cabecera *terminados, Cabec
             guardarRestaurarContexto(proc, 1);
             Nodo *nodo = desencolarNodo(ejecuta);
             agregarNodo(terminados, nodo);
-            registrarEnVista(vistaContexto, terminados->final); 
             *cambioContexto = 1;
-        } else  if (proc->estado == EJECUCION) { 
+        } else if (proc->estado == EJECUCION) { 
             if (proc->quantum >= 3) {
                 proc->quantum = 0;
                 guardarRestaurarContexto(proc, 1);
