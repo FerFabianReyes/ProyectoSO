@@ -41,7 +41,7 @@ int detectarComando(char cad[])
     resultado = regexec(&regex, cad, 0, NULL, 0);
     regfree(&regex);
     if (!resultado) { return EJECUTAR_ARCHIVO; }
-    
+
     resultado = regcomp(&regex, patronMatar, REG_EXTENDED);
     resultado = regexec(&regex, cad, 0, NULL, 0);
     regfree(&regex);
@@ -56,14 +56,27 @@ char *sacarNomArchivo(char cad[])
     else return NULL;
 }
 
-int procesarComando(char *cad, Cabecera *listos, Cabecera *vista, Ventanas *vent)
+int procesarComando(char *cad, Cabecera *listos, Cabecera *ejecuta, Cabecera *terminados, Cabecera *vista, Ventanas *vent)
 {
     limpiarVentana(vent->errores, " Errores ");
     limpiarComando(vent->comandos);
     int comando = detectarComando(cad);
 
     if (comando == SALIR) { return SALIR; }
-    if (comando != EJECUTAR_ARCHIVO) { return comando; }
+    if (comando != EJECUTAR_ARCHIVO && comando != MATAR_PROCESO) { return comando; }
+
+    if (comando == MATAR_PROCESO) {
+        char *pidStr = sacarNomArchivo(cad);
+        int pid = atoi(pidStr);
+
+        Nodo *nodo = sacarNodo(listos, pid);
+        if (!nodo) { nodo = sacarNodo(ejecuta, pid); }
+        if (!nodo) { return PROCESO_NO_ENCONTRADO; }
+
+        nodo->proceso->estado = TERMINADO;
+        agregarNodo(terminados, nodo);
+        return BIEN;
+    }
 
     Archivo *archivo = crearArchivo();
     char *nomArchivo = sacarNomArchivo(cad);

@@ -43,7 +43,7 @@ int main()
             if (caracter == '\n' || caracter == '\r') {
                 cad[pos] = '\0'; leyendo = 0;
                 curs_set(0);
-                int res = procesarComando(cad, listos, vistaContexto,ventanas);
+                int res = procesarComando(cad, listos, ejecuta, terminados, vistaContexto, ventanas);
                 if (res == BIEN) { cambioContexto = 1; }
                 if (res == SALIR) { break; }
                 if (res != BIEN) { detectarError(ventanas->errores, res); }

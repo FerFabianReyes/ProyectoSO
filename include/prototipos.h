@@ -70,7 +70,7 @@ char *sacarNomArchivo(char cad[]);
 void leerComando(WINDOW *ventana, int *pos, char cad[], int caracter);
 void borrarCaracter(WINDOW *ventana, int *pos);
 void imprimirCaracter(WINDOW *ventana, int *pos, char cad[], int caracter);
-int procesarComando(char *cad, Cabecera *listos, Cabecera *vista, Ventanas *vent);
+int procesarComando(char *cad, Cabecera *listos, Cabecera *ejecuta, Cabecera *terminados, Cabecera *vista, Ventanas *vent);
 
 /*---------- LISTAS --------------------------------*/
 Cabecera* crearCabecera();
