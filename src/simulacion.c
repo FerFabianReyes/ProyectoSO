@@ -25,12 +25,13 @@ void ejecutar(PCB *proceso, Ventanas *ventanas)
         proceso->espera = 0;
         int res = ejecutarPrograma(proceso);
         if (res != BIEN) { proceso->estado = TERMINADO; detectarError(ventanas->errores, res); }
-        else if (proceso->estado != TERMINADO) {
+        else {
             impInstruccVentana(ventanas->datos, ventanas->maxX, proceso);
-            proceso->IR = proceso->IR->sig;
+            if (proceso->estado != TERMINADO) {
+                proceso->IR = proceso->IR->sig;
+            }
         }
     }
-
 }
 
 void iniciarLectura(Ventanas *ventanas, int *pos, char *cad, int *leyendo, int tamCad)
