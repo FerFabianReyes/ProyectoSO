@@ -34,15 +34,19 @@ int detectarComando(char cad[])
     if (strcmp(cad, "salir") == 0) { return SALIR; }
     regex_t regex;
     char *patron = "^ejecutar [^ ]+$";
+    char *patronMatar = "^matar [0-9]+$";
     int resultado;
 
     resultado = regcomp(&regex, patron, REG_EXTENDED);
     resultado = regexec(&regex, cad, 0, NULL, 0);
     regfree(&regex);
-
     if (!resultado) { return EJECUTAR_ARCHIVO; }
-    else {return COMANDO_INVALIDO; }
     
+    resultado = regcomp(&regex, patronMatar, REG_EXTENDED);
+    resultado = regexec(&regex, cad, 0, NULL, 0);
+    regfree(&regex);
+    if (!resultado) { return MATAR_PROCESO; }
+    else {return COMANDO_INVALIDO; }
 }
 
 char *sacarNomArchivo(char cad[])
