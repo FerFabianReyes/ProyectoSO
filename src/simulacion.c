@@ -65,6 +65,7 @@ void dispatch(Cabecera *listos, Cabecera *ejecuta, Ventanas *vent)
             return;
         }
     }
+    guardarRestaurarContexto(nodo->proceso, 0);
     nodo->proceso->estado = EJECUCION;
     agregarNodo(ejecuta, nodo);
 }
@@ -126,10 +127,26 @@ void roundRobin(Cabecera *listos, Cabecera *ejecuta, Cabecera *terminados, Cabec
         }
 
         if (proc->estado == TERMINADO || proc->estado == ESPERA) {
+            guardarRestaurarContexto(proc, 1);
             Nodo *nodo = desencolarNodo(ejecuta);
             agregarNodo(terminados, nodo);
             registrarEnVista(vistaContexto, terminados->final); 
             *cambioContexto = 1;
         } else  if (proc->estado == EJECUCION) { ejecutar(proc, vent); }
     }    
+}
+
+void guardarRestaurarContexto(PCB *proceso, int guardar)
+{
+    if (guardar) {
+        proceso->regContex->EAX = registrosCPU->EAX;
+        proceso->regContex->EBX = registrosCPU->EBX;
+        proceso->regContex->ECX = registrosCPU->ECX;
+        proceso->regContex->EDX = registrosCPU->EDX;
+    } else {
+        registrosCPU->EAX = proceso->regContex->EAX;
+        registrosCPU->EBX = proceso->regContex->EBX;
+        registrosCPU->ECX = proceso->regContex->ECX;
+        registrosCPU->EDX = proceso->regContex->EDX;
+    }
 }
