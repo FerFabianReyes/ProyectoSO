@@ -140,7 +140,7 @@ void impContextoEncabezado(WINDOW *ventana, int maxX)
     wrefresh(ventana);
 }
 
-void impContextoProceso(WINDOW *ventana, int maxX, PCB *proceso, int fila)
+void impContextoProceso(WINDOW *ventana, int maxX, PCB *proceso, int fila, int estado)
 {
     int anchCol = (maxX - 2) / 6;
     int anchColCtx = anchCol * 3 / 6;
@@ -153,11 +153,12 @@ void impContextoProceso(WINDOW *ventana, int maxX, PCB *proceso, int fila)
     mvwprintw(ventana, fila, 1 + anchCol + (anchCol - strlen(proceso->nomArchivo)) / 2, "%s", proceso->nomArchivo);
 
     char *estadoStr;
-    switch(proceso->estado) {
-        case NUEVO:      estadoStr = "NUEVO";     break;
+    switch(estado) {
+        case NUEVO:      estadoStr = "LISTO";     break;
         case EJECUCION:  estadoStr = "EJECUCION"; break;
+        case ESPERA:     estadoStr = "LISTO";     break;
         case TERMINADO:  estadoStr = "TERMINADO"; break;
-        default:         estadoStr = " ";         break;
+        default:         estadoStr = "";          break;
     }
     mvwprintw(ventana, fila, 1 + anchCol * 2 + (anchCol - strlen(estadoStr)) / 2,  "%s", estadoStr);
 

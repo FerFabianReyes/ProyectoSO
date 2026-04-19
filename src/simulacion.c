@@ -24,6 +24,7 @@ void ejecutar(PCB *proceso, Ventanas *ventanas)
     } else {
         proceso->espera = 0;
         int res = ejecutarPrograma(proceso);
+        proceso->quantum++;
         if (res != BIEN) { proceso->estado = TERMINADO; detectarError(ventanas->errores, res); }
         else {
             impInstruccVentana(ventanas->datos, ventanas->maxX, proceso);
@@ -74,9 +75,7 @@ void registrarEnVista(Cabecera *vista, Nodo *nodo)
 {
     Nodo *temp = vista->inicio;
     while (temp) {
-        if (temp->proceso->pid == nodo->proceso->pid) {
-            return;
-        }
+        if (temp->proceso->pid == nodo->proceso->pid) { return; }
         temp = temp->sig;
     }
     Nodo *copia = crearNodo(nodo->proceso);
@@ -94,7 +93,7 @@ void actualizarContexto(Cabecera *vista, Ventanas *ventanas)
 
     Nodo *temp = vista->inicio;
     while (temp && fila < maxFilas) {
-        impContextoProceso(ventanas->contexto, ventanas->maxX, temp->proceso, fila);
+        impContextoProceso(ventanas->contexto, ventanas->maxX, temp->proceso, fila, temp->proceso->estado);
         fila++;
         temp = temp->sig;
     }
@@ -132,7 +131,18 @@ void roundRobin(Cabecera *listos, Cabecera *ejecuta, Cabecera *terminados, Cabec
             agregarNodo(terminados, nodo);
             registrarEnVista(vistaContexto, terminados->final); 
             *cambioContexto = 1;
-        } else  if (proc->estado == EJECUCION) { ejecutar(proc, vent); }
+        } else  if (proc->estado == EJECUCION) { 
+            if (proc->quantum >= 3) {
+                proc->quantum = 0;
+                guardarRestaurarContexto(proc, 1);
+                Nodo *nodo = desencolarNodo(ejecuta);
+                proc->estado = ESPERA;
+                agregarNodo(listos, nodo);
+                *cambioContexto = 1;
+            } else {
+                ejecutar(proc, vent); 
+            }
+        }
     }    
 }
 

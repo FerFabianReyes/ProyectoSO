@@ -61,7 +61,7 @@ void impEncabezado(WINDOW *ventana, int maxX);
 void impInstruccVentana(WINDOW *ventana, int maxX, PCB *proceso);
 void limpiarVentana(WINDOW *ventana, char* nomVentana);
 void impContextoEncabezado(WINDOW *ventana, int maxX);
-void impContextoProceso(WINDOW *ventana, int maxX, PCB *proceso, int fila);
+void impContextoProceso(WINDOW *ventana, int maxX, PCB *proceso, int fila, int estado);
 
 
 /*---------- COMANDOS --------------------------------*/

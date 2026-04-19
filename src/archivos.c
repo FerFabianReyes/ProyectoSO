@@ -13,6 +13,7 @@ PCB* crearProceso(Archivo *prog)
     nuevo->regContex->EAX = 0; nuevo->regContex->EBX = 0;
     nuevo->regContex->ECX = 0; nuevo->regContex->EDX = 0;
     nuevo->pid = nProcesos; nProcesos++;
+    nuevo->quantum = 0;
     return nuevo;
 }
 

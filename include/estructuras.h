@@ -36,12 +36,14 @@ typedef struct {
     int pid;
     int estado;
     int espera;
+    int quantum;
 } PCB;
 
 typedef struct Nodo {
     PCB *proceso;
     struct Nodo *sig;
     struct Nodo *ant;
+    int estado;
 } Nodo;
 
 typedef struct Cabecera {
