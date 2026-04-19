@@ -8,7 +8,7 @@ typedef enum tipoParametro{
 
 /*------------ COMANDO EN LA TERMINAL  ---------------------------------*/ 
 typedef enum comandoTerminal{
-    SALIR = 10, EJECUTAR_ARCHIVO
+    SALIR = 10, EJECUTAR_ARCHIVO, MATAR_PROCESO
 }comandoTerminal;
 
 /*------------ ESTADOS DEL SISTEMA  ---------------------------------*/ 
@@ -47,7 +47,8 @@ typedef enum errorAdvertencia{
     ESPACIOS_EXTRA,
 
 /*----- Comandos -----*/ 
-    COMANDO_INVALIDO = 500
+    COMANDO_INVALIDO = 500,
+    PROCESO_NO_ENCONTRADO
 }errorAdvertencia;
 
 #endif

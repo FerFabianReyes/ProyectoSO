@@ -61,6 +61,9 @@ void detectarError(WINDOW *ventana, int error)
     case COMANDO_INVALIDO:
 		mvwprintw(ventana, 2, 1, " Error %d: El comando que ingresó es inválido. Favor de verificar", error);
         break;
+    case PROCESO_NO_ENCONTRADO:
+        mvwprintw(ventana, 2, 1, " Error %d: El proceso no existe", error);
+        break;    
     
     default:
         break;
