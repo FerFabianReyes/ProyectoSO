@@ -25,9 +25,9 @@ void ejecutar(PCB *proceso, Ventanas *ventanas)
         proceso->espera = 0;
         int res = ejecutarPrograma(proceso);
         if (res != BIEN) { proceso->estado = TERMINADO; detectarError(ventanas->errores, res); }
-        else {
-             impInstruccVentana(ventanas->datos, ventanas->maxX, proceso);
-                    proceso->IR = proceso->IR->sig;
+        else if (proceso->estado != TERMINADO) {
+            impInstruccVentana(ventanas->datos, ventanas->maxX, proceso);
+            proceso->IR = proceso->IR->sig;
         }
     }
 
@@ -106,4 +106,29 @@ void liberarInterfaz(Ventanas *ven)
     delwin(ven->contexto);
     free(registrosCPU);
     endwin();
+}
+
+void roundRobin(Cabecera *listos, Cabecera *ejecuta, Cabecera *terminados, Cabecera *vistaContexto, Ventanas *vent, int *cambioContexto)
+{
+    if (!ejecuta->inicio && listos->inicio) {
+        dispatch(listos, ejecuta, vent);
+        if (ejecuta->inicio) { registrarEnVista(vistaContexto, ejecuta->inicio); }
+        *cambioContexto = 1;
+        limpiarVentana(vent->datos, " Datos ");
+    } 
+
+    if (ejecuta->inicio) {
+        PCB *proc = ejecuta->inicio->proceso;
+
+        if (proc->estado == EJECUCION && !proc->IR) {
+            proc->estado = TERMINADO;
+        }
+
+        if (proc->estado == TERMINADO || proc->estado == ESPERA) {
+            Nodo *nodo = desencolarNodo(ejecuta);
+            agregarNodo(terminados, nodo);
+            registrarEnVista(vistaContexto, terminados->final); 
+            *cambioContexto = 1;
+        } else  if (proc->estado == EJECUCION) { ejecutar(proc, vent); }
+    }    
 }

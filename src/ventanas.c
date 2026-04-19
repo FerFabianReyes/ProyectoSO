@@ -91,17 +91,18 @@ void impEncabezado(WINDOW *ventana, int maxX)
 void impInstruccVentana(WINDOW *ventana, int maxX, PCB *proceso)
 {
     int anchCol = (maxX - 2) / 6;
+    char *ir = imprimirIR(proceso->IR);
     for (int i = 0; i < maxX-10; i++) {
         mvwprintw(ventana, 5, i+2, " ");
     }
     mvwprintw(ventana, 5, 8, " %d", proceso->PC);
-    mvwprintw(ventana, 5, anchCol+4, " %s", imprimirIR(proceso->IR));
+    mvwprintw(ventana, 5, anchCol+4, " %s", ir);
     mvwprintw(ventana, 5, anchCol*2+8, " %d", registrosCPU->EAX);
     mvwprintw(ventana, 5, anchCol*3+8, " %d", registrosCPU->EBX);
     mvwprintw(ventana, 5, anchCol*4+8, " %d", registrosCPU->ECX);
     mvwprintw(ventana, 5, anchCol*5+8, " %d", registrosCPU->EDX);
+    free(ir);  
     wrefresh(ventana);
-
 }
 
 void impContextoEncabezado(WINDOW *ventana, int maxX)
@@ -151,8 +152,14 @@ void impContextoProceso(WINDOW *ventana, int maxX, PCB *proceso, int fila)
     mvwprintw(ventana, fila, 1 + (anchCol - 3) / 2, "%d", proceso->pid);
     mvwprintw(ventana, fila, 1 + anchCol + (anchCol - strlen(proceso->nomArchivo)) / 2, "%s", proceso->nomArchivo);
 
-    char *estados[] = {"NUEVO", "EJECUCION", "ESPERA", "TERMINADO"};
-    mvwprintw(ventana, fila, 1 + anchCol * 2 + (anchCol - strlen(estados[proceso->estado])) / 2, "%s", estados[proceso->estado]);
+    char *estadoStr;
+    switch(proceso->estado) {
+        case NUEVO:      estadoStr = "NUEVO";     break;
+        case EJECUCION:  estadoStr = "EJECUCION"; break;
+        case TERMINADO:  estadoStr = "TERMINADO"; break;
+        default:         estadoStr = " ";         break;
+    }
+    mvwprintw(ventana, fila, 1 + anchCol * 2 + (anchCol - strlen(estadoStr)) / 2,  "%s", estadoStr);
 
     int xCtx = 1 + anchCol * 3;
     mvwprintw(ventana, fila, xCtx + anchColCtx * 0, " %d", proceso->regContex->EAX);

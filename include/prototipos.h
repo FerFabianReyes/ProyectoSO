@@ -90,6 +90,7 @@ void dispatch(Cabecera *listos, Cabecera *ejecuta, Ventanas *vent);
 int revisarArchivo(PCB *proceso);
 void actualizarContexto(Cabecera *vista, Ventanas *ventanas);
 void registrarEnVista(Cabecera *vista, Nodo *nodo);
+void roundRobin(Cabecera *listos, Cabecera *ejecuta, Cabecera *terminados, Cabecera *vistaContexto, Ventanas *vent, int *cambioContexto);
 
 /* --------- LOG ERRORES ----------------------------*/
 void detectarError(WINDOW *ventana, int error); 

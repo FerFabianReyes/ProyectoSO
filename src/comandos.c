@@ -71,6 +71,5 @@ int procesarComando(char *cad, Cabecera *listos, Cabecera *vista, Ventanas *vent
     proceso->nomArchivo = strdup(nomArchivo);
     Nodo *proc = crearNodo(proceso);
     agregarNodo(listos, proc);
-    registrarEnVista(vista, proc);
     return BIEN;
 }

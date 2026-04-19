@@ -51,31 +51,7 @@ int main()
                 leerComando(ventanas->comandos, &pos, cad, caracter);
             }
         }
-
-        if (!ejecuta->inicio && listos->inicio) { 
-            dispatch(listos, ejecuta, ventanas);
-            if (ejecuta->inicio) { registrarEnVista(vistaContexto, ejecuta->inicio); }
-            cambioContexto = 1;
-            limpiarVentana(ventanas->datos, " Datos ");
-        }
-
-        if (ejecuta->inicio) {
-            PCB *proc = ejecuta->inicio->proceso;
-            if (proc->estado == EJECUCION) {
-                if (!proc->IR) {
-                    Nodo *nodo = desencolarNodo(ejecuta);
-                    agregarNodo(terminados, nodo);
-                    registrarEnVista(vistaContexto, terminados->inicio); 
-                    cambioContexto = 1;
-                    continue;
-                }
-                ejecutar(proc, ventanas);
-            }
-            if (proc->estado == ESPERA) {
-                Nodo *nodo = desencolarNodo(ejecuta);
-                agregarNodo(terminados, nodo);
-            }
-        }
+        roundRobin(listos, ejecuta, terminados, vistaContexto, ventanas, &cambioContexto);    
         i++;
         napms(16);
     }
