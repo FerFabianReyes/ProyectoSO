@@ -29,11 +29,11 @@ WINDOW *crearVentana(int altura, int anchura, int posY, char *nombre)
 
 void impVentanaComandos(WINDOW *ventana)
 {
-        mvwprintw(ventana, 1, 1, " > ");
-		wclrtoeol(ventana);
-		box(ventana, 0, 0);
-        mvwprintw(ventana, 0, 2, " Comandos ");
-		wrefresh(ventana); 
+    mvwprintw(ventana, 1, 1, " > ");
+    wclrtoeol(ventana);
+    box(ventana, 0, 0);
+    mvwprintw(ventana, 0, 2, " Comandos ");
+    wrefresh(ventana); 
 }
 
 void limpiarComando(WINDOW *ventana)
@@ -53,7 +53,7 @@ void limpiarVentana(WINDOW *ventana, char* nomVentana)
     box(ventana, 0, 0);
     mvwprintw(ventana, 0, 2, "%s", nomVentana);
     int maxY, maxX;
-	getmaxyx(ventana, maxY, maxX);
+    getmaxyx(ventana, maxY, maxX);
 
     for (int i = 0; i < maxX-10; i++) {
         mvwprintw(ventana, 2, i+2, " ");
@@ -63,28 +63,28 @@ void limpiarVentana(WINDOW *ventana, char* nomVentana)
 
 void impEncabezado(WINDOW *ventana, int maxX)
 {
-    mvwhline(ventana, 1, 1, ACS_HLINE, maxX - 2);
-    mvwhline(ventana, 3, 1, ACS_HLINE, maxX - 2);
-
-    mvwaddch(ventana, 1, 1,        ACS_ULCORNER);
-    mvwaddch(ventana, 1, maxX - 2, ACS_URCORNER);
-    mvwaddch(ventana, 3, 1,        ACS_LLCORNER);
-    mvwaddch(ventana, 3, maxX - 2, ACS_LRCORNER);
-
     int anchCol = (maxX - 2) / 6;
 
+    // Sub-ventana de 3 filas que ocupa las filas 1-3 dentro de ventana
+    WINDOW *subEnc = derwin(ventana, 3, maxX - 2, 1, 1);
+    box(subEnc, 0, 0);
+
+    // Separadores verticales interiores
     for (int col = 1; col <= 5; col++) {
-        int x = 1 + anchCol * col;
-        mvwaddch(ventana, 1, x, ACS_TTEE);   // ┬
-        mvwaddch(ventana, 2, x, ACS_VLINE);  // │
-        mvwaddch(ventana, 3, x, ACS_BTEE);   // ┴
+        int x = anchCol * col;
+        mvwaddch(subEnc, 0, x, ACS_TTEE);
+        mvwaddch(subEnc, 1, x, ACS_VLINE);
+        mvwaddch(subEnc, 2, x, ACS_BTEE);
     }
 
     char *encabezado[] = {"PC", "IR", "EAX", "EBX", "ECX", "EDX"};
     for (int col = 0; col < 6; col++) {
-        int x = 1 + anchCol * col + (anchCol - strlen(encabezado[col])) / 2;
-        mvwprintw(ventana, 2, x, "%s", encabezado[col]);
+        int x = anchCol * col + (anchCol - (int)strlen(encabezado[col])) / 2;
+        mvwprintw(subEnc, 1, x, "%s", encabezado[col]);
     }
+
+    wrefresh(subEnc);
+    delwin(subEnc);
     wrefresh(ventana);
 }
 
@@ -107,43 +107,53 @@ void impInstruccVentana(WINDOW *ventana, int maxX, PCB *proceso)
 
 void impContextoEncabezado(WINDOW *ventana, int maxX)
 {
-    mvwhline(ventana, 1, 1, ACS_HLINE, maxX - 2);
-    mvwhline(ventana, 3, 1, ACS_HLINE, maxX - 2);
-
-    mvwaddch(ventana, 1, 1,        ACS_ULCORNER);
-    mvwaddch(ventana, 1, maxX - 2, ACS_URCORNER);
-    mvwaddch(ventana, 3, 1,        ACS_LLCORNER);
-    mvwaddch(ventana, 3, maxX - 2, ACS_LRCORNER);
-
     int anchCol = (maxX - 2) / 6;
+    int anchReg = anchCol * 3 / 7; //PC IR(2) EAX EBX ECX EDX
+
+    WINDOW *subEnc = derwin(ventana, 3, maxX - 2, 1, 1);
+    box(subEnc, 0, 0);
 
     for (int col = 1; col <= 3; col++) {
-        int x = 1 + anchCol * col;
-        mvwaddch(ventana, 1, x, ACS_TTEE);
-        mvwaddch(ventana, 2, x, ACS_VLINE);
-        mvwaddch(ventana, 3, x, ACS_BTEE);
+        int x = anchCol * col;
+        mvwaddch(subEnc, 0, x, ACS_TTEE);
+        mvwaddch(subEnc, 1, x, ACS_VLINE);
+        mvwaddch(subEnc, 2, x, ACS_BTEE);
+    }
+
+    int xCtx = anchCol * 3;
+    // PC=0, IR=1, EAX=3, EBX=4, ECX=5, EDX=6
+    int colOffset[] = {0, 1, 3, 4, 5, 6};
+
+    for (int col = 1; col <= 5; col++) {
+        int x = xCtx + anchReg * colOffset[col];
+        if (x < maxX - 2) {
+            mvwaddch(subEnc, 0, x, ACS_TTEE);
+            mvwaddch(subEnc, 1, x, ACS_VLINE);
+            mvwaddch(subEnc, 2, x, ACS_BTEE);
+        }
     }
 
     char *encabezado[] = {"PID", "Nombre", "Estado", "PC", "IR", "EAX", "EBX", "ECX", "EDX"};
     for (int col = 0; col < 3; col++) {
-        int x = 1 + anchCol * col + (anchCol - strlen(encabezado[col])) / 2;
-        mvwprintw(ventana, 2, x, "%s", encabezado[col]);
+        int x = anchCol * col + (anchCol - (int)strlen(encabezado[col])) / 2;
+        mvwprintw(subEnc, 1, x, "%s", encabezado[col]);
     }
 
-    int xContexto = 1 + anchCol * 3;
-    int anchReg = anchCol * 3 / 6;
+    int anchReal[] = {1, 2, 1, 1, 1, 1};
     for (int col = 0; col < 6; col++) {
-        int x = xContexto + anchReg * col + (anchReg - strlen(encabezado[3 + col])) / 2;
-        mvwprintw(ventana, 2, x, "%s", encabezado[3 + col]);
+        int x = xCtx + anchReg * colOffset[col] + (anchReg * anchReal[col] - (int)strlen(encabezado[3 + col])) / 2;
+        mvwprintw(subEnc, 1, x, "%s", encabezado[3 + col]);
     }
 
+    wrefresh(subEnc);
+    delwin(subEnc);
     wrefresh(ventana);
 }
 
 void impContextoProceso(WINDOW *ventana, int maxX, PCB *proceso, int fila, int estado)
 {
     int anchCol = (maxX - 2) / 6;
-    int anchColCtx = anchCol * 3 / 6;
+    int anchReg = anchCol * 3 / 7;
 
     for (int i = 0; i < maxX - 2; i++) {
         mvwprintw(ventana, fila, i + 1, " ");
@@ -160,13 +170,18 @@ void impContextoProceso(WINDOW *ventana, int maxX, PCB *proceso, int fila, int e
         case TERMINADO:  estadoStr = "TERMINADO"; break;
         default:         estadoStr = "";          break;
     }
-    mvwprintw(ventana, fila, 1 + anchCol * 2 + (anchCol - strlen(estadoStr)) / 2,  "%s", estadoStr);
+    mvwprintw(ventana, fila, 1 + anchCol * 2 + (anchCol - strlen(estadoStr)) / 2, "%s", estadoStr);
 
     int xCtx = 1 + anchCol * 3;
-    mvwprintw(ventana, fila, xCtx + anchColCtx * 0, " %d", proceso->regContex->EAX);
-    mvwprintw(ventana, fila, xCtx + anchColCtx * 1, " %d", proceso->regContex->EBX);
-    mvwprintw(ventana, fila, xCtx + anchColCtx * 2, " %d", proceso->regContex->ECX);
-    mvwprintw(ventana, fila, xCtx + anchColCtx * 3, " %d", proceso->regContex->EDX);
+    int colOffset[] = {0, 1, 3, 4, 5, 6};
+    char *ir = imprimirIR(proceso->IR);
+    mvwprintw(ventana, fila, xCtx + anchReg * colOffset[0] + 1, "%d", proceso->PC);
+    mvwprintw(ventana, fila, xCtx + anchReg * colOffset[1] + 1, "%s", ir);
+    mvwprintw(ventana, fila, xCtx + anchReg * colOffset[2] + 1, "%d", proceso->regContex->EAX);
+    mvwprintw(ventana, fila, xCtx + anchReg * colOffset[3] + 1, "%d", proceso->regContex->EBX);
+    mvwprintw(ventana, fila, xCtx + anchReg * colOffset[4] + 1, "%d", proceso->regContex->ECX);
+    mvwprintw(ventana, fila, xCtx + anchReg * colOffset[5] + 1, "%d", proceso->regContex->EDX);
+    free(ir);
 
     wrefresh(ventana);
 }
