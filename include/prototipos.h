@@ -71,6 +71,8 @@ void leerComando(WINDOW *ventana, int *pos, char cad[], int caracter);
 void borrarCaracter(WINDOW *ventana, int *pos);
 void imprimirCaracter(WINDOW *ventana, int *pos, char cad[], int caracter);
 int procesarComando(char *cad, CabeceraGrupos *grupos, Cabecera *ejecuta, Cabecera *terminados, Cabecera *vista, Ventanas *vent);
+Renglon* irARenglon(Archivo *prog, int noInstr);
+
 
 /*---------- LISTAS --------------------------------*/
 Cabecera* crearCabecera();

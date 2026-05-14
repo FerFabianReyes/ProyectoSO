@@ -35,6 +35,7 @@ int detectarComando(char cad[])
     regex_t regex;
     char *patron = "^ejecutar [^ ]+$";
     char *patronMatar = "^matar [0-9]+$";
+    char *patronFork = "^fork [0-9]+ [0-9]+$";
     int resultado;
 
     resultado = regcomp(&regex, patron, REG_EXTENDED);
@@ -46,7 +47,13 @@ int detectarComando(char cad[])
     resultado = regexec(&regex, cad, 0, NULL, 0);
     regfree(&regex);
     if (!resultado) { return MATAR_PROCESO; }
-    else {return COMANDO_INVALIDO; }
+
+    resultado = regcomp(&regex, patronFork, REG_EXTENDED);
+    resultado = regexec(&regex, cad, 0, NULL, 0);
+    regfree(&regex);
+    if (!resultado) { return FORK; }
+
+    return COMANDO_INVALIDO; 
 }
 
 char *sacarNomArchivo(char cad[])
@@ -69,7 +76,7 @@ int procesarComando(char *cad, CabeceraGrupos *grupos, Cabecera *ejecuta, Cabece
         char *pidStr = sacarNomArchivo(cad);
         int pid = atoi(pidStr);
 
-        Nodo *nodo = sacarNodo(listos, pid);
+        Nodo *nodo = buscarNodoEnGrupos(grupos, pid);
         if (!nodo) { nodo = sacarNodo(ejecuta, pid); }
         if (!nodo) { return PROCESO_NO_ENCONTRADO; }
 
@@ -77,6 +84,34 @@ int procesarComando(char *cad, CabeceraGrupos *grupos, Cabecera *ejecuta, Cabece
         agregarNodo(terminados, nodo);
         return BIEN;
     }
+
+    if (comando == FORK) {
+        char copia[50];
+        strncpy(copia, cad, sizeof(copia));
+        strtok(copia, " ");
+        int pid     = atoi(strtok(NULL, " "));
+        int noInstr = atoi(strtok(NULL, " "));
+
+        Nodo *nodoPadre = buscarNodoEnGrupos(grupos, pid);
+        if (!nodoPadre) { nodoPadre = buscarNodo(ejecuta, pid); }
+        if (!nodoPadre) { return FORK_PID_INVALIDO; }
+
+        PCB *padre = nodoPadre->proceso;
+
+        Renglon *renInicio = irARenglon(padre->programa, noInstr);
+        if (!renInicio) { return FORK_INSTR_INVALIDA; }
+
+        PCB *hijo = crearProceso(padre->programa);
+        hijo->IR = renInicio;
+        hijo->idGrupo = padre->idGrupo;
+        
+        Grupo *grupoPadre = buscarGrupo(grupos, padre->gid);
+        Nodo *nodoHijo    = crearNodo(hijo);
+        agregarNodo(grupoPadre->listos, nodoHijo);
+        registrarEnVista(vista, nodoHijo);
+        return BIEN;
+    }
+    
 
     Archivo *archivo = crearArchivo();
     char *nomArchivo = sacarNomArchivo(cad);
@@ -86,8 +121,24 @@ int procesarComando(char *cad, CabeceraGrupos *grupos, Cabecera *ejecuta, Cabece
 
     PCB *proceso = crearProceso(archivo);
     proceso->nomArchivo = strdup(nomArchivo);
+
+    Grupo *nuevoGrupo = crearGrupo(grupos);
+    proceso->idGrupo = nuevoGrupo->idGrupo;
+
     Nodo *proc = crearNodo(proceso);
-    agregarNodo(listos, proc);
+    agregarNodo(nuevoGrupo->listos, proc);
+    agregarGrupo(grupos, nuevoGrupo);
     registrarEnVista(vista, proc); 
     return BIEN;
+}
+
+Renglon* irARenglon(Archivo *prog, int noInstr)
+{
+    Renglon *actual = prog->inicio;
+    int contador = 0;
+    while (actual && contador < noInstr) {
+        actual = actual->sig;
+        contador++;
+    }
+    return actual;
 }
