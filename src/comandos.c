@@ -56,7 +56,7 @@ char *sacarNomArchivo(char cad[])
     else return NULL;
 }
 
-int procesarComando(char *cad, Cabecera *listos, Cabecera *ejecuta, Cabecera *terminados, Cabecera *vista, Ventanas *vent)
+int procesarComando(char *cad, CabeceraGrupos *grupos, Cabecera *ejecuta, Cabecera *terminados, Cabecera *vista, Ventanas *vent)
 {
     limpiarVentana(vent->errores, " Errores ");
     limpiarComando(vent->comandos);

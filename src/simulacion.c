@@ -54,7 +54,7 @@ int revisarArchivo(PCB *proceso)
     return BIEN;
 }
 
-void dispatch(Cabecera *listos, Cabecera *ejecuta, Ventanas *vent)
+void dispatch(CabeceraGrupos *grupos, Cabecera *ejecuta, Ventanas *vent)
 {
     Nodo *nodo = desencolarNodo(listos);
     
@@ -109,7 +109,7 @@ void liberarInterfaz(Ventanas *ven)
     endwin();
 }
 
-void roundRobin(Cabecera *listos, Cabecera *ejecuta, Cabecera *terminados, Cabecera *vistaContexto, Ventanas *vent, int *cambioContexto)
+void roundRobin(CabeceraGrupos *grupos, Cabecera *ejecuta, Cabecera *terminados, Cabecera *vistaContexto, Ventanas *vent, int *cambioContexto)
 {
     if (!ejecuta->inicio && listos->inicio) {
         PCB *procPendiente = listos->inicio->proceso;

@@ -110,3 +110,57 @@ void imprimirLista(Cabecera *cabecera)
     }
     printf(" -> Fin\n");
 }
+
+CabeceraGrupos* crearCabeceraGrupos()
+{
+    CabeceraGrupos *cab = malloc(sizeof(CabeceraGrupos));
+    cab->inicio = NULL;
+    cab->final = NULL;
+    cab->nGrupos = 0;
+    cab->total = 0;
+    return cab;
+}
+
+Grupo* crearGrupo(CabeceraGrupos *cab)
+{
+    Grupo *grup = malloc(sizeof(Grupo));
+    grup->GCPU = 0;
+    grup->idGrupo = cab->nGrupos;
+    grup->listos = crearCabecera();
+    grup->sig = NULL;
+    cab->nGrupos++;
+    return grup;
+}
+
+void agregarGrupo(CabeceraGrupos *cab, Grupo *grupo)
+{
+    if (cab->inicio) { cab->final->sig = grupo; } 
+    else { cab->inicio = grupo; }
+    cab->final = grupo;
+    cab->total++;
+}
+
+Grupo* buscarGrupo(CabeceraGrupos *cab, int idGrup)
+{
+    Grupo *actual = cab->inicio;
+    while (actual)
+    {
+        if (actual->idGrupo == idGrup) { return actual; }
+        actual = actual->sig;
+    }
+    return;
+}
+
+Nodo* buscarNodoEnGrupos(CabeceraGrupos *cab, int pid)
+{
+    Grupo *grupo = cab->inicio;
+    while (grupo) {
+        Nodo *nodo = buscarNodo(grupo->listos, pid);
+        if (nodo) { return nodo; }
+        grupo = grupo->sig;
+    }
+    return NULL;
+}
+
+
+

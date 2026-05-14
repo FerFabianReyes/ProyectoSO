@@ -37,6 +37,9 @@ typedef struct {
     int estado;
     int espera;
     int quantum;
+    float CPU;
+    float prioridad;
+    int idGrupo;
 } PCB;
 
 typedef struct Nodo {
@@ -51,7 +54,22 @@ typedef struct Cabecera {
     Nodo *final;
 } Cabecera;
 
+typedef struct Grupo {
+    int idGrupo;
+    float GCPU;
+    Cabecera *listos;
+    struct Grupo *sig;
+} Grupo;
+
+typedef struct {
+    Grupo *inicio;
+    Grupo *final;
+    int total;
+    int nGrupos;
+} CabeceraGrupos;
+
 extern int nProcesos;
+extern int nGrupos;
 
 typedef struct
 {

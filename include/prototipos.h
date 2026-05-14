@@ -70,7 +70,7 @@ char *sacarNomArchivo(char cad[]);
 void leerComando(WINDOW *ventana, int *pos, char cad[], int caracter);
 void borrarCaracter(WINDOW *ventana, int *pos);
 void imprimirCaracter(WINDOW *ventana, int *pos, char cad[], int caracter);
-int procesarComando(char *cad, Cabecera *listos, Cabecera *ejecuta, Cabecera *terminados, Cabecera *vista, Ventanas *vent);
+int procesarComando(char *cad, CabeceraGrupos *grupos, Cabecera *ejecuta, Cabecera *terminados, Cabecera *vista, Ventanas *vent);
 
 /*---------- LISTAS --------------------------------*/
 Cabecera* crearCabecera();
@@ -80,18 +80,26 @@ Nodo *sacarNodo(Cabecera *cabecera, int pid);
 Nodo *buscarNodo(Cabecera *cabecera, int pid);
 void imprimirLista(Cabecera *cabecera);
 Nodo *desencolarNodo(Cabecera *cab);
+CabeceraGrupos* crearCabeceraGrupos();
+Grupo* crearGrupo(CabeceraGrupos *cab);
+void agregarGrupo(CabeceraGrupos *cab, Grupo *grupo);
+Grupo* buscarGrupo(CabeceraGrupos *cab, int idGrupo);
+Nodo* buscarNodoEnGrupos(CabeceraGrupos *cab, int pid);
+
 
 /*---------- SIMULACIÓN --------------------------------*/
 Ventanas *inicializarInterfaz();
 void ejecutar(PCB *proceso, Ventanas *ventanas);
 void iniciarLectura(Ventanas *ventanas, int *pos, char *cad, int *leyendo, int tamCad);
 void liberarInterfaz(Ventanas *ven);
-void dispatch(Cabecera *listos, Cabecera *ejecuta, Ventanas *vent);
+void dispatch(CabeceraGrupos *grupos, Cabecera *ejecuta, Ventanas *vent);
 int revisarArchivo(PCB *proceso);
 void actualizarContexto(Cabecera *vista, Ventanas *ventanas);
 void registrarEnVista(Cabecera *vista, Nodo *nodo);
-void roundRobin(Cabecera *listos, Cabecera *ejecuta, Cabecera *terminados, Cabecera *vistaContexto, Ventanas *vent, int *cambioContexto);
+void roundRobin(CabeceraGrupos *grupos, Cabecera *ejecuta, Cabecera *terminados, Cabecera *vistaContexto, Ventanas *vent, int *cambioContexto);
 void guardarRestaurarContexto(PCB *proceso, int guardar);
+void recalcularPrioridades(CabeceraGrupos *grupos);
+Nodo* elegirProceso(CabeceraGrupos *grupos);
 
 /* --------- LOG ERRORES ----------------------------*/
 void detectarError(WINDOW *ventana, int error); 
