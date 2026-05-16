@@ -123,7 +123,7 @@ void roundRobin(CabeceraGrupos *grupos, Cabecera *ejecuta, Cabecera *terminados,
         if (!nodoElegido) {return; }
         
         dispatch(grupos, nodoElegido, ejecuta, vent);
-        if (!ejecuta->inicio) {
+        if (ejecuta->inicio) {
             registrarEnVista(vistaContexto, ejecuta->inicio);
             *cambioContexto = 1;
             limpiarVentana(vent->datos, " Datos ");
@@ -178,7 +178,7 @@ void guardarRestaurarContexto(PCB *proceso, int guardar)
 
 void recalcularPrioridades(CabeceraGrupos *grupos)
 {
-    float Wk = 1 / grupos->total;
+    float Wk = 1.0 / grupos->total;
     Grupo *grupo = grupos->inicio;
 
     while (grupo)

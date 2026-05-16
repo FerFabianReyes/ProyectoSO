@@ -101,10 +101,13 @@ int procesarComando(char *cad, CabeceraGrupos *grupos, Cabecera *ejecuta, Cabece
         Renglon *renInicio = irARenglon(padre->programa, noInstr);
         if (!renInicio) { return FORK_INSTR_INVALIDA; }
 
-        PCB *hijo = crearProceso(padre->programa);
-        hijo->IR = renInicio;
+        Archivo *archHijo = crearArchivo();
+        PCB *hijo = crearProceso(archHijo);
+        hijo->nomArchivo = padre->nomArchivo;
+        hijo->programa->inicio = renInicio;
+        hijo->IR = hijo->programa->inicio;
         hijo->idGrupo = padre->idGrupo;
-        hijo->nomArchivo = strdup(padre->nomArchivo);
+        hijo->estado = ESPERA;
         
         Grupo *grupoPadre = buscarGrupo(grupos, padre->idGrupo);
         Nodo *nodoHijo    = crearNodo(hijo);
