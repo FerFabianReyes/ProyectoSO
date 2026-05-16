@@ -148,7 +148,7 @@ Grupo* buscarGrupo(CabeceraGrupos *cab, int idGrup)
         if (actual->idGrupo == idGrup) { return actual; }
         actual = actual->sig;
     }
-    return;
+    return NULL;
 }
 
 Nodo* buscarNodoEnGrupos(CabeceraGrupos *cab, int pid)

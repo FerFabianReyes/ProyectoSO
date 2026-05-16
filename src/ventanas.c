@@ -65,11 +65,9 @@ void impEncabezado(WINDOW *ventana, int maxX)
 {
     int anchCol = (maxX - 2) / 6;
 
-    // Sub-ventana de 3 filas que ocupa las filas 1-3 dentro de ventana
     WINDOW *subEnc = derwin(ventana, 3, maxX - 2, 1, 1);
     box(subEnc, 0, 0);
 
-    // Separadores verticales interiores
     for (int col = 1; col <= 5; col++) {
         int x = anchCol * col;
         mvwaddch(subEnc, 0, x, ACS_TTEE);
@@ -107,23 +105,26 @@ void impInstruccVentana(WINDOW *ventana, int maxX, PCB *proceso)
 
 void impContextoEncabezado(WINDOW *ventana, int maxX)
 {
-    int anchCol = (maxX - 2) / 6;
-    int anchReg = anchCol * 3 / 7; //PC IR(2) EAX EBX ECX EDX
+    int anchCol = (maxX - 2) / 7;   // Ahora 7 columnas base (4 info + espacio regs)
+    int anchReg = anchCol * 3 / 7;
 
     WINDOW *subEnc = derwin(ventana, 3, maxX - 2, 1, 1);
     box(subEnc, 0, 0);
 
-    for (int col = 1; col <= 3; col++) {
+    // Separadores de las 4 columnas de info
+    for (int col = 1; col <= 4; col++) {
         int x = anchCol * col;
-        mvwaddch(subEnc, 0, x, ACS_TTEE);
-        mvwaddch(subEnc, 1, x, ACS_VLINE);
-        mvwaddch(subEnc, 2, x, ACS_BTEE);
+        if (x < maxX - 2) {
+            mvwaddch(subEnc, 0, x, ACS_TTEE);
+            mvwaddch(subEnc, 1, x, ACS_VLINE);
+            mvwaddch(subEnc, 2, x, ACS_BTEE);
+        }
     }
 
-    int xCtx = anchCol * 3;
-    // PC=0, IR=1, EAX=3, EBX=4, ECX=5, EDX=6
+    int xCtx = anchCol * 4;
     int colOffset[] = {0, 1, 3, 4, 5, 6};
 
+    // Separadores de la zona de registros
     for (int col = 1; col <= 5; col++) {
         int x = xCtx + anchReg * colOffset[col];
         if (x < maxX - 2) {
@@ -133,16 +134,22 @@ void impContextoEncabezado(WINDOW *ventana, int maxX)
         }
     }
 
-    char *encabezado[] = {"PID", "Nombre", "Estado", "PC", "IR", "EAX", "EBX", "ECX", "EDX"};
-    for (int col = 0; col < 3; col++) {
-        int x = anchCol * col + (anchCol - (int)strlen(encabezado[col])) / 2;
-        mvwprintw(subEnc, 1, x, "%s", encabezado[col]);
+    char *encInfo[] = {"PID", "Grupo", "Nombre", "Estado"};
+    for (int col = 0; col < 4; col++) {
+        int x = anchCol * col + (anchCol - (int)strlen(encInfo[col])) / 2;
+        if (x < maxX - 2) {
+            mvwprintw(subEnc, 1, x, "%s", encInfo[col]);
+        }
     }
 
-    int anchReal[] = {1, 2, 1, 1, 1, 1};
+    char *encRegs[] = {"PC", "IR", "EAX", "EBX", "ECX", "EDX"};
+    int anchReal[]  = {1, 2, 1, 1, 1, 1};
     for (int col = 0; col < 6; col++) {
-        int x = xCtx + anchReg * colOffset[col] + (anchReg * anchReal[col] - (int)strlen(encabezado[3 + col])) / 2;
-        mvwprintw(subEnc, 1, x, "%s", encabezado[3 + col]);
+        int x = xCtx + anchReg * colOffset[col] 
+                + (anchReg * anchReal[col] - (int)strlen(encRegs[col])) / 2;
+        if (x < maxX - 2) {
+            mvwprintw(subEnc, 1, x, "%s", encRegs[col]);
+        }
     }
 
     wrefresh(subEnc);
@@ -152,15 +159,19 @@ void impContextoEncabezado(WINDOW *ventana, int maxX)
 
 void impContextoProceso(WINDOW *ventana, int maxX, PCB *proceso, int fila, int estado)
 {
-    int anchCol = (maxX - 2) / 6;
+    int anchCol = (maxX - 2) / 7;   // mismo cálculo que el encabezado
     int anchReg = anchCol * 3 / 7;
 
     for (int i = 0; i < maxX - 2; i++) {
         mvwprintw(ventana, fila, i + 1, " ");
     }
 
-    mvwprintw(ventana, fila, 1 + (anchCol - 3) / 2, "%d", proceso->pid);
-    mvwprintw(ventana, fila, 1 + anchCol + (anchCol - strlen(proceso->nomArchivo)) / 2, "%s", proceso->nomArchivo);
+    mvwprintw(ventana, fila, 1 + (anchCol - 3) / 2,
+              "%d", proceso->pid);
+    mvwprintw(ventana, fila, 1 + anchCol + (anchCol - 5) / 2,
+              "%d", proceso->idGrupo);
+    mvwprintw(ventana, fila, 1 + anchCol * 2 + (anchCol - (int)strlen(proceso->nomArchivo)) / 2,
+              "%s", proceso->nomArchivo);
 
     char *estadoStr;
     switch(estado) {
@@ -170,9 +181,10 @@ void impContextoProceso(WINDOW *ventana, int maxX, PCB *proceso, int fila, int e
         case TERMINADO:  estadoStr = "TERMINADO"; break;
         default:         estadoStr = "";          break;
     }
-    mvwprintw(ventana, fila, 1 + anchCol * 2 + (anchCol - strlen(estadoStr)) / 2, "%s", estadoStr);
+    mvwprintw(ventana, fila, 1 + anchCol * 3 + (anchCol - (int)strlen(estadoStr)) / 2,
+              "%s", estadoStr);
 
-    int xCtx = 1 + anchCol * 3;
+    int xCtx = 1 + anchCol * 4;
     int colOffset[] = {0, 1, 3, 4, 5, 6};
     char *ir = imprimirIR(proceso->IR);
     mvwprintw(ventana, fila, xCtx + anchReg * colOffset[0] + 1, "%d", proceso->PC);

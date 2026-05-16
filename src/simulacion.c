@@ -48,11 +48,14 @@ void iniciarLectura(Ventanas *ventanas, int *pos, char *cad, int *leyendo, int t
 int revisarArchivo(PCB *proceso)
 {
     int res;
-    res = tokenizar(proceso->programa);
-    if (res != BIEN) { return res; }
-
-    res = verifSintaxis(proceso->programa);
-    if (res != BIEN) { return res; }
+    if (!proceso->programa->tokenizado) {
+        res = tokenizar(proceso->programa);
+        if (res != BIEN) { return res; }
+        
+        res = verifSintaxis(proceso->programa);
+        if (res != BIEN) { return res; }
+        proceso->programa->tokenizado = 1;
+    }
     return BIEN;
 }
 
@@ -200,7 +203,7 @@ Nodo* elegirProceso(CabeceraGrupos *grupos)
     Grupo *gruGanador = NULL;
     Grupo *grupo = grupos->inicio;
 
-    while (grupos)
+    while (grupo)
     {
         Nodo *nodo = grupo->listos->inicio;
         while (nodo)

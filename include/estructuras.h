@@ -18,6 +18,7 @@ typedef struct {
     Renglon *inicio;
     Renglon *final;
     int tamanio;
+    int tokenizado;
 } Archivo;
 
 typedef struct {

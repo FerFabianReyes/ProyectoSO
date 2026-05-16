@@ -94,7 +94,7 @@ Ventanas *inicializarInterfaz();
 void ejecutar(PCB *proceso, Grupo *grupo, Ventanas *ventanas);
 void iniciarLectura(Ventanas *ventanas, int *pos, char *cad, int *leyendo, int tamCad);
 void liberarInterfaz(Ventanas *ven);
-void dispatch(CabeceraGrupos *grupos, Cabecera *ejecuta, Ventanas *vent);
+void dispatch(CabeceraGrupos *grupos, Nodo *nodoElegido, Cabecera *ejecuta, Ventanas *vent);
 int revisarArchivo(PCB *proceso);
 void actualizarContexto(Cabecera *vista, Ventanas *ventanas);
 void registrarEnVista(Cabecera *vista, Nodo *nodo);

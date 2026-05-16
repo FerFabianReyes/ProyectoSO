@@ -63,7 +63,13 @@ void detectarError(WINDOW *ventana, int error)
         break;
     case PROCESO_NO_ENCONTRADO:
         mvwprintw(ventana, 2, 1, " Error %d: El proceso no existe", error);
-        break;    
+        break;
+    case FORK_INSTR_INVALIDA:
+        mvwprintw(ventana, 2, 1, " Error %d: El número de la instrucción está fuera de rango", error);
+        break;
+    case FORK_PID_INVALIDO:
+        mvwprintw(ventana, 2, 1, " Error %d: El PID que ingresó no existe", error);
+        break;           
     
     default:
         break;

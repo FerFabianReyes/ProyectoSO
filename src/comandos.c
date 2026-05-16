@@ -70,7 +70,7 @@ int procesarComando(char *cad, CabeceraGrupos *grupos, Cabecera *ejecuta, Cabece
     int comando = detectarComando(cad);
 
     if (comando == SALIR) { return SALIR; }
-    if (comando != EJECUTAR_ARCHIVO && comando != MATAR_PROCESO) { return comando; }
+    if (comando != EJECUTAR_ARCHIVO && comando != MATAR_PROCESO && comando != FORK) { return comando; }
 
     if (comando == MATAR_PROCESO) {
         char *pidStr = sacarNomArchivo(cad);
@@ -104,6 +104,7 @@ int procesarComando(char *cad, CabeceraGrupos *grupos, Cabecera *ejecuta, Cabece
         PCB *hijo = crearProceso(padre->programa);
         hijo->IR = renInicio;
         hijo->idGrupo = padre->idGrupo;
+        hijo->nomArchivo = strdup(padre->nomArchivo);
         
         Grupo *grupoPadre = buscarGrupo(grupos, padre->idGrupo);
         Nodo *nodoHijo    = crearNodo(hijo);

@@ -23,6 +23,7 @@ Archivo* crearArchivo()
     nuevo->final = NULL;
     nuevo->inicio = NULL;
     nuevo->tamanio = 0;
+    nuevo->tokenizado = 0;
     return nuevo;
 }
 

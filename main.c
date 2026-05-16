@@ -6,6 +6,7 @@
 #include "estructuras.h"
 Registros *registrosCPU = NULL;
 int nProcesos = 0;
+int nGrupos = 0;
 
 //gcc main.c -lncurses src/*.c -I./include -lm
 int kbhit(void);
