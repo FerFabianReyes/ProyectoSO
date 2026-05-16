@@ -17,7 +17,7 @@ Ventanas *inicializarInterfaz()
     return ven;
 }
 
-void ejecutar(PCB *proceso, Ventanas *ventanas)
+void ejecutar(PCB *proceso, Grupo *grupo, Ventanas *ventanas)
 {
     if (proceso->espera < 125) {
         proceso->espera++;
@@ -25,6 +25,8 @@ void ejecutar(PCB *proceso, Ventanas *ventanas)
         proceso->espera = 0;
         int res = ejecutarPrograma(proceso);
         proceso->quantum++;
+        proceso->CPU += 20;
+        grupo->GCPU += 20;
         if (res != BIEN) { proceso->estado = TERMINADO; detectarError(ventanas->errores, res); }
         else {
             impInstruccVentana(ventanas->datos, ventanas->maxX, proceso);
@@ -54,21 +56,22 @@ int revisarArchivo(PCB *proceso)
     return BIEN;
 }
 
-void dispatch(CabeceraGrupos *grupos, Cabecera *ejecuta, Ventanas *vent)
+void dispatch(CabeceraGrupos *grupos, Nodo *nodoElegido, Cabecera *ejecuta, Ventanas *vent)
 {
-    Nodo *nodo = desencolarNodo(listos);
+    Grupo *grupo = buscarGrupo(grupos, nodoElegido->proceso->idGrupo);
+    sacarNodo(grupo->listos, nodoElegido->proceso->pid);
     
-    if (nodo->proceso->estado == NUEVO) {
-        int res = revisarArchivo(nodo->proceso);
+    if (nodoElegido->proceso->estado == NUEVO) {
+        int res = revisarArchivo(nodoElegido->proceso);
         if (res != BIEN) {
             detectarError(vent->errores, res);
-            free(nodo);
+            free(nodoElegido);
             return;
         }
     }
-    guardarRestaurarContexto(nodo->proceso, 0);
-    nodo->proceso->estado = EJECUCION;
-    agregarNodo(ejecuta, nodo);
+    guardarRestaurarContexto(nodoElegido->proceso, 0);
+    nodoElegido->proceso->estado = EJECUCION;
+    agregarNodo(ejecuta, nodoElegido);
 }
 
 void registrarEnVista(Cabecera *vista, Nodo *nodo)
@@ -111,18 +114,19 @@ void liberarInterfaz(Ventanas *ven)
 
 void roundRobin(CabeceraGrupos *grupos, Cabecera *ejecuta, Cabecera *terminados, Cabecera *vistaContexto, Ventanas *vent, int *cambioContexto)
 {
-    if (!ejecuta->inicio && listos->inicio) {
-        PCB *procPendiente = listos->inicio->proceso;
-        dispatch(listos, ejecuta, vent);
+    if (!ejecuta->inicio) {
+        recalcularPrioridades(grupos);
+        Nodo *nodoElegido = elegirProceso(grupos);
+        if (!nodoElegido) {return; }
+        
+        dispatch(grupos, nodoElegido, ejecuta, vent);
         if (!ejecuta->inicio) {
-            procPendiente->estado = TERMINADO;
-            *cambioContexto = 1;
-        } else {
             registrarEnVista(vistaContexto, ejecuta->inicio);
             *cambioContexto = 1;
             limpiarVentana(vent->datos, " Datos ");
-        }
+        } return;
     } 
+
 
     if (ejecuta->inicio) {
         PCB *proc = ejecuta->inicio->proceso;
@@ -142,10 +146,13 @@ void roundRobin(CabeceraGrupos *grupos, Cabecera *ejecuta, Cabecera *terminados,
                 guardarRestaurarContexto(proc, 1);
                 Nodo *nodo = desencolarNodo(ejecuta);
                 proc->estado = ESPERA;
-                agregarNodo(listos, nodo);
+
+                Grupo *grupo =buscarGrupo(grupos, proc->idGrupo);
+                agregarNodo(grupo->listos, nodo);
                 *cambioContexto = 1;
             } else {
-                ejecutar(proc, vent); 
+                Grupo *grupo = buscarGrupo(grupos, proc->idGrupo);
+                ejecutar(proc, grupo, vent); 
             }
         }
     }    
@@ -165,3 +172,47 @@ void guardarRestaurarContexto(PCB *proceso, int guardar)
         registrosCPU->EDX = proceso->regContex->EDX;
     }
 }
+
+void recalcularPrioridades(CabeceraGrupos *grupos)
+{
+    float Wk = 1 / grupos->total;
+    Grupo *grupo = grupos->inicio;
+
+    while (grupo)
+    {
+        grupo->GCPU = grupo->GCPU / 2;
+        Nodo *nodo = grupo->listos->inicio;
+
+        while (nodo)
+        {
+            PCB *proc = nodo->proceso;
+            proc->CPU = proc->CPU / 2;
+            proc->prioridad = 60 + (proc->CPU / 2) + (grupo->GCPU  / (4 * Wk));
+            nodo = nodo->sig;
+        }
+        grupo = grupo->sig;
+    }
+}
+
+Nodo* elegirProceso(CabeceraGrupos *grupos)
+{
+    Nodo *ganador = NULL;
+    Grupo *gruGanador = NULL;
+    Grupo *grupo = grupos->inicio;
+
+    while (grupos)
+    {
+        Nodo *nodo = grupo->listos->inicio;
+        while (nodo)
+        {
+            if (!ganador || nodo->proceso->prioridad < ganador->proceso->prioridad) {
+                ganador = nodo;
+                gruGanador = grupo;
+            }
+            nodo = nodo->sig;
+        }
+        grupo = grupo->sig;
+    }
+    return ganador;
+}
+

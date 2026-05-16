@@ -91,7 +91,7 @@ Nodo* buscarNodoEnGrupos(CabeceraGrupos *cab, int pid);
 
 /*---------- SIMULACIÓN --------------------------------*/
 Ventanas *inicializarInterfaz();
-void ejecutar(PCB *proceso, Ventanas *ventanas);
+void ejecutar(PCB *proceso, Grupo *grupo, Ventanas *ventanas);
 void iniciarLectura(Ventanas *ventanas, int *pos, char *cad, int *leyendo, int tamCad);
 void liberarInterfaz(Ventanas *ven);
 void dispatch(CabeceraGrupos *grupos, Cabecera *ejecuta, Ventanas *vent);
@@ -101,7 +101,10 @@ void registrarEnVista(Cabecera *vista, Nodo *nodo);
 void roundRobin(CabeceraGrupos *grupos, Cabecera *ejecuta, Cabecera *terminados, Cabecera *vistaContexto, Ventanas *vent, int *cambioContexto);
 void guardarRestaurarContexto(PCB *proceso, int guardar);
 void recalcularPrioridades(CabeceraGrupos *grupos);
+void recalcularPrioridades(CabeceraGrupos *grupos);
 Nodo* elegirProceso(CabeceraGrupos *grupos);
+
+
 
 /* --------- LOG ERRORES ----------------------------*/
 void detectarError(WINDOW *ventana, int error); 

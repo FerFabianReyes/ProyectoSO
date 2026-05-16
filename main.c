@@ -18,7 +18,7 @@ int main()
     Ventanas *ventanas = inicializarInterfaz();
 
     registrosCPU = crearRegistro();
-    Cabecera *listos = crearCabecera();
+    CabeceraGrupos *grupos = crearCabeceraGrupos();
     Cabecera *ejecuta = crearCabecera();
     Cabecera *terminados = crearCabecera();
     Cabecera *vistaContexto = crearCabecera();
@@ -43,7 +43,7 @@ int main()
             if (caracter == '\n' || caracter == '\r') {
                 cad[pos] = '\0'; leyendo = 0;
                 curs_set(0);
-                int res = procesarComando(cad, listos, ejecuta, terminados, vistaContexto, ventanas);
+                int res = procesarComando(cad, grupos, ejecuta, terminados, vistaContexto, ventanas);
                 if (res == BIEN) { cambioContexto = 1; }
                 if (res == SALIR) { break; }
                 if (res != BIEN) { detectarError(ventanas->errores, res); }
@@ -51,7 +51,7 @@ int main()
                 leerComando(ventanas->comandos, &pos, cad, caracter);
             }
         }
-        roundRobin(listos, ejecuta, terminados, vistaContexto, ventanas, &cambioContexto);    
+        roundRobin(grupos, ejecuta, terminados, vistaContexto, ventanas, &cambioContexto);    
         i++;
         napms(16);
     }

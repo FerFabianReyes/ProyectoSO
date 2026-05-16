@@ -105,7 +105,7 @@ int procesarComando(char *cad, CabeceraGrupos *grupos, Cabecera *ejecuta, Cabece
         hijo->IR = renInicio;
         hijo->idGrupo = padre->idGrupo;
         
-        Grupo *grupoPadre = buscarGrupo(grupos, padre->gid);
+        Grupo *grupoPadre = buscarGrupo(grupos, padre->idGrupo);
         Nodo *nodoHijo    = crearNodo(hijo);
         agregarNodo(grupoPadre->listos, nodoHijo);
         registrarEnVista(vista, nodoHijo);
