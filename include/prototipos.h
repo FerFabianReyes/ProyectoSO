@@ -19,6 +19,7 @@ void liberarArchivo(Archivo *archivo);
 int leerArchivo(char *nomArchivo, Archivo *archivo);
 PCB* crearProceso(Archivo *prog);
 void liberarProceso(PCB *proceso);
+Archivo* copiarArchivoRenglon(Renglon *noInstr);
 
 /*---------- TOKENS --------------------------------*/
 int tokenizar(Archivo *archivo);
@@ -100,7 +101,6 @@ void actualizarContexto(Cabecera *vista, Ventanas *ventanas);
 void registrarEnVista(Cabecera *vista, Nodo *nodo);
 void roundRobin(CabeceraGrupos *grupos, Cabecera *ejecuta, Cabecera *terminados, Cabecera *vistaContexto, Ventanas *vent, int *cambioContexto);
 void guardarRestaurarContexto(PCB *proceso, int guardar);
-void recalcularPrioridades(CabeceraGrupos *grupos);
 void recalcularPrioridades(CabeceraGrupos *grupos);
 Nodo* elegirProceso(CabeceraGrupos *grupos);
 

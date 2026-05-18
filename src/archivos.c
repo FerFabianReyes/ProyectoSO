@@ -117,3 +117,47 @@ int leerArchivo(char *nomArchivo, Archivo *archivo)
     free(ren);
     return BIEN;
 }
+
+Archivo* copiarArchivoRenglon(Renglon *noInstr)
+{
+    Archivo *copia = crearArchivo();
+    Renglon *actual = noInstr;
+ 
+    while (actual)
+    {
+        Renglon *renNuevo = malloc(sizeof(Renglon));
+        renNuevo->texto       = strdup(actual->texto);
+        renNuevo->sig         = NULL;
+        renNuevo->primerToken = NULL;
+        renNuevo->ultimoToken = NULL;
+
+        Token *tokActual = actual->primerToken;
+        while (tokActual)
+        {
+            Token *tokNuevo = malloc(sizeof(Token));
+            tokNuevo->textoToken = strdup(tokActual->textoToken);
+            tokNuevo->tipoParam  = tokActual->tipoParam;
+            tokNuevo->sig        = NULL;
+ 
+            if (!renNuevo->primerToken) {
+                renNuevo->primerToken = tokNuevo;
+            } else {
+                renNuevo->ultimoToken->sig = tokNuevo;
+            }
+            renNuevo->ultimoToken = tokNuevo;
+            tokActual = tokActual->sig;
+        }
+
+        if (copia->final) {
+            copia->final->sig = renNuevo;
+        } else {
+            copia->inicio = renNuevo;
+        }
+        copia->final = renNuevo;
+        copia->tamanio++;
+ 
+        actual = actual->sig;
+    }
+    copia->tokenizado = 1;
+    return copia;
+}

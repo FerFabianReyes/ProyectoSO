@@ -70,6 +70,12 @@ int ejecutarPrograma(PCB *proceso)
 
 char* imprimirIR(Renglon *IR)
 {
+    if (!IR) {           
+        char *vacio = malloc(1);
+        vacio[0] = '\0';
+        return vacio;
+    }
+
     Token *tokenAct = IR->primerToken;
     char *cadena = malloc(1);
     cadena[0] = '\0';

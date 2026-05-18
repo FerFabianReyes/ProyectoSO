@@ -101,11 +101,11 @@ int procesarComando(char *cad, CabeceraGrupos *grupos, Cabecera *ejecuta, Cabece
         Renglon *renInicio = irARenglon(padre->programa, noInstr);
         if (!renInicio) { return FORK_INSTR_INVALIDA; }
 
-        Archivo *archHijo = crearArchivo();
+        Archivo *archHijo = copiarArchivoRenglon(renInicio);
         PCB *hijo = crearProceso(archHijo);
-        hijo->nomArchivo = padre->nomArchivo;
-        hijo->programa->inicio = renInicio;
-        hijo->IR = hijo->programa->inicio;
+
+        hijo->IR = archHijo->inicio;
+        hijo->nomArchivo = strdup(padre->nomArchivo);
         hijo->idGrupo = padre->idGrupo;
         hijo->estado = ESPERA;
         
